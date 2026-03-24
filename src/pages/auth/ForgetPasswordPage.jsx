@@ -12,7 +12,10 @@ export default function ForgetPasswordPage() {
 
   return (
     <>
-      <Heading1 pageTitle="Reset Password" className="text-emerald-800 underline mb-5" />
+      <Heading1
+        pageTitle="Reset Password"
+        className="text-slate-900 underline decoration-orange-400 decoration-4 underline-offset-4 mb-5"
+      />
       <ForgetPasswordForm />
     </>
   );

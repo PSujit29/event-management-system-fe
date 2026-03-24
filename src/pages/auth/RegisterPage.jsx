@@ -16,7 +16,7 @@ export default function RegisterPage() {
 
   return (
     <>
-      <Heading1 pageTitle="Register" className="text-emerald-800 underline" />
+      <Heading1 pageTitle="Register" className="text-slate-900 underline decoration-orange-400 decoration-4 underline-offset-4" />
       <RegisterForm />
       <div className="text-center mt-2">
         <span className="text-sm text-gray-600">Already have an account? </span>

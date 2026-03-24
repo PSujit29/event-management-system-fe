@@ -14,7 +14,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <Heading1 pageTitle="Login" className="text-emerald-800 underline" />
+      <Heading1 pageTitle="Login" className="text-slate-900 underline decoration-orange-400 decoration-4 underline-offset-4" />
       <LoginForm />
       <div className="text-center mt-4">
         <span className="text-[13px] sm:text-sm text-gray-600">Don't have an account? </span>

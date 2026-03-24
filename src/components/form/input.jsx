@@ -5,7 +5,7 @@ export const LabeledInput = ({ label, type, name, placeholder = "", errMsg = "",
 
   return (
     <div className="w-full flex flex-col md:flex-row gap-1 md:gap-2 md:items-start">
-      <label htmlFor={name} className="text-[13px] sm:text-sm font-semibold text-gray-800 w-full md:w-1/3 cursor-pointer md:mt-1.5">
+      <label htmlFor={name} className="text-[13px] sm:text-sm font-semibold text-slate-700 w-full md:w-1/3 cursor-pointer md:mt-1.5">
         {label} :
       </label>
 
@@ -15,7 +15,7 @@ export const LabeledInput = ({ label, type, name, placeholder = "", errMsg = "",
           id={name}
           {...field}
           placeholder={placeholder}
-          className={`w-full border border-gray-400 rounded focus:ring-1 focus:ring-emerald-700 focus:border-emerald-700 outline-none py-1 px-2 bg-gray-50 text-[13px] sm:text-sm transition-all shadow-sm ${className}`}
+          className={`w-full border border-slate-300 rounded-md focus:ring-1 focus:ring-blue-700 focus:border-blue-700 outline-none py-1 px-2 bg-white text-[13px] sm:text-sm transition-all shadow-sm ${className}`}
         />
         {errMsg && <span className="text-[11px] sm:text-xs text-red-600 italic leading-tight transition-all">{errMsg}</span>}
       </div>
@@ -26,7 +26,7 @@ export const LabeledInput = ({ label, type, name, placeholder = "", errMsg = "",
 export const SelectInput = ({ label, name, handler, errMsg, options }) => {
   return (
     <div className="w-full flex flex-col md:flex-row gap-1 md:gap-2 md:items-start">
-      <label htmlFor={name} className="text-[13px] sm:text-sm font-semibold text-gray-800 w-full md:w-1/3 cursor-pointer md:mt-1.5">
+      <label htmlFor={name} className="text-[13px] sm:text-sm font-semibold text-slate-700 w-full md:w-1/3 cursor-pointer md:mt-1.5">
         {label.charAt(0).toUpperCase() + label.slice(1).toLowerCase()} :
       </label>
 
@@ -40,7 +40,7 @@ export const SelectInput = ({ label, name, handler, errMsg, options }) => {
                 <select
                   id={name}
                   {...field}
-                  className={`w-full border border-gray-400 rounded focus:ring-1 focus:ring-emerald-700 focus:border-emerald-700 outline-none py-1 px-2 bg-gray-50 text-[13px] sm:text-sm transition-all shadow-sm cursor-pointer`}
+                  className={`w-full border border-slate-300 rounded-md focus:ring-1 focus:ring-blue-700 focus:border-blue-700 outline-none py-1 px-2 bg-white text-[13px] sm:text-sm transition-all shadow-sm cursor-pointer`}
                 >
                   <option value="">--Select Any One--</option>
                   {options &&
