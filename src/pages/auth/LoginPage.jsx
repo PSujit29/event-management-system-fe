@@ -3,12 +3,13 @@ import { Heading1 } from "../../components/typography/heading";
 import { RedirectLink } from "../../components/ui/AuthLink";
 import { useOutletContext } from "react-router-dom";
 import { useEffect } from "react";
+import loginPageImage from "../../assets/images/loginPage.png";
 
 export default function LoginPage() {
   //Read outlet context:
   const outletContext = useOutletContext();
   useEffect(() => {
-    outletContext.setSidePanel({ title: "Login From Here", children: <p>Welcome back! Its been some while</p> });
+    outletContext.setSidePanel({ title: "Login From Here", children: <p>Welcome back! Its been some while</p>, imageUrl: loginPageImage });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
