@@ -1,16 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Clock } from "lucide-react";
+import { FaRegClock, FaArrowRightLong, FaRegClone, FaLayerGroup } from "react-icons/fa6";
 import { getTemplates } from "../../services/template.service";
-import { useAuth } from "../../hooks/useAuth";
 
 export default function TemplateListPage() {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { user } = useAuth();
-  const role = (user?.role || "").toLowerCase();
-  const isAdmin = role === "admin";
 
   useEffect(() => {
     const fetchTemplates = async () => {
@@ -34,56 +30,84 @@ export default function TemplateListPage() {
 
   if (loading) {
     return (
-      <div className="space-y-4">
-        <h1 className="text-2xl font-bold text-gray-900">Templates</h1>
-        <div className="rounded-lg border border-gray-100 bg-white p-6 text-gray-500">Loading templates...</div>
+      <div className="space-y-4 rounded-2xl bg-slate-100 p-5 md:p-6">
+        <h1 className="text-2xl font-bold text-slate-900">Templates</h1>
+        <div className="rounded-lg border border-slate-200 bg-white p-6 text-slate-600 shadow-sm">Loading templates...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="space-y-4">
-        <h1 className="text-2xl font-bold text-gray-900">Templates</h1>
+      <div className="space-y-4 rounded-2xl bg-slate-100 p-5 md:p-6">
+        <h1 className="text-2xl font-bold text-slate-900">Templates</h1>
         <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600">Error: {error}</div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Templates</h1>
-        <span className="text-sm text-gray-500">{templates.length} total</span>
+    <div className="space-y-8 rounded-2xl bg-slate-100 p-5 md:p-6">
+      {/* Header Section */}
+      <div className="flex items-end justify-between border-b border-slate-200 pb-5">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900">Event Templates</h1>
+          <p className="mt-1 text-sm text-slate-600">Select a pre-defined structure to start your event.</p>
+        </div>
+        <span className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 transition-transform duration-200 hover:scale-95">
+          {templates.length} Available
+        </span>
       </div>
 
-      <div className="rounded-xl border border-gray-100 bg-white shadow-sm">
-        {templates.length === 0 ? (
-          <div className="p-6 text-sm text-gray-500">No templates available.</div>
-        ) : (
-          <ul className="divide-y divide-gray-100">
-            {templates.map((template) => (
-              <li key={template.templateId} className="flex items-center justify-between p-4">
-                <div>
-                  <p className="text-sm font-medium text-gray-900">{template.name}</p>
-                  <div className="mt-1 flex items-center gap-3 text-xs text-gray-500">
-                    <span className="inline-flex items-center gap-1">
-                      <Clock className="h-3.5 w-3.5" />
-                      {template.totalDuration || 0} hrs
-                    </span>
+      {templates.length === 0 ? (
+        <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-300 bg-white py-20 text-center shadow-sm">
+          <FaRegClone className="h-12 w-12 text-slate-400" />
+          <p className="mt-4 text-slate-600">No templates available at the moment.</p>
+        </div>
+      ) : (
+        /* The Card Grid */
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 cursor-pointer">
+          {templates.map((template) => (
+            <div
+              key={template.templateId}
+              className="group relative flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01] hover:border-amber-300 hover:shadow-xl"
+            >
+              <div>
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-700 transition-all duration-300 group-hover:scale-95 group-hover:bg-amber-500 group-hover:text-white">
+                  <FaRegClone className="h-5 w-5" />
+                </div>
+
+                <h3 className="text-lg font-bold text-slate-900 transition-colors duration-300 group-hover:text-slate-950">
+                  {template.name}
+                </h3>
+
+                <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-600">
+                  {template.description || "No description provided for this template."}
+                </p>
+
+                <div className="mt-4 flex items-center gap-4 border-t border-slate-200 pt-4">
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700">
+                    <FaRegClock className="h-4 w-4 text-slate-500" />
+                    {template.totalDuration || 0} Hours
+                  </div>
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700">
+                    <FaLayerGroup className="h-4 w-4 text-amber-600" />
+                    {template.subEvents?.length || 0} Sessions
                   </div>
                 </div>
-                <Link
-                  to={`/user/templates/${template.templateId}`}
-                  className="rounded-md border border-gray-200 px-2.5 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
-                >
-                  View
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+              </div>
+
+              <Link
+                to={`/user/templates/${template.templateId}`}
+                className="mt-6 flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:scale-95 hover:bg-amber-500 hover:text-slate-950 active:scale-95"
+              >
+                Use Template
+                <FaArrowRightLong className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+              </Link>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
