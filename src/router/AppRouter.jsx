@@ -26,6 +26,7 @@ import CreateEventPage from "../pages/events/CreateEventPage";
 import EventAttendeesPage from "../pages/events/EventAttendeesPage";
 import MyEventsPage from "../pages/events/MyEventsPage";
 import ProfilePage from "../pages/user/ProfilePage";
+import SettingsPage from "../pages/user/SettingsPage";
 
 // Template Pages
 import TemplateListPage from "../pages/templates/TemplateListPage";
@@ -116,7 +117,7 @@ const router = createBrowserRouter([
         ),
       },
 
-      { path: "settings", element: <WorkInProgress /> },
+      { path: "settings", element: <SettingsPage /> },
     ],
   },
   { path: "*", element: <Error404 /> },
