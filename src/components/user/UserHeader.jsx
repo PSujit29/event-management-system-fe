@@ -1,26 +1,60 @@
 import { HiMenu } from "react-icons/hi";
 import { useAuth } from "../../hooks/useAuth";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export const UserHeader = () => {
   const { user } = useAuth();
   const location = useLocation();
-  console.log(user)
+  const role = (user?.role || "").toLowerCase();
+  const isStudent = role === "student";
+  const isOrganizer = role === "admin" || role === "teacher";
+  const isAdmin = role === "admin";
 
   const titles = {
     "/user": "Dashboard",
     "/user/events": "Events",
-    "/user/sub-events": "Sub-Events",
+    "/user/events/create": "Create Event",
     "/user/templates": "Templates",
     "/user/me": "Profile",
+    "/user/me/events": "My Events",
     "/user/settings": "Settings",
   };
 
-  const getTitle = (path) => titles[path.replace(/\/$/, "")] || "Default Title";
+  const getTitle = (path) => {
+    const normalizedPath = path.replace(/\/$/, "");
 
-  // console.log(getTitle("/user/events/"));
+    if (normalizedPath.match(/^\/user\/events\/[^/]+\/attendees$/)) return "Event Attendees";
+    if (normalizedPath.match(/^\/user\/events\/[^/]+$/)) return "Event Detail";
+    if (normalizedPath.match(/^\/user\/templates\/[^/]+\/clone$/)) return "Clone Template";
+    if (normalizedPath.match(/^\/user\/templates\/[^/]+$/)) return "Template Detail";
 
-  const currentTitle = getTitle(location.pathname);
+    return titles[normalizedPath] || "Dashboard";
+  };
+
+  const getHeaderAction = (path) => {
+    const normalizedPath = path.replace(/\/$/, "");
+    const eventDetailMatch = normalizedPath.match(/^\/user\/events\/([^/]+)$/);
+    const templateDetailMatch = normalizedPath.match(/^\/user\/templates\/([^/]+)$/);
+
+    if (normalizedPath === "/user/events" && isOrganizer) {
+      return { label: "Create Event", to: "/user/events/create" };
+    }
+
+    if (eventDetailMatch && isOrganizer) {
+      return { label: "Attendees", to: `/user/events/${eventDetailMatch[1]}/attendees` };
+    }
+
+    if (templateDetailMatch && isAdmin) {
+      return { label: "Clone", to: `/user/templates/${templateDetailMatch[1]}/clone` };
+    }
+
+    return null;
+  };
+
+  const currentPath = location.pathname;
+  const currentTitle = getTitle(currentPath);
+  const headerAction = getHeaderAction(currentPath);
+
   return (
     <header className="bg-white shadow-sm px-4 md:px-8 py-3 flex justify-between items-center border-b border-slate-200 z-10 relative">
       <div className="flex items-center gap-3">
@@ -31,6 +65,15 @@ export const UserHeader = () => {
       </div>
 
       <div className="flex items-center gap-3 md:gap-5">
+        {headerAction && !isStudent && (
+          <Link
+            to={headerAction.to}
+            className="inline-flex items-center rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-800"
+          >
+            {headerAction.label}
+          </Link>
+        )}
+
         <span className="text-sm md:text-base text-slate-600 font-medium hidden sm:block">
           Welcome, <strong className="text-slate-900">{user?.name ?? user?.firstName}</strong>
         </span>

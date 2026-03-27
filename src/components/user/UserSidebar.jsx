@@ -1,14 +1,27 @@
 import { NavLink } from "react-router-dom";
-import { HiChartPie, HiCalendar, HiClipboardList, HiUserGroup, HiTemplate, HiUserCircle, HiCog } from "react-icons/hi";
+import { HiChartPie, HiCalendar, HiUserGroup, HiTemplate, HiUserCircle, HiCog } from "react-icons/hi";
+import { useAuth } from "../../hooks/useAuth";
+
 export const UserSidebar = () => {
+  const { user } = useAuth();
+  const role = (user?.role || "").toLowerCase();
+  const isStudent = role === "student";
+  const isOrganizer = role === "admin" || role === "teacher";
+
   const navLinks = [
-    { name: "Dashboard", path: "/user", end: true, icon: <HiChartPie className="w-5 h-5" /> },
-    { name: "Events", path: "/user/events", end: false, icon: <HiCalendar className="w-5 h-5" /> },
-    { name: "Sub-Events", path: "/user/sub-events", end: false, icon: <HiClipboardList className="w-5 h-5" /> },
-    { name: "Templates", path: "/user/templates", end: false, icon: <HiTemplate className="w-5 h-5" /> },
-    { name: "Profile", path: "/user/me", end: false, icon: <HiUserCircle className="w-5 h-5" /> },
-    { name: "Settings", path: "/user/settings", end: false, icon: <HiCog className="w-5 h-5" /> },
-  ];
+    { name: "Dashboard", path: "/user", end: true, icon: <HiChartPie className="w-5 h-5" />, roles: ["admin", "teacher"] },
+    { name: "Events", path: "/user/events", end: false, icon: <HiCalendar className="w-5 h-5" />, roles: ["student", "admin", "teacher"] },
+    { name: "My Events", path: "/user/me/events", end: true, icon: <HiUserGroup className="w-5 h-5" />, roles: ["student"] },
+    { name: "Templates", path: "/user/templates", end: false, icon: <HiTemplate className="w-5 h-5" />, roles: ["admin", "teacher"] },
+    { name: "Profile", path: "/user/me", end: true, icon: <HiUserCircle className="w-5 h-5" />, roles: ["student", "admin", "teacher"] },
+    { name: "Settings", path: "/user/settings", end: false, icon: <HiCog className="w-5 h-5" />, roles: ["student", "admin", "teacher"] },
+  ].filter((link) => {
+    if (isStudent) return link.roles.includes("student");
+    if (isOrganizer) return link.roles.includes(role);
+
+    // Safe fallback: avoid showing organizer-only routes until role is known.
+    return link.roles.includes("student");
+  });
 
   return (
     <aside className="hidden md:flex flex-col w-64 bg-white text-slate-900 border-r border-slate-200 shadow-lg z-20">
