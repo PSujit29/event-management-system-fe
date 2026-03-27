@@ -4,6 +4,8 @@ import { HeroSection } from "../../components/Hero/HeroSection";
 import LandingFeature from "../../components/feature/LandingFeature";
 
 export default function LandingPage() {
+
+
   return (
     <>
       <Navbar />

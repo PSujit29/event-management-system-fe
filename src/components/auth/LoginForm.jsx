@@ -5,18 +5,16 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { toast } from "sonner";
 import * as z from "zod";
 
-
 const loginDTO = z.object({
-  // email: z.email().nonempty("Email is required").nonoptional(),
-  username: z.string().nonempty("Username is required").nonoptional(),
-  password: z.string().min(8).nonempty("Password is required").nonoptional(),
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
-const LoginDefaultValue = { username: "", password: "" };
+const LoginDefaultValue = { email: "", password: "" };
 export default function LoginForm() {
-
   // prettier-ignore
   const { handleSubmit, control, formState: { errors } } = useForm({ 
     defaultValues: LoginDefaultValue, 
@@ -24,23 +22,26 @@ export default function LoginForm() {
   });
 
   const navigate = useNavigate();
-  const {login} = useAuth()
+  const { login } = useAuth();
 
   const handleLoginSubmit = async (data) => {
     try {
+      data.email = data.email.replace("@gmail.com", ""); //testing for dummjson, remove once backend is ready, basically make emily@gmail.com to emily
+      console.log(data);
       const userDetail = await login(data);
-      console.log(userDetail)
+      toast.success("Login successful!");
+      console.log(userDetail);
       navigate("/user");
     } catch (err) {
       console.log({ err });
-      //TODO: later add some ui popup or something
+      toast.error(err?.response?.data?.message || "Login failed. Please try again.");
     }
   };
 
   return (
     <>
       <form onSubmit={handleSubmit(handleLoginSubmit)} className="flex flex-col gap-5 w-full">
-        <LabeledInput type="text" label="Username" name="username" handler={control} errMsg={errors?.username?.message} />
+        <LabeledInput type="email" label="Email" name="email" handler={control} errMsg={errors?.email?.message} />
         <LabeledInput type="password" label="Password" name="password" handler={control} errMsg={errors?.password?.message} />
         <div>
           <div className="flex w-full justify-end">

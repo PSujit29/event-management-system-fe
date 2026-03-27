@@ -1,7 +1,7 @@
-import AuthLayout from "../layout/AuthLayout";
-import LoginPage from "../pages/auth/LoginPage";
-import RegisterPage from "../pages/auth/RegisterPage";
-import ForgetPasswordPage from "../pages/auth/ForgetPasswordPage";
+import AuthLayout from "../../layouts/AuthLayout";
+import LoginPage from "../../pages/auth/LoginPage";
+import RegisterPage from "../../pages/auth/RegisterPage";
+import ForgetPasswordPage from "../../pages/legacy/auth/ForgetPasswordPage";
 
 export const AuthRouter = [
   {

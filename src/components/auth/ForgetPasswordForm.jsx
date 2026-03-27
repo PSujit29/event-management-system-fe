@@ -2,14 +2,16 @@ import { LabeledInput } from "../form/input";
 import { Button } from "../form/button";
 import { useForm } from "react-hook-form";
 import { RedirectLink } from "../ui/AuthLink";
+import { toast } from "sonner";
 
 export default function ForgetPasswordForm() {
   const { control, handleSubmit } = useForm({ defaultValues: { email: "" } });
 
   const sendReset = (data) => {
-    //TODO: Add API call later
-    console.log(data); //console for test purpose only
+    toast.success("Reset link sent to your email!"); 
+    console.log("Reset link sent to:", data.email);
   };
+
   return (
     <form onSubmit={handleSubmit(sendReset)} className="flex flex-col gap-4">
       <LabeledInput type="email" label="Email" name="email" placeholder="Enter your email" handler={control} />

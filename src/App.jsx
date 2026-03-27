@@ -1,12 +1,9 @@
-// import LandingPage from "./pages/landing/LandingPage";
-import RouterConfig from "./router/Router";
+import AppRouter from "./router/AppRouter";
 
 export default function App() {
   return (
     <>
-    <RouterConfig/>
-    {/* <LandingPage /> */}
-    
+      <AppRouter />
     </>
   );
 }

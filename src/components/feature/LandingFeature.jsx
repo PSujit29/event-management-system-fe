@@ -4,7 +4,7 @@ export default function LandingFeature() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-widest text-orange-500">Features</p>
-          <h2 className="mt-3 text-3xl font-bold text-slate-900 sm:text-4xl">Everything you need to run campus life smoothly.</h2>
+          <h2 className="mt-3 text-3xl font-bold text-slate-900 sm:text-4xl">Everything you need to run campus events smoothly.</h2>
           <p className="mt-4 text-slate-600">
             Built for students, organizers, and admins so every event runs on time, stays compliant, and keeps participation high.
           </p>

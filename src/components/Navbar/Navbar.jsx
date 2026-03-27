@@ -1,9 +1,12 @@
+import { NavLink } from "react-router-dom";
+
 export default function Navbar() {
-  const navLinks = [
-    { name: "Explore Events", href: "#" },
-    { name: "How it Works", href: "#" },
-    { name: "Organizers", href: "#" },
-    { name: "Contact", href: "#" },
+  const token = localStorage.getItem("token");
+  let navLinks = [
+    { name: "Explore Events", href: "/explore" },
+    { name: "How it Works", href: "/how-it-works" },
+    { name: "Organizers", href: "/organizers" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (
@@ -11,18 +14,18 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-slate-200/50">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo - Made slightly larger for impact */}
-        <a className="flex items-center gap-2" href="/">
+        <NavLink className="flex items-center gap-2" to="/">
           <img className="h-10 w-auto sm:h-12" src="src/assets/logo.png" alt="Logo" />
-        </a>
+        </NavLink>
 
         {/* Navigation Links */}
         <nav aria-label="Global" className="hidden md:block">
           <ul className="flex items-center gap-8 text-[15px] font-medium text-slate-600">
             {navLinks.map((link) => (
               <li key={link.name} className="relative group">
-                <a className="transition hover:text-[#1A325E]" href={link.href}>
+                <NavLink className="transition hover:text-[#1A325E]" to={link.href}>
                   {link.name}
-                </a>
+                </NavLink>
                 {/* Animated Underline */}
                 <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-[#F49425] transition-all group-hover:w-full"></span>
               </li>
@@ -32,18 +35,28 @@ export default function Navbar() {
 
         {/* Action Buttons */}
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-3">
-            <a className="rounded-lg px-5 py-2 text-sm font-semibold text-[#1A325E] transition hover:bg-slate-100" href="/login">
-              Login
-            </a>
-
-            <a
-              className="hidden rounded-lg bg-[#F49425] px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-orange-200 transition-all hover:bg-[#e0861d] hover:scale-105 active:scale-95 sm:block"
-              href="/register"
+          {/* If token exists, show dashboard link, else show login/register */}
+          {token ? (
+            <NavLink
+              className="rounded-lg bg-[#F49425] px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-orange-200 transition-all hover:bg-[#e0861d] hover:scale-105 active:scale-95"
+              to="/user"
             >
-              Register
-            </a>
-          </div>
+              Dashboard
+            </NavLink>
+          ) : (
+            <div className="flex items-center gap-3">
+              <NavLink className="rounded-lg px-5 py-2 text-sm font-semibold text-[#1A325E] transition hover:bg-slate-100" to="/login">
+                Login
+              </NavLink>
+
+              <NavLink
+                className="hidden rounded-lg bg-[#F49425] px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-orange-200 transition-all hover:bg-[#e0861d] hover:scale-105 active:scale-95 sm:block"
+                to="/register"
+              >
+                Register
+              </NavLink>
+            </div>
+          )}
 
           {/* Mobile Menu Button */}
           <button className="inline-flex rounded-lg bg-slate-100 p-2 text-slate-600 transition hover:bg-slate-200 md:hidden">

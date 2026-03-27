@@ -3,6 +3,9 @@ import { Button } from "../form/button";
 import { useForm, useWatch } from "react-hook-form"; // Added useWatch
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import { toast } from "sonner";
 
 // Base schema for shared fields
 const baseSchema = z.object({
@@ -22,6 +25,8 @@ const registerDTO = z
   .refine((data) => data.password === data.confirmPassword, { message: "Passwords do not match", path: ["confirmPassword"] });
 
 export default function RegisterForm() {
+  const navigate = useNavigate();
+  const { registerUser } = useAuth();
   const {
     control,
     handleSubmit,
@@ -33,10 +38,17 @@ export default function RegisterForm() {
 
   const selectedRole = useWatch({ control, name: "role" });
 
-  const submitForm = (data) => {
-    // TODO: API safety: Remove confirmPassword before sending
-    const { confirmPassword:_confirmPassword, ...payload } = data; //TODO: Later, do something regarding 'confirmPassword' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u. 
-    console.log("Payload for API:", payload);
+  const submitForm = async (data) => {
+    const { confirmPassword: _confirmPassword, ...payload } = data;
+
+    try {
+      await registerUser(payload);
+      toast.success("Registration successful! Please login.");
+      navigate("/login");
+    } catch (err) {
+      console.log({ err });
+      toast.error("Registration failed. Please try again.");
+    }
   };
 
   return (

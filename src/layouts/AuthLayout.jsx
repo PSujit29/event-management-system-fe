@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { AuthPanel, AuthLeftSidePanel, AuthRightSidePanel, FormContainer } from "../pages/auth/AuthPanel";
+import { AuthPanel, AuthLeftSidePanel, AuthRightSidePanel, FormContainer } from "../components/auth/AuthPanel";
 import { Outlet } from "react-router-dom";
 
 export default function AuthLayout() {
-  const [sidePanel, setSidePanel] = useState({ title: "Welcome to CMS", children: <p>Welcome</p>, imageUrl: "" });
+  const [sidePanel, setSidePanel] = useState({ title: "Welcome", children: <p>Welcome</p>, imageUrl: "" });
   return (
     <>
       <AuthPanel>

@@ -17,7 +17,7 @@ export const HeroSection = () => {
       { value: "25 +", label: "Organizers", icon: <Briefcase className="h-5 w-5 text-muted-foreground" /> },
       { value: "Resources", label: "", icon: <LinkIcon className="h-5 w-5 text-muted-foreground" /> },
     ],
-    images: [eventSample1, eventSample2, eventSample3],
+    images: [eventSample3, eventSample1, eventSample2],
   };
 
   return (

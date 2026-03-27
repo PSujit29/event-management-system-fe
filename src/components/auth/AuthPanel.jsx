@@ -1,11 +1,8 @@
-import { Heading1, SubHeading } from "../../components/typography/heading";
+import { Heading1, SubHeading } from "../typography/heading";
 
 // 1. Left Side Panel
-export const AuthLeftSidePanel = ({ 
-  title = "D - Hello World", 
-  children = <p>Lorem Epsum</p>,
-  imageUrl = "" 
-}) => {
+export const AuthLeftSidePanel = (authProps) => {
+  const { title = "D - Hello World", children = <p>Lorem Epsum</p>, imageUrl = "" } = authProps;
   return (
     <aside 
       className="hidden lg:flex lg:w-1/2 xl:w-1/3 flex-col gap-4 relative text-slate-50 justify-center p-8 overflow-hidden bg-slate-900"
@@ -30,7 +27,8 @@ export const AuthLeftSidePanel = ({
 
 
 // 2. Right Side Panel
-export const AuthRightSidePanel = ({ children }) => {
+export const AuthRightSidePanel = (authProps) => {
+  const { children } = authProps;
   return (
     <main className="flex flex-1 flex-col w-full lg:w-1/2 xl:w-2/3 bg-slate-100 justify-center items-center overflow-y-auto p-2 sm:p-4">
       {children}
@@ -39,7 +37,8 @@ export const AuthRightSidePanel = ({ children }) => {
 };
 
 // 3. Form Container
-export const FormContainer = ({ children }) => {
+export const FormContainer = (formProps) => {
+  const { children } = formProps;
   return (
     <div className="flex flex-col gap-y-3 bg-white p-4 sm:p-5 md:p-6 rounded-2xl border border-slate-200 shadow-xl w-full max-w-sm sm:max-w-md md:max-w-lg mx-auto">
       {children}
@@ -48,6 +47,7 @@ export const FormContainer = ({ children }) => {
 };
 
 // 4. Main Wrapper
-export const AuthPanel = ({ children }) => {
+export const AuthPanel = (authProps) => {
+  const { children } = authProps;
   return <section className="flex flex-col lg:flex-row min-h-screen w-full bg-slate-50">{children}</section>;
 };
