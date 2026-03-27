@@ -7,7 +7,6 @@ export const UserHeader = () => {
   const location = useLocation();
   const role = (user?.role || "").toLowerCase();
   const isOrganizer = role === "admin" || role === "teacher";
-  const isAdmin = role === "admin";
 
   const titles = {
     "/user": "Dashboard",
@@ -33,18 +32,9 @@ export const UserHeader = () => {
   const getHeaderAction = (path) => {
     const normalizedPath = path.replace(/\/$/, "");
     const eventDetailMatch = normalizedPath.match(/^\/user\/events\/([^/]+)$/);
-    const templateDetailMatch = normalizedPath.match(/^\/user\/templates\/([^/]+)$/);
-
-    if (normalizedPath === "/user/events" && isOrganizer) {
-      return { label: "Create Event", to: "/user/events/create", roles: ["admin", "teacher"] };
-    }
 
     if (eventDetailMatch && isOrganizer) {
       return { label: "Attendees", to: `/user/events/${eventDetailMatch[1]}/attendees`, roles: ["admin", "teacher"] };
-    }
-
-    if (templateDetailMatch && isAdmin) {
-      return { label: "Clone", to: `/user/templates/${templateDetailMatch[1]}/clone`, roles: ["admin"] };
     }
 
     return null;
