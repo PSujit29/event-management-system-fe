@@ -10,7 +10,7 @@ export async function getTemplateById(templateId) {
     return data;
 }
 
-export async function cloneTemplateToEvent(templateId) {
-    const { data } = await apiClient.post(`templates/${templateId}/create-event`);
+export async function cloneTemplateToEvent(templateId, payload) {
+    const { data } = await apiClient.post(`templates/${templateId}/create-event`, payload);
     return data;
 }
