@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import AuthContext from "./auth-context";
 import apiClient from "../lib/apiClient";
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
+  const [isInitialized, setIsInitialized] = useState(false);
   const [user, setUser] = useState(() => {
     const u = localStorage.getItem("user");
     if (!u || u === "undefined" || u === "null") {
@@ -18,6 +19,27 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
+  const logout = useCallback(() => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setToken(null);
+    setUser(null);
+  }, []);
+
+  const fetchMe = useCallback(async () => {
+    try {
+      const { data } = await apiClient.get("users/me");
+      localStorage.setItem("user", JSON.stringify(data));
+      setUser(data);
+      return data;
+    } catch (error) {
+      if (error.response?.status === 401) {
+        logout();
+      }
+      throw error;
+    }
+  }, [logout]);
+
   const applyAuth = (data) => {
     const { token, user } = data;
     if (!token) return data;
@@ -28,19 +50,6 @@ export const AuthProvider = ({ children }) => {
     return data;
   };
 
-  // api endpoint for dummyjson, remove once backend is ready
-
-  const registerUser = async (payload) => {
-    const { data } = await apiClient.post("auth/register", payload);
-    return data.user;
-  };
-
-  const fetchMe = async () => {
-    const { data } = await apiClient.get("users/me");
-    localStorage.setItem("user", JSON.stringify(data));
-    setUser(data);
-    return data;
-  };
   const login = async (credentials) => {
     const { data } = await apiClient.post("auth/login", credentials);
     applyAuth(data);
@@ -48,17 +57,32 @@ export const AuthProvider = ({ children }) => {
     return data;
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setToken(null);
-    setUser(null);
+  const registerUser = async (payload) => {
+    const { data } = await apiClient.post("auth/register", payload);
+    return data.user;
   };
 
-  const value = useMemo(
-    () => ({ token, user, login, registerUser, fetchMe, logout }),
+  // Single bootstrap effect
+  useEffect(() => {
+    const bootstrap = async () => {
+      if (token && !user) {
+        try {
+          await fetchMe();
+        } catch (e) {
+          console.error("Bootstrap failed", e);
+        }
+      }
+      setIsInitialized(true);
+    };
+
+    bootstrap();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [token, user],
+  }, []);
+
+  const value = useMemo(
+    () => ({ token, user, login, registerUser, fetchMe, logout, isInitialized }),
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+    [token, user, isInitialized, fetchMe, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

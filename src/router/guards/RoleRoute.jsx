@@ -7,7 +7,7 @@ export default function RoleRoute({ allowedRoles = [], children }) {
   const isAllowed = allowedRoles.some((r) => r.toLowerCase() === role);
 
   if (!isAllowed) {
-    // return <Navigate to="/user/events" replace />;
+    return <Navigate to="/user/events" replace />;
   }
 
   return children;
