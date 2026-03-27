@@ -25,6 +25,7 @@ import EventDetailPage from "../pages/events/EventDetailPage";
 import CreateEventPage from "../pages/events/CreateEventPage";
 import EventAttendeesPage from "../pages/events/EventAttendeesPage";
 import MyEventsPage from "../pages/events/MyEventsPage";
+import ProfilePage from "../pages/user/ProfilePage";
 
 // Template Pages
 import TemplateListPage from "../pages/templates/TemplateListPage";
@@ -105,7 +106,7 @@ const router = createBrowserRouter([
         ),
       },
 
-      { path: "me", element: <WorkInProgress /> },
+      { path: "me", element: <ProfilePage /> },
       {
         path: "me/events",
         element: (
