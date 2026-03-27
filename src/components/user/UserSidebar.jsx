@@ -1,6 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { HiChartPie, HiCalendar, HiUserGroup, HiTemplate, HiUserCircle, HiCog } from "react-icons/hi";
 import { useAuth } from "../../hooks/useAuth";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { LogOut } from "lucide-react";
 
 const NAV_PATHS = {
   USER_HOME: "/user",
@@ -22,6 +26,25 @@ const NAV_ITEMS = [
 ];
 
 export const UserSidebar = () => {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const [confirmId, setConfirmId] = useState(null);
+  const handleAction = (fn, msg) => {
+    fn();
+    toast.success(msg);
+    navigate("/login", { replace: true });
+  };
+
+  const handleConfirm = (id, action) => {
+    if (confirmId === id) {
+      action();
+      setConfirmId(null);
+    } else {
+      setConfirmId(id);
+      setTimeout(() => setConfirmId(null), 3000);
+    }
+  };
   const { user } = useAuth();
   const role = (user?.role || "").toLowerCase();
   const navLinks = NAV_ITEMS.filter((item) => (role ? item.roles.includes(role) : item.roles.includes("student")));
@@ -51,6 +74,17 @@ export const UserSidebar = () => {
           </NavLink>
         ))}
       </nav>
+      <button
+        onClick={() => handleConfirm("logout", () => handleAction(logout, "Logged out"))}
+        className={`flex h-10 cursor-pointer items-center justify-center gap-2 rounded-lg px-4 text-sm font-semibold transition-all border ${
+          confirmId === "logout"
+            ? "bg-red-50 border-red-200 text-red-600 shadow-sm" // Urgent/Active state
+            : "bg-white border-slate-200 text-slate-700 hover:bg-red-50 hover:border-red-100 hover:text-red-600" // Hover hint
+        }`}
+      >
+        <LogOut className={`w-4 h-4 ${confirmId === "logout" ? "text-red-600" : "text-slate-400"}`} />
+        {confirmId === "logout" ? "Confirm Sign Out?" : "Sign Out"}
+      </button>
     </aside>
   );
 };
