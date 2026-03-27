@@ -63,9 +63,13 @@ export default function ProfilePage() {
 
         <div className="p-6 md:px-8">
           <div className="relative flex flex-col items-start justify-between gap-4 md:flex-row md:items-end ">
-            {/* Add circle with initials */}
-            <div className="flex items-center p-2.5 rounded-full justify-center overflow-hidden border-white bg-slate-100 shadow-md">
-              <span className="text-3xl font-bold text-slate-400">{getInitials(displayName)}</span>
+            {/* Add circle with initials or image */}
+            <div className="flex items-center rounded-full justify-center overflow-hidden border-white bg-slate-100 shadow-md">
+              {user?.image ? (
+                <img src={user.image} alt={displayName} className="w-full rounded-full h-full object-cover" />
+              ) : (
+                <span className="text-3xl font-bold text-slate-400">{getInitials(displayName)}</span>
+              )}
             </div>
 
             {/* Refresh Button */}
