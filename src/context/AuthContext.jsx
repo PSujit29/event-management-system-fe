@@ -41,8 +41,12 @@ export const AuthProvider = ({ children }) => {
   }, [logout]);
 
   const applyAuth = (data) => {
-    const { token, user } = data;
+    // Handle DummyJSON response format (accessToken) vs backend format (token)
+    const token = data.token || data.accessToken;
+    const user = data.user || data;
+    
     if (!token) return data;
+    
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(user));
     setToken(token);
@@ -53,7 +57,11 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     const { data } = await apiClient.post("auth/login", credentials);
     applyAuth(data);
-    await fetchMe();
+    
+    // DummyJSON already returns user data, skip fetchMe for now
+    // When switching to real backend, uncomment this:
+    // await fetchMe();
+    
     return data;
   };
 

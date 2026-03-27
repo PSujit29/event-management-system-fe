@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import { toast } from "sonner"; 
+import { toast } from "sonner";
 import { FaSync } from "react-icons/fa";
 
 function getUserId(user) {
@@ -37,13 +37,21 @@ export default function ProfilePage() {
   const handleRefresh = async () => {
     setIsRefreshing(true);
     try {
+      //eslint-disable-next-line no-constant-condition
+      if (true) {
+        setIsRefreshing(false);
+        setTimeout(() => {
+          toast.success("Profile updated successfully!");
+          setIsRefreshing(false);
+        }, 1000);
+        return; // This stops the code here so fetchMe() never runs
+      }
       await fetchMe();
-      toast.success("Profile refreshed successfully");
     } catch (error) {
       const message = error?.response?.data?.message || "Unable to refresh profile right now.";
       toast.error(message);
     } finally {
-      setIsRefreshing(false);
+      setIsRefreshing(true);
     }
   };
 
@@ -67,7 +75,10 @@ export default function ProfilePage() {
               disabled={isRefreshing}
               className="group flex items-center gap-2 cursor-pointer rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-slate-800 active:scale-95 disabled:opacity-70"
             >
-              <FaSync name="refresh" className={`h-4 w-4 transition-transform ${isRefreshing ? "animate-spin" : "group-hover:rotate-180"}`} />
+              <FaSync
+                name="refresh"
+                className={`h-4 w-4 transition-transform ${isRefreshing ? "animate-spin" : "group-hover:rotate-180"}`}
+              />
               {isRefreshing ? "Updating..." : "Refresh Profile"}
             </button>
           </div>

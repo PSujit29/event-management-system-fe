@@ -26,9 +26,15 @@ export default function LoginForm() {
 
   const handleLoginSubmit = async (data) => {
     try {
-      data.email = data.email.replace("@gmail.com", ""); //testing for dummjson, remove once backend is ready, basically make emily@gmail.com to emily
-      console.log(data);
-      const userDetail = await login(data);
+      // Transform for DummyJSON: email → username (strip domain)
+      const username = data.email.replace("@gmail.com", "");
+      const payload = {
+        username,
+        password: data.password,
+        expiresInMins: 30, // Required by DummyJSON
+      };
+      console.log("Sending payload:", payload);
+      const userDetail = await login(payload);
       toast.success("Login successful!");
       console.log(userDetail);
       navigate("/user");
