@@ -27,7 +27,7 @@ export const UserSidebar = () => {
     <aside className="hidden md:flex flex-col w-64 bg-white text-slate-900 border-r border-slate-200 shadow-lg z-20">
       <div className="text-xl font-bold p-6 tracking-wide border-b border-slate-200">
         Event Manager
-        <div className="text-xs font-medium text-slate-500 mt-1">Admin Console</div>
+        <div className="text-xs font-medium text-slate-500 mt-1">{user?.role || "User"} Console</div>
       </div>
       <nav className="flex-1 space-y-1 p-4 overflow-y-auto">
         {navLinks.map((link) => (

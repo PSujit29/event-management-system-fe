@@ -18,13 +18,13 @@ import ForgetPasswordPage from "../pages/legacy/auth/ForgetPasswordPage";
 
 // Dashboard Pages
 import OrganizerDashboardPage from "../pages/dashboard/OrganizerDashboardPage";
-import StudentDashboardPage from "../pages/dashboard/StudentDashboardPage";
 
 // Event Pages
 import EventListPage from "../pages/events/EventListPage";
 import EventDetailPage from "../pages/events/EventDetailPage";
 import CreateEventPage from "../pages/events/CreateEventPage";
 import EventAttendeesPage from "../pages/events/EventAttendeesPage";
+import MyEventsPage from "../pages/events/MyEventsPage";
 
 // Template Pages
 import TemplateListPage from "../pages/templates/TemplateListPage";
@@ -36,7 +36,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <AuthLayout />,
-    children:[
+    children: [
       { path: "login", element: <LoginPage /> },
       { path: "register", element: <RegisterPage /> },
       { path: "forget-password", element: <ForgetPasswordPage /> },
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
         <DashboardLayout />
       </ProtectedRoute>
     ),
-    children:[
+    children: [
       {
         index: true,
         element: (
@@ -59,68 +59,61 @@ const router = createBrowserRouter([
         ),
       },
 
-      { 
-        path: "events", 
-        element: <EventListPage /> 
-      },
-      { 
-        path: "events/create", 
+      { path: "events", element: <EventListPage /> },
+      {
+        path: "events/create",
         element: (
           <RoleRoute allowedRoles={["Admin", "Teacher"]}>
             <CreateEventPage />
           </RoleRoute>
-        )
+        ),
       },
-      { 
-        path: "events/:eventId", 
-        element: <EventDetailPage /> 
-      },
-      { 
-        path: "events/:eventId/attendees", 
+      { path: "events/:eventId", element: <EventDetailPage /> },
+      {
+        path: "events/:eventId/attendees",
         element: (
           <RoleRoute allowedRoles={["Admin", "Teacher"]}>
             <EventAttendeesPage />
           </RoleRoute>
-        )
+        ),
       },
 
       { path: "sub-events", element: <WorkInProgress /> },
 
-      { 
-        path: "templates", 
+      {
+        path: "templates",
         element: (
-          <RoleRoute allowedRoles={["Admin"]}>
+          <RoleRoute allowedRoles={["Admin", "Teacher"]}>
             <TemplateListPage />
           </RoleRoute>
-        )
+        ),
       },
-      { 
-        path: "templates/:templateId", 
+      {
+        path: "templates/:templateId",
         element: (
-          <RoleRoute allowedRoles={["Admin"]}>
+          <RoleRoute allowedRoles={["Admin", "Teacher"]}>
             <TemplateDetailPage />
           </RoleRoute>
-        )
+        ),
       },
-      { 
-        path: "templates/:templateId/clone", 
+      {
+        path: "templates/:templateId/clone",
         element: (
           <RoleRoute allowedRoles={["Admin"]}>
             <CloneTemplatePage />
           </RoleRoute>
-        )
+        ),
       },
 
       { path: "me", element: <WorkInProgress /> },
-      { 
-        path: "me/events", 
+      {
+        path: "me/events",
         element: (
           <RoleRoute allowedRoles={["Student"]}>
-            <StudentDashboardPage />
+            <MyEventsPage />
           </RoleRoute>
-        )
+        ),
       },
-      
 
       { path: "settings", element: <WorkInProgress /> },
     ],
