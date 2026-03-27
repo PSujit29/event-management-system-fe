@@ -6,7 +6,6 @@ export const UserHeader = () => {
   const { user } = useAuth();
   const location = useLocation();
   const role = (user?.role || "").toLowerCase();
-  const isStudent = role === "student";
   const isOrganizer = role === "admin" || role === "teacher";
   const isAdmin = role === "admin";
 
@@ -37,15 +36,15 @@ export const UserHeader = () => {
     const templateDetailMatch = normalizedPath.match(/^\/user\/templates\/([^/]+)$/);
 
     if (normalizedPath === "/user/events" && isOrganizer) {
-      return { label: "Create Event", to: "/user/events/create" };
+      return { label: "Create Event", to: "/user/events/create", roles: ["admin", "teacher"] };
     }
 
     if (eventDetailMatch && isOrganizer) {
-      return { label: "Attendees", to: `/user/events/${eventDetailMatch[1]}/attendees` };
+      return { label: "Attendees", to: `/user/events/${eventDetailMatch[1]}/attendees`, roles: ["admin", "teacher"] };
     }
 
     if (templateDetailMatch && isAdmin) {
-      return { label: "Clone", to: `/user/templates/${templateDetailMatch[1]}/clone` };
+      return { label: "Clone", to: `/user/templates/${templateDetailMatch[1]}/clone`, roles: ["admin"] };
     }
 
     return null;
@@ -65,7 +64,7 @@ export const UserHeader = () => {
       </div>
 
       <div className="flex items-center gap-3 md:gap-5">
-        {headerAction && !isStudent && (
+        {headerAction && headerAction.roles.includes(role) && (
           <Link
             to={headerAction.to}
             className="inline-flex items-center rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-800"

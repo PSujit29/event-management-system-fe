@@ -46,7 +46,15 @@ export default function EventsSection({ events = [], onCreateEvent }) {
                     </span>
                   </div>
                 </div>
-                <span className="rounded-full border border-gray-200 px-2 py-1 text-xs text-gray-600">{event.status}</span>
+                <div className="flex items-center gap-3">
+                  <span className="rounded-full border border-gray-200 px-2 py-1 text-xs text-gray-600">{event.status}</span>
+                  <Link
+                    to={`/user/events/${event.eventId}`}
+                    className="rounded-md border border-gray-200 px-2.5 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
+                  >
+                    View
+                  </Link>
+                </div>
               </li>
             ))}
           </ul>
