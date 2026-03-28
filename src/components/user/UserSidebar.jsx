@@ -50,8 +50,8 @@ export const UserSidebar = () => {
   const navLinks = NAV_ITEMS.filter((item) => (role ? item.roles.includes(role) : item.roles.includes("student")));
 
   return (
-    <aside className="hidden md:flex flex-col w-64 bg-white text-slate-900 border-r border-slate-200 shadow-lg z-20">
-      <div className="text-xl font-bold p-6 tracking-wide border-b border-slate-200">
+    <aside className="hidden md:flex flex-col w-64 bg-white text-slate-900 border-r border-slate-200 z-20">
+      <div className="text-xl font-bold pl-10 p-2 tracking-wide border-b border-slate-200">
         Event Manager
         <div className="text-xs font-medium text-slate-500 mt-1">{user?.role || "User"} Console</div>
       </div>
@@ -78,11 +78,11 @@ export const UserSidebar = () => {
         onClick={() => handleConfirm("logout", () => handleAction(logout, "Logged out"))}
         className={`flex h-10 cursor-pointer items-center justify-center gap-2 rounded-lg px-4 text-sm font-semibold transition-all border ${
           confirmId === "logout"
-            ? "bg-red-50 border-red-200 text-red-600 shadow-sm" // Urgent/Active state
-            : "bg-white border-slate-200 text-slate-700 hover:bg-red-50 hover:border-red-100 hover:text-red-600" // Hover hint
+            ? "bg-red-50 border-red-200 text-red-600 shadow-sm"
+            : "bg-white border-slate-200 text-red-600 hover:bg-red-50 hover:border-red-100 hover:text-red-600" // Hover hint
         }`}
       >
-        <LogOut className={`w-4 h-4 ${confirmId === "logout" ? "text-red-600" : "text-slate-400"}`} />
+        <LogOut className={`w-4 h-4 ${confirmId === "logout" ? "text-red-600" : "text-red-500"}`} />
         {confirmId === "logout" ? "Confirm Sign Out?" : "Sign Out"}
       </button>
     </aside>

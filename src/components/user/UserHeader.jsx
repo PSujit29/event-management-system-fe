@@ -21,12 +21,14 @@ export const UserHeader = () => {
   const getTitle = (path) => {
     const normalizedPath = path.replace(/\/$/, "");
 
+    if (titles[normalizedPath]) return titles[normalizedPath];
+
     if (normalizedPath.match(/^\/user\/events\/[^/]+\/attendees$/)) return "Event Attendees";
     if (normalizedPath.match(/^\/user\/events\/[^/]+$/)) return "Event Detail";
     if (normalizedPath.match(/^\/user\/templates\/[^/]+\/clone$/)) return "Clone Template";
     if (normalizedPath.match(/^\/user\/templates\/[^/]+$/)) return "Template Detail";
 
-    return titles[normalizedPath] || "Dashboard";
+    return "Dashboard";
   };
 
   const getHeaderAction = (path) => {
