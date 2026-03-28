@@ -26,33 +26,33 @@ Deliver a role-based frontend where:
 ### 0.1 Auth and environment cleanup
 
 - [ ] Remove dummy login transformation from login form. (i dont have backend ready so ignore)
-- [X] Confirm app reads API base URL from environment.
-- [X] Add fallback message if API URL is missing in development.
+- [x] Confirm app reads API base URL from environment.
+- [x] Add fallback message if API URL is missing in development.
 
 ### 0.2 Service contract cleanup
 
-- [X] Update template clone service to accept payload:
+- [x] Update template clone service to accept payload:
   - name
   - description
   - eventUrl
   - startDate
-- [X] Add missing event service function for POST event sub-events.
-- [X] Ensure all service methods return normalized data shape where needed.
+- [x] Add missing event service function for POST event sub-events.
+- [x] Ensure all service methods return normalized data shape where needed.
 
 ### 0.3 Guard correctness
 
-- [X] Fix role route so unauthorized roles are redirected.
-- [X] Ensure protected routes redirect to login when token is absent.
-- [X] Handle stale token case by clearing auth and redirecting to login on 401 from me endpoint.
+- [x] Fix role route so unauthorized roles are redirected.
+- [x] Ensure protected routes redirect to login when token is absent.
+- [x] Handle stale token case by clearing auth and redirecting to login on 401 from me endpoint.
 
 ### 0.4 Navigation wiring
 
-- [ ] Add route entries for event detail page.
-- [ ] Add route entry for create event page.
-- [ ] Add route entry for event attendees page.
-- [ ] Add route entry for template detail page.
-- [ ] Add route entry for clone-template page.
-- [ ] Add route entry for student my-events page.
+- [x] Add route entries for event detail page.
+- [x] Add route entry for create event page.
+- [x] Add route entry for event attendees page.
+- [x] Add route entry for template detail page.
+- [x] Add route entry for clone-template page.
+- [x] Add route entry for student my-events page.
 
 ---
 
@@ -60,29 +60,29 @@ Deliver a role-based frontend where:
 
 ### 1.1 Register flow
 
-- [ ] Keep role selection (Student, Teacher, Admin).
-- [ ] Validate conditional field:
+- [x] Keep role selection (Student, Teacher, Admin).
+- [x] Validate conditional field:
   - Student requires roll number.
   - Teacher/Admin requires designation.
-- [ ] Submit to register API.
-- [ ] Show backend validation error message if available.
-- [ ] Redirect successful registration to login page.
+- [x] Submit to register API.
+- [x] Show backend validation error message if available.
+- [x] Redirect successful registration to login page.
 
 ### 1.2 Login flow
 
-- [ ] Validate email/password client-side.
-- [ ] Submit to login API.
-- [ ] Persist token and user in auth context/local storage.
-- [ ] Fetch current user profile after login.
-- [ ] Redirect by role:
+- [x] Validate email/password client-side.
+- [x] Submit to login API.
+- [x] Persist token and user in auth context/local storage.
+- [ ] Fetch current user profile after login. (TODO: Comeback after backend)
+- [x] Redirect by role:
   - Student -> events or my events
   - Teacher/Admin -> dashboard
 
 ### 1.3 Session behavior
 
-- [ ] On app load, if token exists and user missing, fetch me once.
-- [ ] If fetch me fails due to unauthorized, logout automatically.
-- [ ] Implement logout action in header/menu.
+- [x] On app load, if token exists and user missing, fetch me once.
+- [x] If fetch me fails due to unauthorized, logout automatically.
+- [x] Implement logout action in header/menu.
 
 ---
 
@@ -90,7 +90,7 @@ Deliver a role-based frontend where:
 
 ### 2.1 Event list page
 
-- [ ] Fetch events from GET events endpoint.
+- [x] Fetch events from GET events endpoint.
 - [ ] Add optional status filter UI (Upcoming, Ongoing, Completed).
 - [ ] Add loading skeleton.
 - [ ] Add empty state with helpful CTA.
@@ -101,17 +101,17 @@ Deliver a role-based frontend where:
   - duration
   - status
   - view details action
-- [ ] Show create event button only for Teacher/Admin.
+- [x] Show create event button only for Teacher/Admin.
 
 ### 2.2 Event detail page
 
-- [ ] Fetch event by id.
+- [x] Fetch event by id.
 - [ ] Fetch sub-events by event id.
-- [ ] Render event core info and sub-events timeline/list.
+- [x] Render event core info and sub-events timeline/list.
 - [ ] Add register/cancel action for Student.
 - [ ] Add edit/delete actions for Teacher/Admin.
 - [ ] Add attendees button for Teacher/Admin.
-- [ ] Handle 404 not found gracefully.
+- [x] Handle 404 not found gracefully.
 
 ### 2.3 Create event page
 
@@ -122,7 +122,7 @@ Deliver a role-based frontend where:
   - startDate
   - duration
 - [ ] Validate required fields and date format.
-- [ ] Submit to create event API.
+- [x] Submit to create event API.
 - [ ] On success, navigate to newly created event detail.
 - [ ] Handle duplicate eventUrl backend error.
 
@@ -130,8 +130,8 @@ Deliver a role-based frontend where:
 
 - [ ] Add edit modal/page for Teacher/Admin.
 - [ ] Include editable status field in update flow.
-- [ ] Add delete confirmation dialog.
-- [ ] On delete success, redirect to event list and refresh.
+- [x] Add delete confirmation dialog.
+- [x] On delete success, redirect to event list and refresh.
 
 ### 2.5 Add sub-event action
 
@@ -296,11 +296,11 @@ Deliver a role-based frontend where:
 
 ### Events
 
-- [ ] GET events -> Event list and dashboard.
-- [ ] GET events by id -> Event detail.
-- [ ] POST events -> Create event page.
+- [x] GET events -> Event list and dashboard.
+- [x] GET events by id -> Event detail.
+- [x] POST events -> Create event page.
 - [ ] PUT events by id -> Edit event flow.
-- [ ] DELETE events by id -> Delete action.
+- [x] DELETE events by id -> Delete action.
 - [ ] POST events by id sub-events -> Add sub-event form.
 - [ ] GET events by id sub-events -> Event detail sub-event list.
 
