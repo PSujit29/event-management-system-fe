@@ -126,8 +126,7 @@ Deliver a role-based frontend where:
 
 ### 2.4 Update and delete event actions
 
-- [ ] Add edit modal/page for Teacher/Admin.
-- [ ] Include editable status field in update flow.
+- [X] Add edit modal/page for Teacher/Admin.
 - [X] Add delete confirmation dialog.
 - [X] On delete success, redirect to event list and refresh.
 

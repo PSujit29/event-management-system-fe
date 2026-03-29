@@ -1,17 +1,23 @@
 import { Calendar, Clock, Sparkles } from "lucide-react";
+import deriveEventStatus from "../../utils/status.utils";
 
 export default function DashboardContent({
   events = [],
   subEvents = [],
 }) {
-  const totalEvents = events.length;
-  const activeNow = events.filter((e) => e.status === "Ongoing").length;
-  const upcoming = events.filter((e) => e.status === "Upcoming").length;
+  const eventsWithStatus = events.map((event) => ({
+    ...event,
+    status: deriveEventStatus(event.startDate, event.startTime, event.duration),
+  }));
 
-  const sortedByStart = [...events].sort(
+  const totalEvents = eventsWithStatus.length;
+  const activeNow = eventsWithStatus.filter((e) => e.status === "Ongoing").length;
+  const upcoming = eventsWithStatus.filter((e) => e.status === "Upcoming").length;
+
+  const sortedByStart = [...eventsWithStatus].sort(
     (a, b) => new Date(a.startDate) - new Date(b.startDate)
   );
-  const upcomingEvents = sortedByStart.filter((e) => e.status !== "Past").slice(0, 5);
+  const upcomingEvents = sortedByStart.filter((e) => e.status !== "Completed").slice(0, 5);
 
   const mostRecentEvent = [...events].sort(
     (a, b) => new Date(b.startDate) - new Date(a.startDate)

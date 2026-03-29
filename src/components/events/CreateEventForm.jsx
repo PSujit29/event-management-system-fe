@@ -7,8 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { createEvent as createEventApi } from "../../services/event.service";
 import { useFieldArray } from "react-hook-form";
+import deriveEventStatus from "../../utils/status.utils";
 
 const DATE_INPUT_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+const TIME_INPUT_REGEX = /^\d{2}:\d{2}$/;
 
 function isValidDateInput(value) {
   if (!DATE_INPUT_REGEX.test(value)) return false;
@@ -24,11 +26,16 @@ function isValidDateInput(value) {
   );
 }
 
-function isTodayOrFuture(value) {
-  const today = new Date();
-  const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  const target = new Date(value + "T00:00:00");
-  return target >= todayStart;
+function isValidTimeInput(value) {
+  if (!TIME_INPUT_REGEX.test(value)) return false;
+  const [hours, minutes] = value.split(":").map(Number);
+  return hours >= 0 && hours < 24 && minutes >= 0 && minutes < 60;
+}
+
+function isTodayOrFuture(dateStr, timeStr) {
+  const now = new Date();
+  const eventDateTime = new Date(dateStr + "T" + timeStr + ":00");
+  return eventDateTime >= now;
 }
 
 const createEventSchema = z
@@ -40,8 +47,12 @@ const createEventSchema = z
       .trim()
       .min(1, "Start Date is required")
       .refine((value) => DATE_INPUT_REGEX.test(value), "Start Date must be in YYYY-MM-DD format")
-      .refine(isValidDateInput, "Start Date is not a valid calendar date")
-      .refine(isTodayOrFuture, "Start Date cannot be in the past"),
+      .refine(isValidDateInput, "Start Date is not a valid calendar date"),
+    startTime: z
+      .string()
+      .trim()
+      .min(1, "Start Time is required")
+      .refine(isValidTimeInput, "Start Time must be in HH:MM format"),
     duration: z.coerce.number().positive("Duration must be at least 1 hour"),
     subEvents: z.array(
       z.object({
@@ -57,6 +68,10 @@ const createEventSchema = z
       return totalSubDuration <= data.duration;
     },
     { message: "Main Event duration must be >= the total duration of sub-events", path: ["duration"] },
+  )
+  .refine(
+    (data) => isTodayOrFuture(data.startDate, data.startTime),
+    { message: "Event start date and time cannot be in the past", path: ["startTime"] },
   );
 
 export default function CreateEventForm() {
@@ -67,7 +82,7 @@ export default function CreateEventForm() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: { name: "", description: "", startDate: "", duration: 1, subEvents: [] },
+    defaultValues: { name: "", description: "", startDate: "", startTime: "", duration: 1, subEvents: [] },
     resolver: zodResolver(createEventSchema),
     mode: "onChange",
   });
@@ -77,9 +92,13 @@ export default function CreateEventForm() {
   const submitForm = async (data) => {
     if (isSubmitting) return;
 
-    const { ...payload } = data;
+    const status = deriveEventStatus(data.startDate, data.startTime, data.duration);
 
-    //BUG: This is purely bad but since i dont have backend this is the relaible way, thanks.
+    const payload = {
+      ...data,
+      status,
+    };
+
     try {
       const event = await createEventApi(payload);
       const existingEvents = JSON.parse(localStorage.getItem("all_events") || "[]");
@@ -98,8 +117,14 @@ export default function CreateEventForm() {
       <fieldset disabled={isSubmitting} className="flex flex-col gap-5 border-none p-0 m-0">
         <LabeledInput type="text" label="Name" name="name" handler={control} errMsg={errors?.name?.message} />
         <LabeledTextArea type="textarea" label="Description" name="description" handler={control} errMsg={errors?.description?.message} />
-        <LabeledDateInput label="Start Date" name="startDate" handler={control} errMsg={errors?.startDate?.message} />
+        
+        <div className="grid grid-cols-2 gap-4">
+          <LabeledDateInput label="Start Date" name="startDate" handler={control} errMsg={errors?.startDate?.message} />
+          <LabeledInput type="time" label="Start Time" name="startTime" handler={control} errMsg={errors?.startTime?.message} />
+        </div>
+        
         <LabeledInput type="number" label="Duration (hours)" name="duration" handler={control} errMsg={errors?.duration?.message} />
+
         {/* Sub-Events Section */}
         <div className="mt-8 border-t border-gray-200 pt-6">
           <div className="flex justify-between items-center mb-4">
@@ -134,7 +159,6 @@ export default function CreateEventForm() {
                 </div>
                 <div>
                   <div className="flex flex-col gap-5 border-none p-0 m-0">
-                    {/* Row 1: Name takes more space, Duration is smaller */}
                     <LabeledInput
                       label="Name"
                       name={`subEvents.${index}.name`}
@@ -150,7 +174,6 @@ export default function CreateEventForm() {
                       errMsg={errors?.subEvents?.[index]?.duration?.message}
                     />
 
-                    {/* Row 2: Full width Description */}
                     <LabeledTextArea
                       label="Description"
                       name={`subEvents.${index}.description`}
@@ -173,8 +196,7 @@ export default function CreateEventForm() {
       </fieldset>
 
       <div className="flex w-full gap-3 mt-4">
-        <Button type="reset" variant="danger" txt="Cancel" disabled={isSubmitting} />
-
+        <Button type="reset" variant="danger" txt="Clear" disabled={isSubmitting} />
         <Button type="submit" txt={isSubmitting ? "Creating Event..." : "Create Event"} disabled={isSubmitting} />
       </div>
     </form>
