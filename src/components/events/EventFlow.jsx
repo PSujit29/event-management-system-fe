@@ -1,5 +1,15 @@
 export default function EventFlow({ subEvents }) {
-  if (!subEvents || subEvents.length === 0) return null;
+  if (!subEvents || subEvents.length === 0) {
+    return (
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
+        <h2 className="mb-1 text-lg font-semibold text-slate-900 md:text-xl">Event Flow</h2>
+        <p className="mb-5 text-sm text-slate-600">Structured sequence of sessions included in this event.</p>
+        <div className="rounded-2xl border border-dashed border-slate-300 p-10 text-center">
+          <p className="text-slate-500">No sessions have been added to this event yet.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
@@ -19,9 +29,7 @@ export default function EventFlow({ subEvents }) {
               <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">Session</span>
             </div>
             <p className="text-sm font-semibold text-slate-900">{subEvent.name}</p>
-            <p className="mt-1 text-sm leading-relaxed text-slate-600">
-              {subEvent.description || "No description"}
-            </p>
+            <p className="mt-1 text-sm leading-relaxed text-slate-600">{subEvent.description || "No description"}</p>
           </div>
         ))}
       </div>
