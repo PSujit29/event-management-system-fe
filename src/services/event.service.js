@@ -12,6 +12,7 @@ function normalizeEventData(raw = {}) {
     startDate: normalizedStartDate,
     duration: raw.duration ?? null,
     status: raw.status ?? "",
+    isRegistered: Boolean(raw.isRegistered),
     subEvents: toArray(raw.subEvents).map((subEvent, index) =>
       normalizeSubEventData(subEvent, {
         eventId: normalizedEventId,
@@ -215,7 +216,32 @@ export async function deleteEvent(eventId) {
 export async function getSubEvents(eventId) {
   if (USE_MOCK_EVENTS) {
     console.log("Using mock sub-events data");
-    return toArray(mockSubEvents).map(normalizeSubEventData);
+
+    const storedEvents = JSON.parse(localStorage.getItem("all_events") || "[]");
+    const mergedEvents = [...mockEvents, ...storedEvents];
+    const matchedEvent = mergedEvents.find((event) => String(event.eventId) === String(eventId));
+
+    const apiMockSubEvents = toArray(mockSubEvents)
+      .filter((subEvent) => String(subEvent.eventId) === String(eventId))
+      .map(normalizeSubEventData);
+
+    const embeddedSubEvents = toArray(matchedEvent?.subEvents).map((subEvent, index) =>
+      normalizeSubEventData(subEvent, {
+        eventId: matchedEvent?.eventId ?? Number(eventId),
+        startDate: matchedEvent?.startDate ?? null,
+        index,
+      }),
+    );
+
+    const seenKeys = new Set();
+    const combinedSubEvents = [...apiMockSubEvents, ...embeddedSubEvents].filter((subEvent) => {
+      const key = `${subEvent.subEventId ?? "na"}-${subEvent.name}`;
+      if (seenKeys.has(key)) return false;
+      seenKeys.add(key);
+      return true;
+    });
+
+    return combinedSubEvents;
   }
   else {
     const { data } = await apiClient.get(`events/${eventId}/sub-events`);

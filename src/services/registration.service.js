@@ -1,6 +1,9 @@
 import apiClient from "../lib/apiClient";
 
+const USE_MOCK_EVENTS = import.meta.env.VITE_USE_MOCK_EVENTS === "true";
+
 export async function registerForEvent(eventId) {
+
   const { data } = await apiClient.post(`events/${eventId}/register`);
   return data;
 }
