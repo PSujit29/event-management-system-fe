@@ -8,11 +8,40 @@ import { toast } from "sonner";
 import { createEvent as createEventApi } from "../../services/event.service";
 import { useFieldArray } from "react-hook-form";
 
+const DATE_INPUT_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+
+function isValidDateInput(value) {
+  if (!DATE_INPUT_REGEX.test(value)) return false;
+
+  const [year, month, day] = value.split("-").map(Number);
+  const parsedDate = new Date(value + "T00:00:00");
+
+  return (
+    !Number.isNaN(parsedDate.getTime()) &&
+    parsedDate.getFullYear() === year &&
+    parsedDate.getMonth() + 1 === month &&
+    parsedDate.getDate() === day
+  );
+}
+
+function isTodayOrFuture(value) {
+  const today = new Date();
+  const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const target = new Date(value + "T00:00:00");
+  return target >= todayStart;
+}
+
 const createEventSchema = z
   .object({
     name: z.string().trim().min(1, "Event Name is required"),
     description: z.string().trim().min(1, "Event Description is required"),
-    startDate: z.string().trim().min(1, "Start Date is required"),
+    startDate: z
+      .string()
+      .trim()
+      .min(1, "Start Date is required")
+      .refine((value) => DATE_INPUT_REGEX.test(value), "Start Date must be in YYYY-MM-DD format")
+      .refine(isValidDateInput, "Start Date is not a valid calendar date")
+      .refine(isTodayOrFuture, "Start Date cannot be in the past"),
     duration: z.coerce.number().positive("Duration must be at least 1 hour"),
     subEvents: z.array(
       z.object({
@@ -57,7 +86,7 @@ export default function CreateEventForm() {
       existingEvents.push(event);
       localStorage.setItem("all_events", JSON.stringify(existingEvents));
       toast.success("Event created successfully!");
-      navigate("/user/events");
+      navigate("/user/events/" + event.eventId);
     } catch (err) {
       const errorMessage = err?.response?.data?.message || err?.message || "Failed to create event.";
       toast.error(errorMessage);

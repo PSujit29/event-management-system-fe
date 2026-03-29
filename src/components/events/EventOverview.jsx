@@ -1,4 +1,4 @@
-import { FaRegClock, FaArrowRightLong } from "react-icons/fa6";
+import { FaFilePen, FaRegClock, FaTrash } from "react-icons/fa6";
 import { HiTemplate } from "react-icons/hi";
 import { MdEventNote } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -30,7 +30,7 @@ export default function EventOverview({ event, allowed, isDeleting, onDelete, on
           <div className="flex items-center gap-2">
             <Link
               to={`/user/events/${event.eventId}/attendees`}
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-300 hover:scale-95 hover:border-slate-300 hover:bg-slate-50"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-300 hover:scale-95 hover:border-slate-300 hover:bg-amber-200"
             >
               Attendees
             </Link>
@@ -38,19 +38,19 @@ export default function EventOverview({ event, allowed, isDeleting, onDelete, on
             <button
               type="button"
               onClick={onEdit}
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-300 hover:scale-95 hover:border-slate-300 hover:bg-slate-50"
+              className="cursor-pointer inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-300 hover:scale-95 hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100"
             >
-              Edit Event
+              <FaFilePen className="text-base" />
             </button>
 
             <button
               type="button"
               onClick={onDelete}
               disabled={isDeleting}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:scale-95 hover:bg-amber-500 hover:text-slate-950 active:scale-95 disabled:opacity-70 disabled:pointer-events-none"
+              aria-label="Delete item"
+              className="cursor-pointer inline-flex items-center justify-center gap-2 rounded-xl bg-red-100 px-4 py-2.5 text-sm font-semibold text-red-700 transition-all duration-300 hover:scale-95 hover:bg-red-600 hover:text-white active:scale-95 disabled:opacity-50 disabled:pointer-events-none"
             >
-              {isDeleting ? "Deleting..." : "Delete Event"}
-              <FaArrowRightLong className="h-4 w-4" />
+              {isDeleting ? "Deleting..." : <FaTrash className="transition-colors" />}
             </button>
           </div>
         )}

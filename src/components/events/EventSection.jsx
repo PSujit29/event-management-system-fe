@@ -28,7 +28,6 @@ export default function EventsSection({ events = [], onCreateEvent, onRefresh })
     return events.filter((event) => (event.status || "").toLowerCase() === statusFilter);
   }, [events, statusFilter]);
 
-  // const formatDate = (iso) => new Date(iso).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
 
   return (
     <section className="space-y-4">
