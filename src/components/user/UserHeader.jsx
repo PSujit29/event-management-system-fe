@@ -1,12 +1,10 @@
 import { HiMenu } from "react-icons/hi";
 import { useAuth } from "../../hooks/useAuth";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export const UserHeader = () => {
   const { user } = useAuth();
   const location = useLocation();
-  const role = (user?.role || "").toLowerCase();
-  const isOrganizer = role === "admin" || role === "teacher";
 
   const titles = {
     "/user": "Dashboard",
@@ -31,20 +29,8 @@ export const UserHeader = () => {
     return "Dashboard";
   };
 
-  const getHeaderAction = (path) => {
-    const normalizedPath = path.replace(/\/$/, "");
-    const eventDetailMatch = normalizedPath.match(/^\/user\/events\/([^/]+)$/);
-
-    if (eventDetailMatch && isOrganizer) {
-      return { label: "Attendees", to: `/user/events/${eventDetailMatch[1]}/attendees`, roles: ["admin", "teacher"] };
-    }
-
-    return null;
-  };
-
   const currentPath = location.pathname;
   const currentTitle = getTitle(currentPath);
-  const headerAction = getHeaderAction(currentPath);
 
   return (
     <header className="bg-white shadow-sm px-4 md:px-8 py-3 flex justify-between items-center border-b border-slate-200 z-10 relative">
@@ -56,15 +42,6 @@ export const UserHeader = () => {
       </div>
 
       <div className="flex items-center gap-3 md:gap-5">
-        {headerAction && headerAction.roles.includes(role) && (
-          <Link
-            to={headerAction.to}
-            className="inline-flex items-center rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-800"
-          >
-            {headerAction.label}
-          </Link>
-        )}
-
         <span className="text-sm md:text-base text-slate-600 font-medium hidden sm:block">
           Welcome, <strong className="text-slate-900">{user?.name ?? user?.firstName}</strong>
         </span>
