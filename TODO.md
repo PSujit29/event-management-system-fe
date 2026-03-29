@@ -91,11 +91,11 @@ Deliver a role-based frontend where:
 ### 2.1 Event list page
 
 - [x] Fetch events from GET events endpoint.
-- [ ] Add optional status filter UI (Upcoming, Ongoing, Completed).
-- [ ] Add loading skeleton.
-- [ ] Add empty state with helpful CTA.
-- [ ] Add error state with retry action.
-- [ ] Each event row/card includes:
+- [x] Add optional status filter UI (Upcoming, Ongoing, Completed).
+- [x] Add loading skeleton.
+- [x] Add empty state with helpful CTA.
+- [x] Add error state with retry action.
+- [x] Each event card includes:
   - name
   - start date
   - duration
