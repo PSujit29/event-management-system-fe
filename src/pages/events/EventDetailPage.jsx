@@ -4,6 +4,7 @@ import { toast } from "sonner";
 
 import { deleteEvent, getEventById, getSubEvents } from "../../services/event.service";
 import { useAuth } from "../../hooks/useAuth";
+import deriveEventStatus from "../../utils/status.utils";
 
 import EventBackButton from "../../components/events/EventBackButton";
 import EventOverview from "../../components/events/EventOverview";
@@ -75,7 +76,12 @@ export default function EventDetailPage() {
   };
 
   const handleEditEvent = () => {
-    toast.info("Edit flow will be completed in Phase 2.4");
+    const status = deriveEventStatus(event.startDate, event.startTime, event.duration);
+    if (status !== "Upcoming") {
+      toast.error("Only upcoming events can be edited");
+      return;
+    }
+    navigate("/user/events/edit/" + eventId);
   };
 
   // 1. Loading State
@@ -118,6 +124,7 @@ export default function EventDetailPage() {
       <EventOverview
         event={event}
         allowed={allowedToManage}
+        canEdit={allowedToManage && deriveEventStatus(event.startDate, event.startTime, event.duration) === "Upcoming"}
         isDeleting={isDeleting}
         onDelete={handleDeleteEvent}
         onEdit={handleEditEvent}
