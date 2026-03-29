@@ -10,6 +10,7 @@ function normalizeEventData(raw = {}) {
     description: raw.description ?? "",
     eventUrl: raw.eventUrl ?? "",
     startDate: normalizedStartDate,
+    startTime: raw.startTime ?? "00:00",
     duration: raw.duration ?? null,
     status: raw.status ?? "",
     isRegistered: Boolean(raw.isRegistered),
