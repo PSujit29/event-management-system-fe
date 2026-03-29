@@ -2,42 +2,57 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-import { deleteEvent, getEventById } from "../../services/event.service";
+import { deleteEvent, getEventById, getSubEvents } from "../../services/event.service";
 import { useAuth } from "../../hooks/useAuth";
 
 import EventBackButton from "../../components/events/EventBackButton";
 import EventOverview from "../../components/events/EventOverview";
 import EventFlow from "../../components/events/EventFlow";
+import EventRegistrationActionButton from "../../components/events/EventRegistrationActionButton";
 
 export default function EventDetailPage() {
   const { eventId } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
-  
+
   const [event, setEvent] = useState(null);
+  const [subEvents, setSubEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
-  const[error, setError] = useState(null);
+  const [error, setError] = useState(null);
+  const [subEventError, setSubEventError] = useState(null);
 
   const role = (user?.role || "").toLowerCase();
-  const isAdmin = role === "admin";
+  const isStudent = role === "student";
+  const allowedToManage = role === "admin" || role === "teacher";
 
   useEffect(() => {
-    const fetchEvent = async () => {
+    const fetchData = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
-        const data = await getEventById(eventId);
-        setEvent(data);
+        const eventData = await getEventById(eventId);
+        setEvent(eventData);
         setError(null);
       } catch (err) {
         setError(err.message || "Failed to load event");
-        setEvent(null);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const subEventData = await getSubEvents(eventId);
+        setSubEvents(subEventData);
+        setEvent((prev) => (prev ? { ...prev, subEvents: subEventData } : prev));
+        setSubEventError(null);
+      } catch (err) {
+        setSubEventError(err.message || "Failed to load sub-events");
+        setSubEvents([]);
       } finally {
         setLoading(false);
       }
     };
 
-    if (eventId) fetchEvent();
+    if (eventId) fetchData();
   }, [eventId]);
 
   const handleDeleteEvent = async () => {
@@ -59,14 +74,16 @@ export default function EventDetailPage() {
     }
   };
 
+  const handleEditEvent = () => {
+    toast.info("Edit flow will be completed in Phase 2.4");
+  };
+
   // 1. Loading State
   if (loading) {
     return (
       <div className="space-y-4 rounded-2xl bg-slate-100 p-5 md:p-6">
         <EventBackButton />
-        <div className="rounded-lg border border-slate-200 bg-white p-6 text-slate-600 shadow-sm">
-          Loading event...
-        </div>
+        <div className="rounded-lg border border-slate-200 bg-white p-6 text-slate-600 shadow-sm">Loading event...</div>
       </div>
     );
   }
@@ -76,9 +93,7 @@ export default function EventDetailPage() {
     return (
       <div className="space-y-4 rounded-2xl bg-slate-100 p-5 md:p-6">
         <EventBackButton />
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600">
-          Error: {error}
-        </div>
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600">Error: {error}</div>
       </div>
     );
   }
@@ -88,9 +103,7 @@ export default function EventDetailPage() {
     return (
       <div className="space-y-4 rounded-2xl bg-slate-100 p-5 md:p-6">
         <EventBackButton />
-        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-700">
-          Event not found
-        </div>
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-700">Event not found</div>
       </div>
     );
   }
@@ -98,16 +111,23 @@ export default function EventDetailPage() {
   // 4. Success State
   return (
     <div className="space-y-6 rounded-2xl bg-slate-100 p-5 md:p-6">
-      <EventBackButton />
-
-      <EventOverview 
-        event={event} 
-        isAdmin={isAdmin} 
-        isDeleting={isDeleting} 
-        onDelete={handleDeleteEvent} 
+      <div className="flex justify-between">
+        <EventBackButton />
+        {isStudent && <EventRegistrationActionButton eventId={eventId} initialIsRegistered={Boolean(event?.isRegistered)} />}
+      </div>
+      <EventOverview
+        event={event}
+        allowed={allowedToManage}
+        isDeleting={isDeleting}
+        onDelete={handleDeleteEvent}
+        onEdit={handleEditEvent}
       />
 
-      <EventFlow subEvents={event.subEvents} />
+      {subEventError ? (
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600">Error loading sessions: {subEventError}</div>
+      ) : (
+        <EventFlow subEvents={subEvents} />
+      )}
     </div>
   );
 }
