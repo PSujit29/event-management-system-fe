@@ -2,6 +2,7 @@ import { Plus } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import EventCard from "./EventCard";
+import deriveEventStatus from "../../utils/status.utils";
 import { useState, useMemo } from "react";
 
 export default function EventsSection({ events = [], onCreateEvent, onRefresh }) {
@@ -25,7 +26,9 @@ export default function EventsSection({ events = [], onCreateEvent, onRefresh })
   };
   const filteredEvents = useMemo(() => {
     if (statusFilter === "all") return events;
-    return events.filter((event) => (event.status || "").toLowerCase() === statusFilter);
+    return events.filter((event) =>
+      deriveEventStatus(event.startDate, event.startTime, event.duration).toLowerCase() === statusFilter,
+    );
   }, [events, statusFilter]);
 
 
