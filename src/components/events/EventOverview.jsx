@@ -3,7 +3,7 @@ import { HiTemplate } from "react-icons/hi";
 import { MdEventNote } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-export default function EventOverview({ event, allowed, isDeleting, onDelete, onEdit }) {
+export default function EventOverview({ event, allowed, canEdit, isDeleting, onDelete, onEdit }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md">
       <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
@@ -38,9 +38,14 @@ export default function EventOverview({ event, allowed, isDeleting, onDelete, on
             <button
               type="button"
               onClick={onEdit}
-              className="cursor-pointer inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-300 hover:scale-95 hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100"
+              disabled={!canEdit}
+              className={`inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition-all duration-300 ${canEdit
+                  ? "border-slate-200 bg-white text-slate-700 hover:scale-95 hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100"
+                  : "cursor-not-allowed border-gray-200 bg-gray-100 text-gray-400"
+                }`}
             >
               <FaFilePen className="text-base" />
+              {canEdit ? "Edit" : "Edit unavailable"}
             </button>
 
             <button
