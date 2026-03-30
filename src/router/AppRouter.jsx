@@ -23,6 +23,7 @@ import OrganizerDashboardPage from "../pages/dashboard/OrganizerDashboardPage";
 import EventListPage from "../pages/events/EventListPage";
 import EventDetailPage from "../pages/events/EventDetailPage";
 import CreateEventPage from "../pages/events/CreateEventPage";
+import EditEventPage from "../pages/events/EditEventPage";
 import EventAttendeesPage from "../pages/events/EventAttendeesPage";
 import MyEventsPage from "../pages/events/MyEventsPage";
 import ProfilePage from "../pages/user/ProfilePage";
@@ -71,6 +72,7 @@ const router = createBrowserRouter([
         ),
       },
       { path: "events/:eventId", element: <EventDetailPage /> },
+      { path: "events/edit/:eventId", element: <EditEventPage /> },
       {
         path: "events/:eventId/attendees",
         element: (

@@ -1,5 +1,6 @@
 import { FaRegClone, FaRegClock, FaLayerGroup, FaArrowRightLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import deriveEventStatus from "../../utils/status.utils";
 
 export default function EventCard({ events, userRole, onRefresh, onCreate }) {
   // role-based check: e.g., 'admin' or 'teacher'
@@ -58,13 +59,18 @@ export default function EventCard({ events, userRole, onRefresh, onCreate }) {
                   </h3>
                   {/* Status Badge */}
 
-                  <span
-                    className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
-                      statusStyles[event.status] || "bg-gray-100 text-gray-600"
-                    }`}
-                  >
-                    {event.status || "Draft"}
-                  </span>
+                  {(() => {
+                    const eventStatus = deriveEventStatus(event.startDate, event.startTime, event.duration);
+                    return (
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
+                          statusStyles[eventStatus] || "bg-gray-100 text-gray-600"
+                        }`}
+                      >
+                        {eventStatus}
+                      </span>
+                    );
+                  })()}
                 </div>
 
                 <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-600">
