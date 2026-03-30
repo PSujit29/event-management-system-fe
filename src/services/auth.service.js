@@ -14,3 +14,8 @@ export async function getMe() {
   const { data } = await apiClient.get("users/me");
   return data;
 }
+
+export async function getUserById(userId) {
+  const { data } = await apiClient.get(`users/${userId}`);
+  return data;
+}
