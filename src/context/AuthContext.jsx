@@ -1,27 +1,23 @@
 import { useMemo, useState, useEffect, useCallback } from "react";
 import AuthContext from "./auth-context";
 import apiClient from "../lib/apiClient";
+import {
+  clearStoredUser,
+  clearToken,
+  getStoredUser,
+  getToken,
+  setStoredUser,
+  setToken as setStoredToken,
+} from "../utils/storage.utils";
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(() => localStorage.getItem("token"));
+  const [token, setToken] = useState(() => getToken());
   const [isInitialized, setIsInitialized] = useState(false);
-  const [user, setUser] = useState(() => {
-    const u = localStorage.getItem("user");
-    if (!u || u === "undefined" || u === "null") {
-      localStorage.removeItem("user");
-      return null;
-    }
-    try {
-      return JSON.parse(u);
-    } catch {
-      localStorage.removeItem("user");
-      return null;
-    }
-  });
+  const [user, setUser] = useState(() => getStoredUser());
 
   const logout = useCallback(() => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    clearToken();
+    clearStoredUser();
     setToken(null);
     setUser(null);
   }, []);
@@ -29,7 +25,7 @@ export const AuthProvider = ({ children }) => {
   const fetchMe = useCallback(async () => {
     try {
       const { data } = await apiClient.get("users/me");
-      localStorage.setItem("user", JSON.stringify(data));
+      setStoredUser(data);
       setUser(data);
       return data;
     } catch (error) {
@@ -47,8 +43,8 @@ export const AuthProvider = ({ children }) => {
     
     if (!token) return data;
     
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(user));
+    setStoredToken(token);
+    setStoredUser(user);
     setToken(token);
     setUser(user);
     return data;

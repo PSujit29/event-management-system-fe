@@ -1,5 +1,6 @@
 import apiClient from "../lib/apiClient";
 import deriveEventStatus from "../utils/status.utils";
+import { getStoredEvents, setStoredEvents } from "../utils/storage.utils";
 
 const IS_DEVELOPMENT = import.meta.env.MODE === "development";
 const API_BASE_URL = import.meta.env.VITE_API_URL || "";
@@ -117,9 +118,9 @@ export async function cloneTemplateToEvent(templateId, payload) {
                 };
 
                 // Persist to local storage to simulate a backend
-                const existingEvents = JSON.parse(localStorage.getItem('all_events') || '[]');
+                const existingEvents = getStoredEvents();
                 existingEvents.push(newEvent);
-                localStorage.setItem('all_events', JSON.stringify(existingEvents));
+                setStoredEvents(existingEvents);
 
                 // Simulate network latency
                 await new Promise(resolve => setTimeout(resolve, 800));

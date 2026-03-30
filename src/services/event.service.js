@@ -1,4 +1,5 @@
 import apiClient from "../lib/apiClient";
+import { getStoredEvents, getStoredRegistrations, getStoredUser, setStoredEvents } from "../utils/storage.utils";
 
 function normalizeEventData(raw = {}) {
   const normalizedEventId = raw.eventId ?? raw.id ?? null;
@@ -58,25 +59,13 @@ function pickSubEventPayload(data) {
   return data?.subEvent ?? data;
 }
 
-function getStoredUser() {
-  const rawUser = localStorage.getItem("user");
-  if (!rawUser || rawUser === "undefined" || rawUser === "null") return null;
-
-  try {
-    return JSON.parse(rawUser);
-  } catch {
-    return null;
-  }
-}
-
 function getCurrentStudentId() {
   const user = getStoredUser();
   return user?.id ?? user?.userId ?? user?.studentId ?? null;
 }
 
 function getMockRegistrations() {
-  const rawRegistrations = localStorage.getItem("all_registrations");
-  return rawRegistrations ? JSON.parse(rawRegistrations) : [];
+  return getStoredRegistrations();
 }
 
 function isMockEventRegistered(eventId) {
@@ -166,7 +155,7 @@ const mockSubEventCreateResponse = {
 export async function getEvents(params = {}) {
   if (USE_MOCK_EVENTS) {
     console.log("Using mock events data");
-    const storedEvents = JSON.parse(localStorage.getItem("all_events") || "[]")
+    const storedEvents = getStoredEvents();
     const mergedEvents = [...mockEvents, ...storedEvents];
 
     return mergedEvents.map((event) =>
@@ -184,7 +173,7 @@ export async function getEvents(params = {}) {
 
 export async function getEventById(eventId) {
   if (USE_MOCK_EVENTS) {
-    const storedEvents = JSON.parse(localStorage.getItem("all_events") || "[]");
+    const storedEvents = getStoredEvents();
     const mergedEvents = [...mockEvents, ...storedEvents];
     const matchedEvent = mergedEvents.find((event) => String(event.eventId ?? event.id) === String(eventId));
 
@@ -217,7 +206,7 @@ export async function createEvent(payload) {
 
 export async function updateEvent(eventId, payload) {
   if (USE_MOCK_EVENTS) {
-    const storedEvents = JSON.parse(localStorage.getItem("all_events") || "[]");
+    const storedEvents = getStoredEvents();
     let wasUpdated = false;
 
     const updatedEvents = storedEvents.map((event) => {
@@ -234,7 +223,7 @@ export async function updateEvent(eventId, payload) {
       throw new Error("Event not found for update");
     }
 
-    localStorage.setItem("all_events", JSON.stringify(updatedEvents));
+    setStoredEvents(updatedEvents);
     const updatedEvent = updatedEvents.find((event) => String(event.eventId ?? event.id) === String(eventId));
     return normalizeEventData(updatedEvent);
   }
@@ -246,9 +235,9 @@ export async function updateEvent(eventId, payload) {
 
 export async function deleteEvent(eventId) {
   if (USE_MOCK_EVENTS) {
-    const storedEvents = JSON.parse(localStorage.getItem("all_events") || "[]");
+    const storedEvents = getStoredEvents();
     const filteredEvents = storedEvents.filter((event) => String(event.eventId ?? event.id) !== String(eventId));
-    localStorage.setItem("all_events", JSON.stringify(filteredEvents));
+    setStoredEvents(filteredEvents);
 
     return {
       message: mockEventDeleteResponse.message,
@@ -269,7 +258,7 @@ export async function getSubEvents(eventId) {
   if (USE_MOCK_EVENTS) {
     console.log("Using mock sub-events data");
 
-    const storedEvents = JSON.parse(localStorage.getItem("all_events") || "[]");
+    const storedEvents = getStoredEvents();
     const mergedEvents = [...mockEvents, ...storedEvents];
     const matchedEvent = mergedEvents.find((event) => String(event.eventId ?? event.id) === String(eventId));
 

@@ -1,7 +1,8 @@
 import { NavLink } from "react-router-dom";
+import { getToken } from "../../utils/storage.utils";
 
 export default function Navbar() {
-  const token = localStorage.getItem("token");
+  const token = getToken();
   let navLinks = [
     { name: "Explore Events", href: "/explore" },
     { name: "How it Works", href: "/how-it-works" },

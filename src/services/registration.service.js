@@ -1,18 +1,13 @@
 import apiClient from "../lib/apiClient";
 import { getUserById } from "./auth.service";
+import {
+  getStoredRegistrations,
+  getStoredUser,
+  setMyRegistrations,
+  setStoredRegistrations,
+} from "../utils/storage.utils";
 
 const USE_MOCK_EVENTS = import.meta.env.VITE_USE_MOCK_EVENTS === "true";
-
-function getStoredUser() {
-  const rawUser = localStorage.getItem("user");
-  if (!rawUser || rawUser === "undefined" || rawUser === "null") return null;
-
-  try {
-    return JSON.parse(rawUser);
-  } catch {
-    return null;
-  }
-}
 
 function getCurrentStudentId() {
   const user = getStoredUser();
@@ -20,12 +15,11 @@ function getCurrentStudentId() {
 }
 
 function getAllRegistrations() {
-  const existingRaw = localStorage.getItem("all_registrations");
-  return existingRaw ? JSON.parse(existingRaw) : [];
+  return getStoredRegistrations();
 }
 
 function saveAllRegistrations(registrations) {
-  localStorage.setItem("all_registrations", JSON.stringify(registrations));
+  setStoredRegistrations(registrations);
 }
 
 function normalizeAttendanceStatus(value) {
@@ -162,7 +156,7 @@ export async function getMyEvents() {
     const myRegistrations = allRegistrations.filter(
       (reg) => String(reg.studentId ?? "") === String(studentId ?? ""),
     );
-    localStorage.setItem("my_registrations", JSON.stringify(myRegistrations));
+    setMyRegistrations(myRegistrations);
     return myRegistrations;
   }
 

@@ -9,6 +9,7 @@ import { createEvent as createEventApi } from "../../services/event.service";
 import { useFieldArray } from "react-hook-form";
 import deriveEventStatus from "../../utils/status.utils";
 import { parseApiError } from "../../utils/error.utils";
+import { getStoredEvents, setStoredEvents } from "../../utils/storage.utils";
 
 const DATE_INPUT_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 const TIME_INPUT_REGEX = /^\d{2}:\d{2}$/;
@@ -95,9 +96,9 @@ export default function CreateEventForm() {
 
     try {
       const event = await createEventApi(payload);
-      const existingEvents = JSON.parse(localStorage.getItem("all_events") || "[]");
+      const existingEvents = getStoredEvents();
       existingEvents.push(event);
-      localStorage.setItem("all_events", JSON.stringify(existingEvents));
+      setStoredEvents(existingEvents);
       toast.success("Event created successfully!");
       navigate("/user/events/" + event.eventId);
     } catch (err) {

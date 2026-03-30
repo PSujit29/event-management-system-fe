@@ -231,14 +231,14 @@ Deliver a role-based frontend where:
 
 ### 6.2 Date and format consistency
 
-- [ ] Use shared date utilities for all date displays.
-- [ ] Ensure timezone display is consistent across pages.
-- [ ] Keep duration unit formatting consistent.
+- [X] Use shared date utilities for all date displays.
+- [X] Ensure timezone display is consistent across pages.
+- [X] Keep duration unit formatting consistent.
 
 ### 6.3 Storage consistency
 
-- [ ] Use storage utility wrappers where practical.
-- [ ] Keep token and user keys consistent across app.
+- [X] Use storage utility wrappers where practical.
+- [X] Keep token and user keys consistent across app.
 
 ---
 
