@@ -260,15 +260,15 @@ Deliver a role-based frontend where:
 
 ### 7.3 Route validation
 
-- [ ] Unknown URL shows 404 page.
-- [ ] Direct access to protected routes redirects unauthenticated users.
-- [ ] Direct access to forbidden role routes redirects to allowed page.
+- [X] Unknown URL shows 404 page.
+- [X] Direct access to protected routes redirects unauthenticated users.
+- [X] Direct access to forbidden role routes redirects to allowed page.
 
 ### 7.4 Basic accessibility
 
-- [ ] Labels connected to form inputs.
-- [ ] Button text is action specific.
-- [ ] Color contrast is acceptable for core text/buttons.
+- [X] Labels connected to form inputs.
+- [X] Button text is action specific.
+- [X] Color contrast is acceptable for core text/buttons.
 
 ---
 
@@ -276,32 +276,32 @@ Deliver a role-based frontend where:
 
 ### Authentication and users
 
-- [ ] POST auth register -> Register page submit.
-- [ ] POST auth login -> Login page submit.
-- [ ] GET users me -> Auth bootstrap and profile display.
+- [X] POST auth register -> Register page submit.
+- [X] POST auth login -> Login page submit.
+- [X] GET users me -> Auth bootstrap and profile display.
 
 ### Events
 
 - [X] GET events -> Event list and dashboard.
 - [X] GET events by id -> Event detail.
 - [X] POST events -> Create event page.
-- [ ] PUT events by id -> Edit event flow.
+- [X] PUT events by id -> Edit event flow.
 - [X] DELETE events by id -> Delete action.
-- [ ] POST events by id sub-events -> Add sub-event form.
-- [ ] GET events by id sub-events -> Event detail sub-event list.
+- [X] POST events by id sub-events -> Add sub-event form.
+- [X] GET events by id sub-events -> Event detail sub-event list.
 
 ### Registration
 
-- [ ] POST events by id register -> Student register action.
-- [ ] DELETE events by id register -> Student cancel action.
-- [ ] GET events by id attendees -> Attendees page.
-- [ ] GET users me events -> Student my-events page.
+- [X] POST events by id register -> Student register action.
+- [X] DELETE events by id register -> Student cancel action.
+- [X] GET events by id attendees -> Attendees page.
+- [X] GET users me events -> Student my-events page.
 
 ### Templates
 
-- [ ] GET templates -> Template list page.
-- [ ] GET templates by id -> Template detail page.
-- [ ] POST templates by id create-event -> Clone template page.
+- [X] GET templates -> Template list page.
+- [X] GET templates by id -> Template detail page.
+- [X] POST templates by id create-event -> Clone template page.
 
 ---
 
@@ -309,34 +309,34 @@ Deliver a role-based frontend where:
 
 ### Student happy path
 
-- [ ] Register as Student.
-- [ ] Login as Student.
-- [ ] Browse events list.
-- [ ] Open event detail.
-- [ ] Register to event.
-- [ ] See event appear in my events page.
-- [ ] Cancel registration.
-- [ ] Confirm event removed from my events.
-- [ ] Logout.
+- [X] Register as Student.
+- [X] Login as Student.
+- [X] Browse events list.
+- [X] Open event detail.
+- [X] Register to event.
+- [X] See event appear in my events page.
+- [X] Cancel registration.
+- [X] Confirm event removed from my events.
+- [X] Logout.
 
 ### Teacher/Admin happy path
 
-- [ ] Login as Teacher/Admin.
-- [ ] Open dashboard and verify counts.
-- [ ] Create event.
-- [ ] Add sub-event.
-- [ ] Edit event status/details.
-- [ ] Open attendees page.
-- [ ] View templates.
-- [ ] Clone template to new event.
-- [ ] Delete a test event.
-- [ ] Logout.
+- [X] Login as Teacher/Admin.
+- [X] Open dashboard and verify counts.
+- [X] Create event.
+- [X] Add sub-event.
+- [X] Edit event status/details.
+- [X] Open attendees page.
+- [X] View templates.
+- [X] Clone template to new event.
+- [X] Delete a test event.
+- [X] Logout.
 
 ### Security and route checks
 
-- [ ] Unauthenticated user cannot open user routes.
-- [ ] Student cannot access organizer-only views.
-- [ ] Admin/Teacher can access organizer views.
+- [X] Unauthenticated user cannot open user routes.
+- [X] Student cannot access organizer-only views.
+- [X] Admin/Teacher can access organizer views.
 
 ---
 
@@ -356,9 +356,9 @@ Deliver a role-based frontend where:
 
 - [X] Finish Phase 0 first.
 - [X] Implement Phase 1 auth stabilization.
-- [ ] Deliver Phase 2 events pages.
-- [ ] Deliver Phase 3 registration flows.
-- [ ] Deliver Phase 4 templates flows.
-- [ ] Replace remaining placeholders in Phase 5.
-- [ ] Run Phase 6 and 7 quality pass.
-- [ ] Execute manual test script and close MVP.
+- [X] Deliver Phase 2 events pages.
+- [X] Deliver Phase 3 registration flows.
+- [X] Deliver Phase 4 templates flows.
+- [X] Replace remaining placeholders in Phase 5.
+- [X] Run Phase 6 and 7 quality pass.
+- [X] Execute manual test script and close MVP.
