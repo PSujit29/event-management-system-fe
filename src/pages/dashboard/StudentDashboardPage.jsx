@@ -3,6 +3,7 @@ import { getMyEvents } from '../../services/registration.service';
 import { getEvents } from '../../services/event.service';
 import StudentDashboardContent from '../../components/dashboard/StudentDashboardContent';
 import { toast } from 'sonner';
+import { parseApiError } from '../../utils/error.utils';
 
 export default function StudentDashboardPage() {
   const [data, setData] = useState({ registrations: [], allEvents: [] });
@@ -18,7 +19,7 @@ export default function StudentDashboardPage() {
         const [myRegs, events] = await Promise.all([getMyEvents(), getEvents()]);
         setData({ registrations: myRegs, allEvents: events });
       } catch (err) {
-        const message = err?.response?.data?.message || err?.message || 'Failed to load student dashboard';
+        const message = parseApiError(err, 'Failed to load student dashboard');
         setError(message);
         toast.error(message);
       } finally {

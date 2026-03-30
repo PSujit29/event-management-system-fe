@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import EditEventForm from "../../components/events/EditEventForm";
 import { getEventById } from "../../services/event.service";
 import deriveEventStatus from "../../utils/status.utils";
+import { parseApiError } from "../../utils/error.utils";
 
 export default function EditEventPage() {
   const { eventId } = useParams();
@@ -20,7 +21,7 @@ export default function EditEventPage() {
         setEventData(event);
         setError(null);
       } catch (err) {
-        const errorMessage = err?.response?.data?.message || err?.message || "Failed to load event";
+          const errorMessage = parseApiError(err, "Failed to load event");
         setError(errorMessage);
         toast.error(errorMessage);
       } finally {

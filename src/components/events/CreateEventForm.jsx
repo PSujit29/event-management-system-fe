@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { createEvent as createEventApi } from "../../services/event.service";
 import { useFieldArray } from "react-hook-form";
 import deriveEventStatus from "../../utils/status.utils";
+import { parseApiError } from "../../utils/error.utils";
 
 const DATE_INPUT_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 const TIME_INPUT_REGEX = /^\d{2}:\d{2}$/;
@@ -100,8 +101,7 @@ export default function CreateEventForm() {
       toast.success("Event created successfully!");
       navigate("/user/events/" + event.eventId);
     } catch (err) {
-      const errorMessage = err?.response?.data?.message || err?.message || "Failed to create event.";
-      toast.error(errorMessage);
+      toast.error(parseApiError(err, "Failed to create event."));
     }
   };
 

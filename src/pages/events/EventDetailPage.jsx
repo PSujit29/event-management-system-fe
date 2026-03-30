@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { deleteEvent, getEventById, getSubEvents } from "../../services/event.service";
 import { useAuth } from "../../hooks/useAuth";
 import deriveEventStatus from "../../utils/status.utils";
+import { parseApiError } from "../../utils/error.utils";
 
 import EventBackButton from "../../components/events/EventBackButton";
 import EventOverview from "../../components/events/EventOverview";
@@ -35,7 +36,7 @@ export default function EventDetailPage() {
         setEvent(eventData);
         setError(null);
       } catch (err) {
-        setError(err.message || "Failed to load event");
+        setError(parseApiError(err, "Failed to load event"));
         setLoading(false);
         return;
       }
@@ -46,7 +47,7 @@ export default function EventDetailPage() {
         setEvent((prev) => (prev ? { ...prev, subEvents: subEventData } : prev));
         setSubEventError(null);
       } catch (err) {
-        setSubEventError(err.message || "Failed to load sub-events");
+        setSubEventError(parseApiError(err, "Failed to load sub-events"));
         setSubEvents([]);
       } finally {
         setLoading(false);
@@ -68,8 +69,7 @@ export default function EventDetailPage() {
       toast.success("Event deleted successfully");
       navigate("/user/events");
     } catch (err) {
-      const errorMessage = err?.response?.data?.message || err?.message || "Failed to delete event";
-      toast.error(errorMessage);
+      toast.error(parseApiError(err, "Failed to delete event"));
     } finally {
       setIsDeleting(false);
     }

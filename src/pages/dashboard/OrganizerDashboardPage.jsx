@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getEvents } from '../../services/event.service';
 import DashboardContent from '../../components/dashboard/DashboardContent';
 import { toast } from 'sonner';
+import { parseApiError } from '../../utils/error.utils';
 
 export default function OrganizerDashboardPage() {
   const [events, setEvents] = useState([]);
@@ -18,7 +19,7 @@ export default function OrganizerDashboardPage() {
         const data = await getEvents();
         setEvents(data);
       } catch (err) {
-        const message = err?.response?.data?.message || err?.message || 'Dashboard load failed';
+        const message = parseApiError(err, 'Dashboard load failed');
         setError(message);
         toast.error(message);
       } finally {

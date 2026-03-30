@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { registerForEvent, cancelRegistration } from "../../services/registration.service";
 import { toast } from "sonner";
+import { parseApiError } from "../../utils/error.utils";
 
 export default function EventRegistrationActionButton({ eventId, initialIsRegistered, eventStatus }) {
   const [isRegistered, setIsRegistered] = useState(initialIsRegistered);
@@ -32,8 +33,7 @@ export default function EventRegistrationActionButton({ eventId, initialIsRegist
         toast.success("Registered successfully");
       }
     } catch (err) {
-      const errorMessage = err?.response?.data?.message || err?.message || "Failed to update registration";
-      toast.error(errorMessage);
+      toast.error(parseApiError(err, "Failed to update registration"));
     } finally {
       setIsPending(false);
     }

@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { toast } from "sonner";
+import { parseApiError } from "../../utils/error.utils";
 import * as z from "zod";
 
 const loginDTO = z.object({
@@ -37,7 +38,7 @@ export default function LoginForm() {
       toast.success("Login successful!");
       navigate("/user");
     } catch (err) {
-      toast.error(err?.response?.data?.message || "Login failed. Please try again.");
+      toast.error(parseApiError(err, "Login failed. Please try again."));
     }
   };
 

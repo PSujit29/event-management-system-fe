@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useEffect } from "react";
 import deriveEventStatus from "../../utils/status.utils";
 import { updateEvent } from "../../services/event.service";
+import { parseApiError } from "../../utils/error.utils";
 
 const DATE_INPUT_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 const TIME_INPUT_REGEX = /^\d{2}:\d{2}$/;
@@ -92,7 +93,7 @@ export default function EditEventForm({ eventData }) {
       toast.success("Event updated successfully!");
       navigate(`/user/events/${eventData.eventId}`, { replace: true });
     } catch (err) {
-      toast.error("Failed to update event. " + (err?.message || ""));
+      toast.error(parseApiError(err, "Failed to update event."));
     }
   };
 

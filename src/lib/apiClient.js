@@ -1,4 +1,5 @@
 import axios from "axios";
+import { parseApiError } from "../utils/error.utils";
 
 const BASE_URL = import.meta.env.VITE_API_URL || "";
 const MODE = import.meta.env.MODE || "production";
@@ -18,5 +19,15 @@ apiClient.interceptors.request.use((config) => {
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
 });
+
+apiClient.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error && !error.userMessage) {
+            error.userMessage = parseApiError(error);
+        }
+        return Promise.reject(error);
+    }
+);
 
 export default apiClient;

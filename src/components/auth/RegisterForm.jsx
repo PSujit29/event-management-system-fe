@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { toast } from "sonner";
+import { parseApiError } from "../../utils/error.utils";
 
 // Base schema for shared fields
 const baseSchema = z.object({
@@ -52,8 +53,7 @@ export default function RegisterForm() {
       toast.success("Registration successful! Please login.");
       navigate("/login");
     } catch (err) {
-      const errorMessage = err?.response?.data?.message || err?.message || "Registration failed.";
-      toast.error(errorMessage);
+      toast.error(parseApiError(err, "Registration failed."));
     }
   };
 

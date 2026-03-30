@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { toast } from "sonner";
 import { FaSync } from "react-icons/fa";
+import { parseApiError } from "../../utils/error.utils";
 
 function getUserId(user) {
   return user?.id ?? user?.studentId ?? user?.teacherId ?? user?.adminId ?? "N/A";
@@ -48,8 +49,7 @@ export default function ProfilePage() {
       }
       await fetchMe();
     } catch (error) {
-      const message = error?.response?.data?.message || "Unable to refresh profile right now.";
-      toast.error(message);
+      toast.error(parseApiError(error, "Unable to refresh profile right now."));
     } finally {
       setIsRefreshing(true);
     }
