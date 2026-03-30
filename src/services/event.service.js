@@ -35,7 +35,7 @@ function normalizeSubEventData(raw = {}, parent = {}) {
     eventId: raw.eventId ?? parent.eventId ?? null,
     name: raw.name ?? "",
     description: raw.description ?? "",
-    startDate: raw.startDate ?? parent.startDate ?? null,
+    startDate: raw.startDate ?? raw.date ?? parent.startDate ?? null,
     duration: raw.duration ?? null,
   };
 }
@@ -54,6 +54,38 @@ function pickSubEventPayload(data) {
   // Handles both:
   // { message, subEvent: {...} } and direct {...}
   return data?.subEvent ?? data;
+}
+
+function getStoredUser() {
+  const rawUser = localStorage.getItem("user");
+  if (!rawUser || rawUser === "undefined" || rawUser === "null") return null;
+
+  try {
+    return JSON.parse(rawUser);
+  } catch {
+    return null;
+  }
+}
+
+function getCurrentStudentId() {
+  const user = getStoredUser();
+  return user?.id ?? user?.userId ?? user?.studentId ?? null;
+}
+
+function getMockRegistrations() {
+  const rawRegistrations = localStorage.getItem("all_registrations");
+  return rawRegistrations ? JSON.parse(rawRegistrations) : [];
+}
+
+function isMockEventRegistered(eventId) {
+  const studentId = getCurrentStudentId();
+  const allRegistrations = getMockRegistrations();
+
+  return allRegistrations.some(
+    (registration) =>
+      String(registration.eventId) === String(eventId) &&
+      String(registration.studentId ?? "") === String(studentId ?? ""),
+  );
 }
 
 const USE_MOCK_EVENTS = import.meta.env.VITE_USE_MOCK_EVENTS === "true";
@@ -146,7 +178,13 @@ export async function getEvents(params = {}) {
     console.log("Using mock events data");
     const storedEvents = JSON.parse(localStorage.getItem("all_events") || "[]")
     const mergedEvents = [...mockEvents, ...storedEvents];
-    return mergedEvents.map(normalizeEventData);
+
+    return mergedEvents.map((event) =>
+      normalizeEventData({
+        ...event,
+        isRegistered: isMockEventRegistered(event.eventId),
+      }),
+    );
   }
   else {
     const { data } = await apiClient.get("events", { params });
@@ -158,9 +196,14 @@ export async function getEventById(eventId) {
   if (USE_MOCK_EVENTS) {
     const storedEvents = JSON.parse(localStorage.getItem("all_events") || "[]");
     const mergedEvents = [...mockEvents, ...storedEvents];
-    const matchedEvent = mergedEvents.find((event) => String(event.eventId) === String(eventId));
+    const matchedEvent = mergedEvents.find((event) => String(event.eventId ?? event.id) === String(eventId));
 
-    return matchedEvent ? normalizeEventData(matchedEvent) : null;
+    return matchedEvent
+      ? normalizeEventData({
+        ...matchedEvent,
+        isRegistered: isMockEventRegistered(eventId),
+      })
+      : null;
   }
   else {
     const { data } = await apiClient.get(`events/${eventId}`);
@@ -196,7 +239,7 @@ export async function updateEvent(eventId, payload) {
 export async function deleteEvent(eventId) {
   if (USE_MOCK_EVENTS) {
     const storedEvents = JSON.parse(localStorage.getItem("all_events") || "[]");
-    const filteredEvents = storedEvents.filter((event) => String(event.eventId) !== String(eventId));
+    const filteredEvents = storedEvents.filter((event) => String(event.eventId ?? event.id) !== String(eventId));
     localStorage.setItem("all_events", JSON.stringify(filteredEvents));
 
     return {
@@ -220,10 +263,10 @@ export async function getSubEvents(eventId) {
 
     const storedEvents = JSON.parse(localStorage.getItem("all_events") || "[]");
     const mergedEvents = [...mockEvents, ...storedEvents];
-    const matchedEvent = mergedEvents.find((event) => String(event.eventId) === String(eventId));
+    const matchedEvent = mergedEvents.find((event) => String(event.eventId ?? event.id) === String(eventId));
 
     const apiMockSubEvents = toArray(mockSubEvents)
-      .filter((subEvent) => String(subEvent.eventId) === String(eventId))
+      .filter((subEvent) => String(subEvent.eventId ?? subEvent.id) === String(eventId))
       .map(normalizeSubEventData);
 
     const embeddedSubEvents = toArray(matchedEvent?.subEvents).map((subEvent, index) =>
