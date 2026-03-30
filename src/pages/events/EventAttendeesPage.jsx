@@ -53,7 +53,6 @@ const AttendeesPage = () => {
     };
     fetchAttendees();
   }, [eventId]);
-  console.log("Fetched attendees:", attendees);
 
   if (loading) return <div className="p-8 text-center">Loading attendees...</div>;
   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
@@ -110,7 +109,7 @@ const AttendeesPage = () => {
                         </button>
                       </div>
                     ) : eventStatus === 'Completed' ? (
-                      <span className="text-xs font-medium text-slate-500">Locked: {person.attendanceStatus}</span>
+                      <span className="text-xs font-medium text-slate-500">{person.attendanceStatus}</span>
                     ) : (
                       <span className="text-xs font-medium text-amber-600">Pending</span>
                     )}

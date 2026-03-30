@@ -1,5 +1,6 @@
 import { Calendar, Clock } from "lucide-react";
 import deriveEventStatus from "../../utils/status.utils";
+import { Link } from "react-router-dom";
 
 export default function DashboardContent({ events = [], subEvents = [] }) {
   // 1. Process events with the updated 'Completed' status logic
@@ -21,9 +22,7 @@ export default function DashboardContent({ events = [], subEvents = [] }) {
 
   // 4. Spotlight only the top-most event from the same sorted list
   const spotlightEvent = upcomingEvents[0] ?? null;
-  const spotlightSubEvents = subEvents
-    .filter((sub) => String(sub?.eventId ?? "") === String(spotlightEvent?.eventId ?? ""))
-    .slice(0, 4);
+  const spotlightSubEvents = subEvents.filter((sub) => String(sub?.eventId ?? "") === String(spotlightEvent?.eventId ?? "")).slice(0, 4);
 
   const formatDate = (iso) =>
     new Date(iso).toLocaleString("en-US", { month: "short", day: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
@@ -67,12 +66,14 @@ export default function DashboardContent({ events = [], subEvents = [] }) {
                 ) : (
                   upcomingEvents.map((event) => (
                     <tr key={event.eventId}>
-                      <a
-                        href={`/user/events/${event.eventId}`}
-                        className="cursor-pointer ml-2 inline-flex items-center rounded-mdpx-2 py-1 text-xs font-medium text-indigo-700 hover:bg-indigo-100 hover:text-indigo-800 transition-colors"
-                      >
-                        {event.name}
-                      </a>
+                      <td className="py-3">
+                        <Link
+                          to={`/user/events/${event.eventId}`}
+                          className="cursor-pointer ml-2 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-indigo-700 hover:bg-indigo-100 hover:text-indigo-800 transition-colors"
+                        >
+                          {event.name}
+                        </Link>
+                      </td>
                       <td className="py-3 text-gray-600">{formatDate(event.startDate)}</td>
                       <td className="py-3">
                         <span className="rounded-full border border-gray-200 px-2 py-1 text-xs text-gray-600">{event.status}</span>

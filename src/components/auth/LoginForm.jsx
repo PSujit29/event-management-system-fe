@@ -33,13 +33,10 @@ export default function LoginForm() {
         password: data.password,
         expiresInMins: 30, // Required by DummyJSON
       };
-      console.log("Sending payload:", payload);
-      const userDetail = await login(payload);
+      await login(payload);
       toast.success("Login successful!");
-      console.log(userDetail);
       navigate("/user");
     } catch (err) {
-      console.log({ err });
       toast.error(err?.response?.data?.message || "Login failed. Please try again.");
     }
   };

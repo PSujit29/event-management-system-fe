@@ -1,4 +1,5 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 // Layouts & Guards
 import AuthLayout from "../layouts/AuthLayout";
@@ -9,7 +10,6 @@ import RoleRoute from "./guards/RoleRoute";
 // Misc Pages
 import LandingPage from "../pages/misc/LandingPage";
 import Error404 from "../pages/misc/Error404";
-import WorkInProgress from "../pages/misc/WorkInProgress";
 
 // Auth Pages
 import LoginPage from "../pages/auth/LoginPage";
@@ -18,6 +18,7 @@ import ForgetPasswordPage from "../pages/legacy/auth/ForgetPasswordPage";
 
 // Dashboard Pages
 import OrganizerDashboardPage from "../pages/dashboard/OrganizerDashboardPage";
+import StudentDashboardPage from "../pages/dashboard/StudentDashboardPage";
 
 // Event Pages
 import EventListPage from "../pages/events/EventListPage";
@@ -33,6 +34,16 @@ import SettingsPage from "../pages/user/SettingsPage";
 import TemplateListPage from "../pages/templates/TemplateListPage";
 import TemplateDetailPage from "../pages/templates/TemplateDetailPage";
 import CloneTemplatePage from "../pages/templates/CloneTemplatePage";
+
+function DashboardHomePage() {
+  const { user } = useAuth();
+  const role = (user?.role || "").toLowerCase();
+
+  if (role === "student") return <StudentDashboardPage />;
+  if (role === "admin" || role === "teacher") return <OrganizerDashboardPage />;
+
+  return <Navigate to="/user/events" replace />;
+}
 
 const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -55,12 +66,16 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <RoleRoute allowedRoles={["Admin", "Teacher"]}>
-            <OrganizerDashboardPage />
-          </RoleRoute>
-        ),
+          element: <DashboardHomePage />,
       },
+        {
+          path: "dashboard",
+          element: (
+            <RoleRoute allowedRoles={["Student"]}>
+              <StudentDashboardPage />
+            </RoleRoute>
+          ),
+        },
 
       { path: "events", element: <EventListPage /> },
       {
@@ -81,9 +96,6 @@ const router = createBrowserRouter([
           </RoleRoute>
         ),
       },
-
-      { path: "sub-events", element: <WorkInProgress /> },
-
       {
         path: "templates",
         element: (

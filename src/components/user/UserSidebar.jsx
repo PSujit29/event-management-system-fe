@@ -17,7 +17,7 @@ const NAV_PATHS = {
 };
 
 const NAV_ITEMS = [
-  { name: "Dashboard", to: NAV_PATHS.USER_HOME, end: true, icon: HiChartPie, roles: ["admin", "teacher"] },
+  { name: "Dashboard", to: NAV_PATHS.USER_HOME, end: true, icon: HiChartPie, roles: ["student", "admin", "teacher"] },
   { name: "Events", to: NAV_PATHS.EVENTS, end: false, icon: HiCalendar, roles: ["student", "admin", "teacher"] },
   { name: "My Events", to: NAV_PATHS.MY_EVENTS, end: true, icon: HiUserGroup, roles: ["student"] },
   { name: "Templates", to: NAV_PATHS.TEMPLATES, end: false, icon: HiTemplate, roles: ["admin", "teacher"] },
