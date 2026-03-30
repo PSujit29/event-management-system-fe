@@ -96,14 +96,20 @@ export async function cloneTemplateToEvent(templateId, payload) {
                         name: sub.name,
                         description: sub.description,
                         startDate: subDate.toISOString().split('T')[0],
+                        duration: Number(sub.duration ?? 1),
                     };
                 });
+
+                const computedDuration =
+                    Number(template.totalDuration ?? generatedSubEvents.reduce((sum, sub) => sum + Number(sub.duration || 0), 0) ?? 1);
 
                 const newEvent = {
                     eventId: newEventId,
                     name,
                     description: description || template.description,
                     startDate,
+                    startTime: payload?.startTime || "00:00",
+                    duration: computedDuration,
                     status: deriveEventStatus(startDate),
                     subEvents: generatedSubEvents,
                     clonedFrom: templateId,

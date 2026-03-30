@@ -3,6 +3,8 @@ import apiClient from "../lib/apiClient";
 function normalizeEventData(raw = {}) {
   const normalizedEventId = raw.eventId ?? raw.id ?? null;
   const normalizedStartDate = raw.startDate ?? null;
+  const normalizedDuration =
+    raw.duration ?? raw.totalDuration ?? (Array.isArray(raw.subEvents) ? raw.subEvents.reduce((sum, sub) => sum + Number(sub?.duration || 0), 0) : null);
 
   return {
     eventId: normalizedEventId,
@@ -11,7 +13,7 @@ function normalizeEventData(raw = {}) {
     eventUrl: raw.eventUrl ?? "",
     startDate: normalizedStartDate,
     startTime: raw.startTime ?? "00:00",
-    duration: raw.duration ?? null,
+    duration: normalizedDuration,
     status: raw.status ?? "",
     isRegistered: Boolean(raw.isRegistered),
     subEvents: toArray(raw.subEvents).map((subEvent, index) =>
@@ -122,18 +124,6 @@ const mockEventCreateResponse = {
     "status": "Upcoming"
   }
 };
-const mockEventUpdateResponse = {
-  "message": "Event updated successfully",
-  "event": {
-    "eventId": 3,
-    "name": "Cultural Fest 2026",
-    "description": "Updated description: Now featuring guest artist XYZ!",
-    "eventUrl": "cultural-fest-2026",
-    "startDate": "2026-10-20T10:00:00Z",
-    "duration": 72,
-    "status": "Ongoing"
-  }
-}
 const mockEventDeleteResponse = {
   "message": "Event deleted successfully",
   "eventId": 3
@@ -227,8 +217,26 @@ export async function createEvent(payload) {
 
 export async function updateEvent(eventId, payload) {
   if (USE_MOCK_EVENTS) {
-    console.log("Using mock event update response");
-    return normalizeEventData(pickEventPayload(mockEventUpdateResponse));
+    const storedEvents = JSON.parse(localStorage.getItem("all_events") || "[]");
+    let wasUpdated = false;
+
+    const updatedEvents = storedEvents.map((event) => {
+      if (String(event.eventId ?? event.id) !== String(eventId)) return event;
+      wasUpdated = true;
+      return {
+        ...event,
+        ...payload,
+        eventId: event.eventId ?? event.id ?? eventId,
+      };
+    });
+
+    if (!wasUpdated) {
+      throw new Error("Event not found for update");
+    }
+
+    localStorage.setItem("all_events", JSON.stringify(updatedEvents));
+    const updatedEvent = updatedEvents.find((event) => String(event.eventId ?? event.id) === String(eventId));
+    return normalizeEventData(updatedEvent);
   }
   else {
     const { data } = await apiClient.put(`events/${eventId}`, payload);
