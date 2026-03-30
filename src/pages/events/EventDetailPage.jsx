@@ -114,17 +114,25 @@ export default function EventDetailPage() {
     );
   }
 
+  const eventStatus = deriveEventStatus(event.startDate, event.startTime, event.duration);
+
   // 4. Success State
   return (
     <div className="space-y-6 rounded-2xl bg-slate-100 p-5 md:p-6">
       <div className="flex justify-between">
         <EventBackButton />
-        {isStudent && <EventRegistrationActionButton eventId={eventId} initialIsRegistered={Boolean(event?.isRegistered)} />}
+        {isStudent && (
+          <EventRegistrationActionButton
+            eventId={eventId}
+            initialIsRegistered={Boolean(event?.isRegistered)}
+            eventStatus={eventStatus}
+          />
+        )}
       </div>
       <EventOverview
         event={event}
         allowed={allowedToManage}
-        canEdit={allowedToManage && deriveEventStatus(event.startDate, event.startTime, event.duration) === "Upcoming"}
+        canEdit={allowedToManage && eventStatus === "Upcoming"}
         isDeleting={isDeleting}
         onDelete={handleDeleteEvent}
         onEdit={handleEditEvent}
