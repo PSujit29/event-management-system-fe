@@ -131,15 +131,6 @@ Deliver a role-based frontend where:
 - [X] Add delete confirmation dialog.
 - [X] On delete success, redirect to event list and refresh.
 
-### 2.5 Add sub-event action
-
-- [ ] Add Teacher/Admin form to create sub-event from event detail.
-- [ ] Validate sub-event fields:
-  - name
-  - description
-  - startDate
-  - duration
-- [ ] Submit and append to visible sub-event list.
 
 ---
 
