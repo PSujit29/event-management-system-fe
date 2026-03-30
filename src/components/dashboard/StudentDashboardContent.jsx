@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Calendar, CheckCircle, Clock, MapPin } from "lucide-react";
+import { formatDate } from "../../utils/date.utils";
 
 export default function StudentDashboardContent({ registrations = [], allEvents = [] }) {
   const processed = useMemo(() => {
@@ -62,7 +63,7 @@ export default function StudentDashboardContent({ registrations = [], allEvents 
           <div className="flex items-center gap-4 text-sm text-gray-300">
             <span className="flex items-center gap-1">
               <Calendar className="w-4 h-4" />
-              {new Date(processed.nearestEvent.startDate).toLocaleDateString()}
+              {formatDate(processed.nearestEvent.startDate)}
             </span>
           </div>
         </div>
@@ -86,7 +87,7 @@ export default function StudentDashboardContent({ registrations = [], allEvents 
               {processed.history.map((reg) => (
                 <tr key={reg.registrationId} className="hover:bg-gray-50 transition-colors">
                   <td className="px-6 py-4 font-semibold text-gray-900">{reg.name}</td>
-                  <td className="px-6 py-4 text-gray-500">{new Date(reg.startDate).toLocaleDateString()}</td>
+                  <td className="px-6 py-4 text-gray-500">{formatDate(reg.startDate)}</td>
                   <td className="px-6 py-4 text-right">
                     <span
                       className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase border ${

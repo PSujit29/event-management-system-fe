@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { getMyEvents } from "../../services/registration.service";
 import { getEventById } from "../../services/event.service";
 import deriveEventStatus from "../../utils/status.utils";
+import { formatDate, formatTime } from "../../utils/date.utils";
 
 const MyEventsPage = () => {
   const [events, setEvents] = useState([]);
@@ -119,18 +120,16 @@ const MyEventsPage = () => {
                   <div className="flex flex-wrap gap-4 text-sm text-gray-500">
                     <div className="flex items-center gap-1">
                       <Calendar size={16} />
-                      Registered: {reg.registrationDate ? new Date(reg.registrationDate).toLocaleDateString() : "N/A"}
+                      Registered: {reg.registrationDate ? formatDate(reg.registrationDate) : "N/A"}
                     </div>
                     <div className="flex items-center gap-1">
                       <Clock size={16} />
-                      {reg.registrationDate
-                        ? new Date(reg.registrationDate).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-                        : "N/A"}
+                      {reg.registrationDate ? formatTime(reg.registrationDate) : "N/A"}
                     </div>
                     {reg.eventStartDate && (
                       <div className="flex items-center gap-1">
                         <Calendar size={16} />
-                        Starts: {new Date(reg.eventStartDate).toLocaleDateString()}
+                        Starts: {formatDate(reg.eventStartDate)}
                       </div>
                     )}
                   </div>

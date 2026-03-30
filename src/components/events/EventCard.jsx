@@ -1,6 +1,7 @@
 import { FaRegClone, FaRegClock, FaLayerGroup, FaArrowRightLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import deriveEventStatus from "../../utils/status.utils";
+import { formatDate, formatDurationHours } from "../../utils/date.utils";
 
 export default function EventCard({ events, userRole, onRefresh, onCreate }) {
   // role-based check: e.g., 'admin' or 'teacher'
@@ -82,7 +83,7 @@ export default function EventCard({ events, userRole, onRefresh, onCreate }) {
                   <div className="grid grid-cols-2 gap-y-3">
                     <div className="flex items-center gap-2 text-xs font-semibold text-slate-700">
                       <FaRegClock className="h-4 w-4 text-slate-400" />
-                      <span>{event.duration || 0} Hours</span>
+                      <span>{formatDurationHours(event.duration)}</span>
                     </div>
                     <div className="flex items-center gap-2 text-xs font-semibold text-slate-700">
                       <FaLayerGroup className="h-4 w-4 text-amber-600" />
@@ -91,7 +92,7 @@ export default function EventCard({ events, userRole, onRefresh, onCreate }) {
                     {/* Start Date Added */}
                     <div className="col-span-2 flex items-center gap-2 text-xs font-medium text-slate-500">
                       <span className="text-slate-400">Starts:</span>
-                      {event.startDate ? new Date(event.startDate).toLocaleDateString() : "TBD"}
+                      {event.startDate ? formatDate(event.startDate) : "TBD"}
                     </div>
                   </div>
                 </div>

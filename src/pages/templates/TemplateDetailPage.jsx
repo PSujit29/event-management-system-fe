@@ -6,6 +6,7 @@ import {MdEventNote} from "react-icons/md";
 
 import { getTemplateById } from "../../services/template.service";
 import { useAuth } from "../../hooks/useAuth";
+import { formatDurationHours } from "../../utils/date.utils";
 
 export default function TemplateDetailPage() {
   const { templateId } = useParams();
@@ -104,7 +105,7 @@ export default function TemplateDetailPage() {
             <div className="mt-5 flex flex-wrap items-center gap-3 text-sm text-slate-700">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5 font-semibold">
                 <FaRegClock className="h-4 w-4 text-slate-500" />
-                Total Duration: {template.totalDuration || 0} hrs
+                Total Duration: {formatDurationHours(template.totalDuration)}
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1.5 font-semibold text-amber-700">
                 <MdEventNote className="h-4 w-4" />

@@ -221,8 +221,8 @@ Deliver a role-based frontend where:
 
 ### 6.1 Centralized error parsing
 
-- [ ] Use error utility for readable toast messages.
-- [ ] Map common backend statuses:
+- [X] Use error utility for readable toast messages.
+- [X] Map common backend statuses:
   - 400 invalid request
   - 401 unauthorized
   - 404 not found

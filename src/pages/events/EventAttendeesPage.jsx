@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getEventAttendees, updateAttendeeAttendanceStatus } from '../../services/registration.service';
 import { getEventById } from '../../services/event.service';
 import deriveEventStatus from '../../utils/status.utils';
+import { formatDate } from '../../utils/date.utils';
 
 const AttendeesPage = () => {
   const { eventId } = useParams();
@@ -86,7 +87,7 @@ const AttendeesPage = () => {
                   <td className="px-6 py-4">{person.email || 'N/A'}</td>
                   <td className="px-6 py-4">{person.rollNumber || person.roll || 'N/A'}</td>
                   <td className="px-6 py-4">
-                    {person.registrationDate ? new Date(person.registrationDate).toLocaleDateString() : 'N/A'}
+                    {person.registrationDate ? formatDate(person.registrationDate) : 'N/A'}
                   </td>
                   <td className="px-6 py-4">
                     {eventStatus === 'Ongoing' ? (

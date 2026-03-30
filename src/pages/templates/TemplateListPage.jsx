@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaRegClock, FaArrowRightLong, FaRegClone, FaLayerGroup } from "react-icons/fa6";
 import { getTemplates } from "../../services/template.service";
+import { formatDurationHours } from "../../utils/date.utils";
 
 export default function TemplateListPage() {
   const [templates, setTemplates] = useState([]);
@@ -88,7 +89,7 @@ export default function TemplateListPage() {
                 <div className="mt-4 flex items-center gap-4 border-t border-slate-200 pt-4">
                   <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700">
                     <FaRegClock className="h-4 w-4 text-slate-500" />
-                    {template.totalDuration || 0} Hours
+                    {formatDurationHours(template.totalDuration)}
                   </div>
                   <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700">
                     <FaLayerGroup className="h-4 w-4 text-amber-600" />

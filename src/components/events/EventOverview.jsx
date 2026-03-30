@@ -2,6 +2,7 @@ import { FaFilePen, FaRegClock, FaTrash } from "react-icons/fa6";
 import { HiTemplate } from "react-icons/hi";
 import { MdEventNote } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { formatDurationHours } from "../../utils/date.utils";
 
 export default function EventOverview({ event, allowed, canEdit, isDeleting, onDelete, onEdit }) {
   return (
@@ -17,7 +18,7 @@ export default function EventOverview({ event, allowed, canEdit, isDeleting, onD
           <div className="mt-5 flex flex-wrap items-center gap-3 text-sm text-slate-700">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5 font-semibold">
               <FaRegClock className="h-4 w-4 text-slate-500" />
-              Total Duration: {event.duration || 0} hrs
+              Total Duration: {formatDurationHours(event.duration)}
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1.5 font-semibold text-amber-700">
               <MdEventNote className="h-4 w-4" />

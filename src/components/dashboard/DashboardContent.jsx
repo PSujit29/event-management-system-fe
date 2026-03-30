@@ -1,6 +1,7 @@
 import { Calendar, Clock } from "lucide-react";
 import deriveEventStatus from "../../utils/status.utils";
 import { Link } from "react-router-dom";
+import { formatDateTime } from "../../utils/date.utils";
 
 export default function DashboardContent({ events = [], subEvents = [] }) {
   // 1. Process events with the updated 'Completed' status logic
@@ -23,9 +24,6 @@ export default function DashboardContent({ events = [], subEvents = [] }) {
   // 4. Spotlight only the top-most event from the same sorted list
   const spotlightEvent = upcomingEvents[0] ?? null;
   const spotlightSubEvents = subEvents.filter((sub) => String(sub?.eventId ?? "") === String(spotlightEvent?.eventId ?? "")).slice(0, 4);
-
-  const formatDate = (iso) =>
-    new Date(iso).toLocaleString("en-US", { month: "short", day: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
 
   return (
     <section className="space-y-8">
@@ -74,7 +72,7 @@ export default function DashboardContent({ events = [], subEvents = [] }) {
                           {event.name}
                         </Link>
                       </td>
-                      <td className="py-3 text-gray-600">{formatDate(event.startDate)}</td>
+                      <td className="py-3 text-gray-600">{formatDateTime(event.startDate)}</td>
                       <td className="py-3">
                         <span className="rounded-full border border-gray-200 px-2 py-1 text-xs text-gray-600">{event.status}</span>
                       </td>
@@ -103,7 +101,7 @@ export default function DashboardContent({ events = [], subEvents = [] }) {
               spotlightSubEvents.map((sub) => (
                 <div key={sub.subEventId} className="rounded-lg border border-gray-100 p-3 hover:bg-gray-50 transition-colors">
                   <p className="text-sm font-medium text-gray-900">{sub.name}</p>
-                  <p className="text-xs text-gray-500">{formatDate(sub.startDate)}</p>
+                  <p className="text-xs text-gray-500">{formatDateTime(sub.startDate)}</p>
                 </div>
               ))
             )}
