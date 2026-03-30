@@ -1,17 +1,25 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { registerForEvent, cancelRegistration } from "../../services/registration.service";
 import { toast } from "sonner";
 
-export default function EventRegistrationActionButton({ eventId, initialIsRegistered }) {
+export default function EventRegistrationActionButton({ eventId, initialIsRegistered, eventStatus }) {
   const [isRegistered, setIsRegistered] = useState(initialIsRegistered);
   const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     setIsRegistered(Boolean(initialIsRegistered));
   }, [initialIsRegistered]);
+
+  const isClosed = eventStatus !== "Upcoming";
+
   const handleClick = async () => {
-    if (isPending) return; 
+    if (isPending || isClosed) return;
+
+    if (isRegistered) {
+      const isConfirmed = window.confirm("Are you sure you want to cancel your registration?");
+      if (!isConfirmed) return;
+    }
+
     setIsPending(true);
     try {
       if (isRegistered) {
@@ -24,11 +32,20 @@ export default function EventRegistrationActionButton({ eventId, initialIsRegist
         toast.success("Registered successfully");
       }
     } catch (err) {
-      toast.error("An error occurred. Please try again." + (err?.message ? ` (${err.message})` : ""));
+      const errorMessage = err?.response?.data?.message || err?.message || "Failed to update registration";
+      toast.error(errorMessage);
     } finally {
       setIsPending(false);
     }
   };
+
+  if (isClosed) {
+    return (
+      <button disabled className="px-4 py-2 rounded-lg text-white bg-gray-500 cursor-not-allowed">
+        Registration Closed
+      </button>
+    );
+  }
 
   return (
     <button
