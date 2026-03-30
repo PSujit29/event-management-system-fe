@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getEventAttendees, updateAttendeeAttendanceStatus } from '../../services/registration.service';
 import { getEventById } from '../../services/event.service';
@@ -11,12 +11,6 @@ const AttendeesPage = () => {
   const [eventStatus, setEventStatus] = useState('Upcoming');
   const [actionStudentId, setActionStudentId] = useState(null);
   const [error, setError] = useState(null);
-
-  const statusBadgeClass = (status) => {
-    if (status === 'Present') return 'bg-green-100 text-green-800';
-    if (status === 'Absent') return 'bg-red-100 text-red-800';
-    return 'bg-yellow-100 text-yellow-800';
-  };
 
   const handleAttendanceAction = async (studentId, nextStatus) => {
     if (eventStatus !== 'Ongoing') return;
@@ -82,7 +76,6 @@ const AttendeesPage = () => {
                 <th className="px-6 py-3">Email</th>
                 <th className="px-6 py-3">Roll Number</th>
                 <th className="px-6 py-3">Reg. Date</th>
-                <th className="px-6 py-3">Status</th>
                 <th className="px-6 py-3">Attendance Check</th>
               </tr>
             </thead>
@@ -95,13 +88,6 @@ const AttendeesPage = () => {
                   <td className="px-6 py-4">{person.rollNumber || person.roll || 'N/A'}</td>
                   <td className="px-6 py-4">
                     {person.registrationDate ? new Date(person.registrationDate).toLocaleDateString() : 'N/A'}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className={`px-2 py-1 rounded text-xs font-semibold ${
-                      statusBadgeClass(person.attendanceStatus)
-                    }`}>
-                      {person.attendanceStatus}
-                    </span>
                   </td>
                   <td className="px-6 py-4">
                     {eventStatus === 'Ongoing' ? (
