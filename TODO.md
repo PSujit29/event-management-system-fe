@@ -26,33 +26,33 @@ Deliver a role-based frontend where:
 ### 0.1 Auth and environment cleanup
 
 - [ ] Remove dummy login transformation from login form. (i dont have backend ready so ignore)
-- [x] Confirm app reads API base URL from environment.
-- [x] Add fallback message if API URL is missing in development.
+- [X] Confirm app reads API base URL from environment.
+- [X] Add fallback message if API URL is missing in development.
 
 ### 0.2 Service contract cleanup
 
-- [x] Update template clone service to accept payload:
+- [X] Update template clone service to accept payload:
   - name
   - description
   - eventUrl
   - startDate
-- [x] Add missing event service function for POST event sub-events.
-- [x] Ensure all service methods return normalized data shape where needed.
+- [X] Add missing event service function for POST event sub-events.
+- [X] Ensure all service methods return normalized data shape where needed.
 
 ### 0.3 Guard correctness
 
-- [x] Fix role route so unauthorized roles are redirected.
-- [x] Ensure protected routes redirect to login when token is absent.
-- [x] Handle stale token case by clearing auth and redirecting to login on 401 from me endpoint.
+- [X] Fix role route so unauthorized roles are redirected.
+- [X] Ensure protected routes redirect to login when token is absent.
+- [X] Handle stale token case by clearing auth and redirecting to login on 401 from me endpoint.
 
 ### 0.4 Navigation wiring
 
-- [x] Add route entries for event detail page.
-- [x] Add route entry for create event page.
-- [x] Add route entry for event attendees page.
-- [x] Add route entry for template detail page.
-- [x] Add route entry for clone-template page.
-- [x] Add route entry for student my-events page.
+- [X] Add route entries for event detail page.
+- [X] Add route entry for create event page.
+- [X] Add route entry for event attendees page.
+- [X] Add route entry for template detail page.
+- [X] Add route entry for clone-template page.
+- [X] Add route entry for student my-events page.
 
 ---
 
@@ -60,29 +60,29 @@ Deliver a role-based frontend where:
 
 ### 1.1 Register flow
 
-- [x] Keep role selection (Student, Teacher, Admin).
-- [x] Validate conditional field:
+- [X] Keep role selection (Student, Teacher, Admin).
+- [X] Validate conditional field:
   - Student requires roll number.
   - Teacher/Admin requires designation.
-- [x] Submit to register API.
-- [x] Show backend validation error message if available.
-- [x] Redirect successful registration to login page.
+- [X] Submit to register API.
+- [X] Show backend validation error message if available.
+- [X] Redirect successful registration to login page.
 
 ### 1.2 Login flow
 
-- [x] Validate email/password client-side.
-- [x] Submit to login API.
-- [x] Persist token and user in auth context/local storage.
+- [X] Validate email/password client-side.
+- [X] Submit to login API.
+- [X] Persist token and user in auth context/local storage.
 - [ ] Fetch current user profile after login. (TODO: Comeback after backend)
-- [x] Redirect by role:
+- [X] Redirect by role:
   - Student -> events or my events
   - Teacher/Admin -> dashboard
 
 ### 1.3 Session behavior
 
-- [x] On app load, if token exists and user missing, fetch me once.
-- [x] If fetch me fails due to unauthorized, logout automatically.
-- [x] Implement logout action in header/menu.
+- [X] On app load, if token exists and user missing, fetch me once.
+- [X] If fetch me fails due to unauthorized, logout automatically.
+- [X] Implement logout action in header/menu.
 
 ---
 
@@ -90,45 +90,45 @@ Deliver a role-based frontend where:
 
 ### 2.1 Event list page
 
-- [x] Fetch events from GET events endpoint.
-- [x] Add optional status filter UI (Upcoming, Ongoing, Completed).
-- [x] Add loading skeleton.
-- [x] Add empty state with helpful CTA.
-- [x] Add error state with retry action.
-- [x] Each event card includes:
+- [X] Fetch events from GET events endpoint.
+- [X] Add optional status filter UI (Upcoming, Ongoing, Completed).
+- [X] Add loading skeleton.
+- [X] Add empty state with helpful CTA.
+- [X] Add error state with retry action.
+- [X] Each event card includes:
   - name
   - start date
   - duration
   - status
   - view details action
-- [x] Show create event button only for Teacher/Admin.
+- [X] Show create event button only for Teacher/Admin.
 
 ### 2.2 Event detail page
 
-- [x] Fetch event by id.
-- [x] Fetch sub-events by event id.
-- [x] Render event core info and sub-events timeline/list.
-- [x] Add register/cancel action for Student.
-- [x] Add edit/delete actions for Teacher/Admin.
-- [x] Add attendees button for Teacher/Admin.
-- [x] Handle 404 not found gracefully.
+- [X] Fetch event by id.
+- [X] Fetch sub-events by event id.
+- [X] Render event core info and sub-events timeline/list.
+- [X] Add register/cancel action for Student.
+- [X] Add edit/delete actions for Teacher/Admin.
+- [X] Add attendees button for Teacher/Admin.
+- [X] Handle 404 not found gracefully.
 
 ### 2.3 Create event page
 
-- [x] Build form fields:
+- [X] Build form fields:
   - name
   - description
   - startDate
   - duration
-- [x] Validate required fields and date format.
-- [x] Submit to create event API.
-- [x] On success, navigate to newly created event detail.
+- [X] Validate required fields and date format.
+- [X] Submit to create event API.
+- [X] On success, navigate to newly created event detail.
 
 ### 2.4 Update and delete event actions
 
-- [x] Add edit modal/page for Teacher/Admin.
-- [x] Add delete confirmation dialog.
-- [x] On delete success, redirect to event list and refresh.
+- [X] Add edit modal/page for Teacher/Admin.
+- [X] Add delete confirmation dialog.
+- [X] On delete success, redirect to event list and refresh.
 
 ---
 
@@ -136,35 +136,35 @@ Deliver a role-based frontend where:
 
 ### 3.1 Student registration action
 
-- [x] Register button on event detail calls register endpoint.
-- [x] Prevent duplicate action while request is pending.
-- [x] Display conflict message if already registered.
-- [x] Update UI state immediately after success.
+- [X] Register button on event detail calls register endpoint.
+- [X] Prevent duplicate action while request is pending.
+- [X] Display conflict message if already registered.
+- [X] Update UI state immediately after success.
 
 ### 3.2 Student cancellation action
 
-- [x] Cancel registration button for registered events.
-- [x] Add confirmation step before cancellation.
-- [x] Update UI state after successful cancellation.
+- [X] Cancel registration button for registered events.
+- [X] Add confirmation step before cancellation.
+- [X] Update UI state after successful cancellation.
 
 ### 3.3 Attendees page for Teacher/Admin
 
-- [x] Create attendees page for event id.
-- [x] Fetch attendees list endpoint.
-- [x] Render table with:
+- [X] Create attendees page for event id.
+- [X] Fetch attendees list endpoint.
+- [X] Render table with:
   - student id
   - name
   - email
   - roll number
   - registration date
   - attendance status
-- [x] Add empty state when no attendees.
+- [X] Add empty state when no attendees.
 
 ### 3.4 Student my events page
 
-- [x] Build page for GET users me events endpoint.
-- [x] Show cards/table with registration date and event summary.
-- [x] Add quick link to event detail.
+- [X] Build page for GET users me events endpoint.
+- [X] Show cards/table with registration date and event summary.
+- [X] Add quick link to event detail.
 
 ---
 
@@ -172,25 +172,25 @@ Deliver a role-based frontend where:
 
 ### 4.1 Template list page
 
-- [x] Fetch templates.
-- [x] Render list with name and total duration.
-- [x] Add open detail action.
+- [X] Fetch templates.
+- [X] Render list with name and total duration.
+- [X] Add open detail action.
 
 ### 4.2 Template detail page
 
-- [x] Fetch template by id.
-- [x] Render template metadata and ordered template sub-events.
-- [x] Add clone button for Admin only.
+- [X] Fetch template by id.
+- [X] Render template metadata and ordered template sub-events.
+- [X] Add clone button for Admin only.
 
 ### 4.3 Clone template to event page
 
-- [x] Build clone form fields:
+- [X] Build clone form fields:
   - name
   - description
   - startDate
-- [x] Submit payload to create-event from template endpoint.
-- [x] Show generated event summary after success.
-- [x] Navigate to new event detail page.
+- [X] Submit payload to create-event from template endpoint.
+- [X] Show generated event summary after success.
+- [X] Navigate to new event detail page.
 
 ---
 
@@ -198,22 +198,22 @@ Deliver a role-based frontend where:
 
 ### 5.1 Admin dashboard
 
-- [x] Fetch events for dashboard cards.
-- [x] Compute total, ongoing, upcoming counts from API data.
-- [x] Optionally show nearest upcoming events and latest sub-events.
-- [x] Ensure status logic uses Completed instead of Past.
+- [X] Fetch events for dashboard cards.
+- [X] Compute total, ongoing, upcoming counts from API data.
+- [X] Optionally show nearest upcoming events and latest sub-events.
+- [X] Ensure status logic uses Completed instead of Past.
 
 ### 5.2 Student dashboard
 
-- [x] Replace placeholder with my-events summary.
-- [x] Show upcoming registrations count.
-- [x] Show nearest upcoming registered event.
+- [X] Replace placeholder with my-events summary.
+- [X] Show upcoming registrations count.
+- [X] Show nearest upcoming registered event.
 
 ### 5.3 Sidebar and header role awareness
 
-- [x] Render nav items based on role.
-- [x] Hide organizer-only pages for Student.
-- [x] Update title mapping for newly added routes.
+- [X] Render nav items based on role.
+- [X] Hide organizer-only pages for Student.
+- [X] Update title mapping for newly added routes.
 
 ---
 
@@ -221,8 +221,8 @@ Deliver a role-based frontend where:
 
 ### 6.1 Centralized error parsing
 
-- [x] Use error utility for readable toast messages.
-- [x] Map common backend statuses:
+- [X] Use error utility for readable toast messages.
+- [X] Map common backend statuses:
   - 400 invalid request
   - 401 unauthorized
   - 404 not found
@@ -231,14 +231,14 @@ Deliver a role-based frontend where:
 
 ### 6.2 Date and format consistency
 
-- [x] Use shared date utilities for all date displays.
-- [x] Ensure timezone display is consistent across pages.
-- [x] Keep duration unit formatting consistent.
+- [X] Use shared date utilities for all date displays.
+- [X] Ensure timezone display is consistent across pages.
+- [X] Keep duration unit formatting consistent.
 
 ### 6.3 Storage consistency
 
-- [x] Use storage utility wrappers where practical.
-- [x] Keep token and user keys consistent across app.
+- [X] Use storage utility wrappers where practical.
+- [X] Keep token and user keys consistent across app.
 
 ---
 
@@ -246,17 +246,17 @@ Deliver a role-based frontend where:
 
 ### 7.1 Loading and disabled states
 
-- [ ] Every mutation button shows pending state.
-- [ ] Forms disable submit while request is in flight.
-- [ ] Re-enable controls after completion/failure.
+- [X] Every mutation button shows pending state.
+- [X] Forms disable submit while request is in flight.
+- [X] Re-enable controls after completion/failure.
 
 ### 7.2 Empty states
 
-- [ ] Event list empty state.
-- [ ] Sub-events empty state.
-- [ ] Templates empty state.
-- [ ] Attendees empty state.
-- [ ] My events empty state.
+- [X] Event list empty state.
+- [X] Sub-events empty state.
+- [X] Templates empty state.
+- [X] Attendees empty state.
+- [X] My events empty state.
 
 ### 7.3 Route validation
 
@@ -282,11 +282,11 @@ Deliver a role-based frontend where:
 
 ### Events
 
-- [x] GET events -> Event list and dashboard.
-- [x] GET events by id -> Event detail.
-- [x] POST events -> Create event page.
+- [X] GET events -> Event list and dashboard.
+- [X] GET events by id -> Event detail.
+- [X] POST events -> Create event page.
 - [ ] PUT events by id -> Edit event flow.
-- [x] DELETE events by id -> Delete action.
+- [X] DELETE events by id -> Delete action.
 - [ ] POST events by id sub-events -> Add sub-event form.
 - [ ] GET events by id sub-events -> Event detail sub-event list.
 
@@ -354,8 +354,8 @@ Deliver a role-based frontend where:
 
 ## Suggested Execution Order
 
-- [x] Finish Phase 0 first.
-- [x] Implement Phase 1 auth stabilization.
+- [X] Finish Phase 0 first.
+- [X] Implement Phase 1 auth stabilization.
 - [ ] Deliver Phase 2 events pages.
 - [ ] Deliver Phase 3 registration flows.
 - [ ] Deliver Phase 4 templates flows.

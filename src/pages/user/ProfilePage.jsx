@@ -38,20 +38,12 @@ export default function ProfilePage() {
   const handleRefresh = async () => {
     setIsRefreshing(true);
     try {
-      //eslint-disable-next-line no-constant-condition
-      if (true) {
-        setIsRefreshing(false);
-        setTimeout(() => {
-          toast.success("Profile updated successfully!");
-          setIsRefreshing(false);
-        }, 1000);
-        return; // This stops the code here so fetchMe() never runs
-      }
       await fetchMe();
+      toast.success("Profile updated successfully!");
     } catch (error) {
       toast.error(parseApiError(error, "Unable to refresh profile right now."));
     } finally {
-      setIsRefreshing(true);
+      setIsRefreshing(false);
     }
   };
 

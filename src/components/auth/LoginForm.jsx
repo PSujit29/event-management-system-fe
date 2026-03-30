@@ -17,7 +17,7 @@ const loginDTO = z.object({
 const LoginDefaultValue = { email: "", password: "" };
 export default function LoginForm() {
   // prettier-ignore
-  const { handleSubmit, control, formState: { errors } } = useForm({ 
+  const { handleSubmit, control, formState: { errors, isSubmitting } } = useForm({ 
     defaultValues: LoginDefaultValue, 
     resolver: zodResolver(loginDTO) 
   });
@@ -45,16 +45,18 @@ export default function LoginForm() {
   return (
     <>
       <form onSubmit={handleSubmit(handleLoginSubmit)} className="flex flex-col gap-5 w-full">
-        <LabeledInput type="email" label="Email" name="email" handler={control} errMsg={errors?.email?.message} />
-        <LabeledInput type="password" label="Password" name="password" handler={control} errMsg={errors?.password?.message} />
+        <fieldset disabled={isSubmitting} className="flex flex-col gap-5 border-none p-0 m-0">
+          <LabeledInput type="email" label="Email" name="email" handler={control} errMsg={errors?.email?.message} />
+          <LabeledInput type="password" label="Password" name="password" handler={control} errMsg={errors?.password?.message} />
+        </fieldset>
         <div>
           <div className="flex w-full justify-end">
             <RedirectLink to="/forget-password" variant="link" txt="Forget Password?" className="italic font-medium" />
           </div>
 
           <div className="flex w-full gap-3 mt-4">
-            <Button type="reset" variant="danger" txt="Cancel" />
-            <Button type="submit" txt="Login" />
+            <Button type="reset" variant="danger" txt="Cancel" disabled={isSubmitting} />
+            <Button type="submit" txt={isSubmitting ? "Logging in..." : "Login"} disabled={isSubmitting} />
           </div>
         </div>
       </form>
