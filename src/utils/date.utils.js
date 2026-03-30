@@ -1,6 +1,12 @@
+function isValidDate(date) {
+    return date instanceof Date && !isNaN(date.getTime());
+}
+
 export function formatDateTime(iso, locale = "en-US") {
-    if (!iso) return "";
-    return new Date(iso).toLocaleString(locale, {
+    if (!iso) return "TBD";
+    const date = new Date(iso);
+    if (!isValidDate(date)) return "TBD";
+    return date.toLocaleString(locale, {
         month: "short",
         day: "2-digit",
         year: "numeric",
@@ -10,8 +16,10 @@ export function formatDateTime(iso, locale = "en-US") {
 }
 
 export function formatDate(iso, locale = "en-US") {
-    if (!iso) return "";
-    return new Date(iso).toLocaleDateString(locale, {
+    if (!iso) return "TBD";
+    const date = new Date(iso);
+    if (!isValidDate(date)) return "TBD";
+    return date.toLocaleDateString(locale, {
         month: "short",
         day: "2-digit",
         year: "numeric",
@@ -19,11 +27,36 @@ export function formatDate(iso, locale = "en-US") {
 }
 
 export function formatTime(iso, locale = "en-US") {
-    if (!iso) return "";
-    return new Date(iso).toLocaleTimeString(locale, {
+    if (!iso) return "TBD";
+    const date = new Date(iso);
+    if (!isValidDate(date)) return "TBD";
+    return date.toLocaleTimeString(locale, {
         hour: "2-digit",
         minute: "2-digit",
     });
+}
+
+export function isToday(dateString) {
+    if (!dateString) return false;
+    // Handle date-only strings (YYYY-MM-DD) to avoid timezone issues
+    if (typeof dateString === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+        const [year, month, day] = dateString.split('-').map(Number);
+        const today = new Date();
+        return (
+            today.getFullYear() === year &&
+            today.getMonth() + 1 === month &&
+            today.getDate() === day
+        );
+    }
+    // Fallback for ISO strings with time
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return false;
+    const today = new Date();
+    return (
+        date.getFullYear() === today.getFullYear() &&
+        date.getMonth() === today.getMonth() &&
+        date.getDate() === today.getDate()
+    );
 }
 
 export function formatDurationHours(hours) {

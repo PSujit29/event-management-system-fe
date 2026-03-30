@@ -39,10 +39,10 @@ export default function Navbar() {
           {/* If token exists, show dashboard link, else show login/register */}
           {token ? (
             <NavLink
-              className="rounded-lg w-auto px-2.5 bg-[#1A325E] hover:bg-[#e0861d] hovepx-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-orange-200 transition-all hover:scale-105 active:scale-95"
+              className="rounded-lg w-auto px-2.5 bg-[#1A325E] hover:bg-[#e0861d] hovepx-6 py-2.5 text-sm font-semibold text-white shadow-md transition-all hover:scale-105 active:scale-95"
               to="/user"
             >
-              Explore Events
+              Dashboard
             </NavLink>
           ) : (
             <div className="flex items-center gap-3">

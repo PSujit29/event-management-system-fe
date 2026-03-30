@@ -14,7 +14,7 @@ import Error404 from "../pages/misc/Error404";
 // Auth Pages
 import LoginPage from "../pages/auth/LoginPage";
 import RegisterPage from "../pages/auth/RegisterPage";
-import ForgetPasswordPage from "../pages/legacy/auth/ForgetPasswordPage";
+import ForgetPasswordPage from "../pages/auth/ForgetPasswordPage";
 
 // Dashboard Pages
 import OrganizerDashboardPage from "../pages/dashboard/OrganizerDashboardPage";
@@ -66,16 +66,16 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-          element: <DashboardHomePage />,
+        element: <DashboardHomePage />,
       },
-        {
-          path: "dashboard",
-          element: (
-            <RoleRoute allowedRoles={["Student"]}>
-              <StudentDashboardPage />
-            </RoleRoute>
-          ),
-        },
+      {
+        path: "dashboard",
+        element: (
+          <RoleRoute allowedRoles={["Student"]}>
+            <StudentDashboardPage />
+          </RoleRoute>
+        ),
+      },
 
       { path: "events", element: <EventListPage /> },
       {
