@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import deriveEventStatus from "../../utils/status.utils";
+import { updateEvent } from "../../services/event.service";
 
 const DATE_INPUT_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 const TIME_INPUT_REGEX = /^\d{2}:\d{2}$/;
@@ -39,16 +40,8 @@ const editEventSchema = z
   .object({
     name: z.string().trim().min(1, "Event Name is required"),
     description: z.string().trim().min(1, "Event Description is required"),
-    startDate: z
-      .string()
-      .trim()
-      .min(1, "Start Date is required")
-      .refine(isValidDateInput, "Invalid date format"),
-    startTime: z
-      .string()
-      .trim()
-      .min(1, "Start Time is required")
-      .refine(isValidTimeInput, "Start Time must be in HH:MM format"),
+    startDate: z.string().trim().min(1, "Start Date is required").refine(isValidDateInput, "Invalid date format"),
+    startTime: z.string().trim().min(1, "Start Time is required").refine(isValidTimeInput, "Start Time must be in HH:MM format"),
     duration: z.coerce.number().positive("Duration must be at least 1 hour"),
     subEvents: z.array(
       z.object({
@@ -76,10 +69,7 @@ export default function EditEventForm({ eventData }) {
     reset,
     formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: {
-      ...eventData,
-      startTime: eventData?.startTime || "00:00",
-    },
+    defaultValues: { ...eventData, startTime: eventData?.startTime || "00:00" },
     resolver: zodResolver(editEventSchema),
     mode: "onChange",
   });
@@ -88,10 +78,7 @@ export default function EditEventForm({ eventData }) {
 
   useEffect(() => {
     if (eventData) {
-      reset({
-        ...eventData,
-        startTime: eventData.startTime || "00:00",
-      });
+      reset({ ...eventData, startTime: eventData.startTime || "00:00" });
     }
   }, [eventData, reset]);
 
@@ -100,12 +87,7 @@ export default function EditEventForm({ eventData }) {
       const status = deriveEventStatus(data.startDate, data.startTime, data.duration);
       const payload = { ...data, status };
 
-      // TODO: replace localStorage persistence with API call `updateEvent(eventData.eventId, payload)`
-      const existingEvents = JSON.parse(localStorage.getItem("all_events") || "[]");
-      const updatedEvents = existingEvents.map((ev) =>
-        ev.eventId === eventData.eventId ? { ...ev, ...payload } : ev,
-      );
-      localStorage.setItem("all_events", JSON.stringify(updatedEvents));
+      await updateEvent(eventData.eventId, payload);
 
       toast.success("Event updated successfully!");
       navigate(`/user/events/${eventData.eventId}`, { replace: true });
@@ -120,10 +102,8 @@ export default function EditEventForm({ eventData }) {
         <LabeledInput label="Name" name="name" handler={control} errMsg={errors?.name?.message} />
         <LabeledTextArea label="Description" name="description" handler={control} errMsg={errors?.description?.message} />
 
-        <div className="grid grid-cols-2 gap-4">
-          <LabeledDateInput label="Start Date" name="startDate" handler={control} errMsg={errors?.startDate?.message} />
-          <LabeledInput type="time" label="Start Time" name="startTime" handler={control} errMsg={errors?.startTime?.message} />
-        </div>
+        <LabeledDateInput label="Start Date" name="startDate" handler={control} errMsg={errors?.startDate?.message} />
+        <LabeledInput type="time" label="Start Time" name="startTime" handler={control} errMsg={errors?.startTime?.message} />
 
         <LabeledInput type="number" label="Duration (hours)" name="duration" handler={control} errMsg={errors?.duration?.message} />
 
@@ -149,9 +129,25 @@ export default function EditEventForm({ eventData }) {
                   </button>
                 </div>
                 <div className="flex flex-col gap-5">
-                  <LabeledInput label="Name" name={`subEvents.${index}.name`} handler={control} errMsg={errors?.subEvents?.[index]?.name?.message} />
-                  <LabeledInput type="number" label="Duration" name={`subEvents.${index}.duration`} handler={control} errMsg={errors?.subEvents?.[index]?.duration?.message} />
-                  <LabeledTextArea label="Description" name={`subEvents.${index}.description`} handler={control} errMsg={errors?.subEvents?.[index]?.description?.message} />
+                  <LabeledInput
+                    label="Name"
+                    name={`subEvents.${index}.name`}
+                    handler={control}
+                    errMsg={errors?.subEvents?.[index]?.name?.message}
+                  />
+                  <LabeledInput
+                    type="number"
+                    label="Duration"
+                    name={`subEvents.${index}.duration`}
+                    handler={control}
+                    errMsg={errors?.subEvents?.[index]?.duration?.message}
+                  />
+                  <LabeledTextArea
+                    label="Description"
+                    name={`subEvents.${index}.description`}
+                    handler={control}
+                    errMsg={errors?.subEvents?.[index]?.description?.message}
+                  />
                 </div>
               </div>
             ))}

@@ -2,6 +2,7 @@ import { Controller, useController } from "react-hook-form";
 
 export const LabeledInput = ({ label, type, name, placeholder = "", errMsg = "", className = "", handler }) => {
   const { field } = useController({ name: name, control: handler });
+  const isNumberInput = type === "number";
 
   return (
     <div className="w-full flex flex-col md:flex-row gap-1 md:gap-2 md:items-start">
@@ -14,6 +15,17 @@ export const LabeledInput = ({ label, type, name, placeholder = "", errMsg = "",
           type={type}
           id={name}
           {...field}
+          min={isNumberInput ? 1 : undefined}
+          step={isNumberInput ? "any" : undefined}
+          inputMode={isNumberInput ? "decimal" : undefined}
+          onWheel={
+            isNumberInput
+              ? (event) => {
+                  // Avoid accidental value changes while page scrolling.
+                  event.currentTarget.blur();
+                }
+              : undefined
+          }
           placeholder={placeholder}
           className={`w-full border border-slate-300 rounded-md focus:ring-1 focus:ring-blue-700 focus:border-blue-700 outline-none py-1 px-2 bg-white text-[13px] sm:text-sm transition-all shadow-sm ${className}`}
         />

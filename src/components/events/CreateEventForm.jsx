@@ -48,11 +48,7 @@ const createEventSchema = z
       .min(1, "Start Date is required")
       .refine((value) => DATE_INPUT_REGEX.test(value), "Start Date must be in YYYY-MM-DD format")
       .refine(isValidDateInput, "Start Date is not a valid calendar date"),
-    startTime: z
-      .string()
-      .trim()
-      .min(1, "Start Time is required")
-      .refine(isValidTimeInput, "Start Time must be in HH:MM format"),
+    startTime: z.string().trim().min(1, "Start Time is required").refine(isValidTimeInput, "Start Time must be in HH:MM format"),
     duration: z.coerce.number().positive("Duration must be at least 1 hour"),
     subEvents: z.array(
       z.object({
@@ -69,10 +65,10 @@ const createEventSchema = z
     },
     { message: "Main Event duration must be >= the total duration of sub-events", path: ["duration"] },
   )
-  .refine(
-    (data) => isTodayOrFuture(data.startDate, data.startTime),
-    { message: "Event start date and time cannot be in the past", path: ["startTime"] },
-  );
+  .refine((data) => isTodayOrFuture(data.startDate, data.startTime), {
+    message: "Event start date and time cannot be in the past",
+    path: ["startTime"],
+  });
 
 export default function CreateEventForm() {
   const navigate = useNavigate();
@@ -94,10 +90,7 @@ export default function CreateEventForm() {
 
     const status = deriveEventStatus(data.startDate, data.startTime, data.duration);
 
-    const payload = {
-      ...data,
-      status,
-    };
+    const payload = { ...data, status };
 
     try {
       const event = await createEventApi(payload);
@@ -117,12 +110,10 @@ export default function CreateEventForm() {
       <fieldset disabled={isSubmitting} className="flex flex-col gap-5 border-none p-0 m-0">
         <LabeledInput type="text" label="Name" name="name" handler={control} errMsg={errors?.name?.message} />
         <LabeledTextArea type="textarea" label="Description" name="description" handler={control} errMsg={errors?.description?.message} />
-        
-        <div className="grid grid-cols-2 gap-4">
-          <LabeledDateInput label="Start Date" name="startDate" handler={control} errMsg={errors?.startDate?.message} />
-          <LabeledInput type="time" label="Start Time" name="startTime" handler={control} errMsg={errors?.startTime?.message} />
-        </div>
-        
+
+        <LabeledDateInput label="Start Date" name="startDate" handler={control} errMsg={errors?.startDate?.message} />
+        <LabeledInput type="time" label="Start Time" name="startTime" handler={control} errMsg={errors?.startTime?.message} />
+
         <LabeledInput type="number" label="Duration (hours)" name="duration" handler={control} errMsg={errors?.duration?.message} />
 
         {/* Sub-Events Section */}
@@ -132,7 +123,7 @@ export default function CreateEventForm() {
             <button
               type="button"
               className="cursor-pointer px-4 py-2 text-sm font-medium text-orange-600 border border-orange-600 rounded-md hover:bg-orange-50 transition-colors"
-              onClick={() => append({ name: "", duration: "", description: "" })}
+              onClick={() => append({ name: "", duration: 1, description: "" })}
             >
               + Add Sub-Event
             </button>
