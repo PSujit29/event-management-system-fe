@@ -1,7 +1,7 @@
 import { FaRegClone, FaRegClock, FaLayerGroup, FaArrowRightLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import deriveEventStatus from "../../utils/status.utils";
-import { formatDate, formatDurationHours, formatTime, isToday } from "../../utils/date.utils";
+import { formatDate, formatDurationHours } from "../../utils/date.utils";
 
 export default function EventCard({ events, userRole, onRefresh, onCreate }) {
   // role-based check: e.g., 'admin' or 'teacher'
@@ -64,8 +64,9 @@ export default function EventCard({ events, userRole, onRefresh, onCreate }) {
                     const eventStatus = deriveEventStatus(event.startDate, event.startTime, event.duration);
                     return (
                       <span
-                        className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${statusStyles[eventStatus] || "bg-gray-100 text-gray-600"
-                          }`}
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
+                          statusStyles[eventStatus] || "bg-gray-100 text-gray-600"
+                        }`}
                       >
                         {eventStatus}
                       </span>
@@ -92,13 +93,9 @@ export default function EventCard({ events, userRole, onRefresh, onCreate }) {
                     <div className="col-span-2 flex items-center gap-2 text-xs font-medium text-slate-500">
                       <span className="text-slate-400">Starts:</span>
                       {event.startDate && event.startTime ? (
-                        <span className="text-slate-600 font-semibold">
-                          {event.startTime}
-                        </span>
+                        <span className="text-slate-600 font-semibold">{event.startTime}</span>
                       ) : event.startDate ? (
-                        <span className="text-slate-600 font-semibold">
-                          {formatDate(event.startDate)}
-                        </span>
+                        <span className="text-slate-600 font-semibold">{formatDate(event.startDate)}</span>
                       ) : (
                         <span className="text-slate-500">TBD</span>
                       )}

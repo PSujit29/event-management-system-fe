@@ -95,7 +95,7 @@ const AttendeesPage = () => {
                                 disabled={isRowPending}
                                 className="rounded bg-green-600 px-2 py-1 text-xs font-semibold text-white disabled:opacity-50"
                               >
-                                {isRowPending ? "Saving..." : "Tick"}
+                                {isRowPending ? "Saving..." : "Mark Present"}
                               </button>
                               <button
                                 type="button"
@@ -103,7 +103,7 @@ const AttendeesPage = () => {
                                 disabled={isRowPending}
                                 className="rounded bg-red-600 px-2 py-1 text-xs font-semibold text-white disabled:opacity-50"
                               >
-                                {isRowPending ? "Saving..." : "Cross"}
+                                {isRowPending ? "Saving..." : "Mark Absent"}
                               </button>
                             </>
                           );

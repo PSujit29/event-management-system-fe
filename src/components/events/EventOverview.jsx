@@ -40,10 +40,11 @@ export default function EventOverview({ event, allowed, canEdit, isDeleting, onD
               type="button"
               onClick={onEdit}
               disabled={!canEdit}
-              className={`inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition-all duration-300 ${canEdit
+              className={`inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition-all duration-300 ${
+                canEdit
                   ? "border-slate-200 bg-white text-slate-700 hover:scale-95 hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-100"
                   : "cursor-not-allowed border-gray-200 bg-gray-100 text-gray-400"
-                }`}
+              }`}
             >
               <FaFilePen className="text-base" />
               {canEdit ? "Edit" : "Edit unavailable"}
@@ -56,7 +57,8 @@ export default function EventOverview({ event, allowed, canEdit, isDeleting, onD
               aria-label="Delete item"
               className="cursor-pointer inline-flex items-center justify-center gap-2 rounded-xl bg-red-100 px-4 py-2.5 text-sm font-semibold text-red-700 transition-all duration-300 hover:scale-95 hover:bg-red-600 hover:text-white active:scale-95 disabled:opacity-50 disabled:pointer-events-none"
             >
-              {isDeleting ? "Deleting..." : <FaTrash className="transition-colors" />}
+              <FaTrash className="transition-colors" />
+              {isDeleting ? "Deleting..." : "Delete Event"}
             </button>
           </div>
         )}
