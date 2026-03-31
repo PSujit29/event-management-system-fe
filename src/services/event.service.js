@@ -154,7 +154,7 @@ const mockSubEventCreateResponse = {
 // TODO: REMOVE mock data and related code once backend is ready and tested
 export async function getEvents(params = {}) {
   if (USE_MOCK_EVENTS) {
-    console.log("Using mock events data");
+    // console.log("Using mock events data");
     const storedEvents = getStoredEvents();
     const mergedEvents = [...mockEvents, ...storedEvents];
 
@@ -256,7 +256,7 @@ export async function deleteEvent(eventId) {
 
 export async function getSubEvents(eventId) {
   if (USE_MOCK_EVENTS) {
-    console.log("Using mock sub-events data");
+    // console.log("Using mock sub-events data");
 
     const storedEvents = getStoredEvents();
     const mergedEvents = [...mockEvents, ...storedEvents];
@@ -292,7 +292,7 @@ export async function getSubEvents(eventId) {
 
 export async function createSubEvent(eventId, payload) {
   if (USE_MOCK_EVENTS) {
-    console.log("Using mock sub-event create response");
+    // console.log("Using mock sub-event create response");
     return normalizeSubEventData(pickSubEventPayload(mockSubEventCreateResponse));
   }
   else {

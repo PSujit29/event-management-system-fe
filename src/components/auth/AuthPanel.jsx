@@ -1,16 +1,13 @@
 import { Heading1, SubHeading } from "../typography/heading";
+import { Link } from "react-router-dom";
 
 // 1. Left Side Panel
 export const AuthLeftSidePanel = (authProps) => {
   const { title = "D - Hello World", children = <p>Lorem Epsum</p>, imageUrl = "" } = authProps;
   return (
-    <aside 
+    <aside
       className="hidden lg:flex lg:w-1/2 xl:w-1/3 flex-col gap-4 relative text-slate-50 justify-center p-8 overflow-hidden bg-slate-900"
-      style={{
-        backgroundImage: imageUrl ? `url(${imageUrl})` : 'none',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }}
+      style={{ backgroundImage: imageUrl ? `url(${imageUrl})` : "none", backgroundSize: "cover", backgroundPosition: "center" }}
     >
       {/* Dark Blue Overlay to keep text readable */}
       <div className="absolute inset-0 bg-linear-to-br from-slate-900/90 via-slate-900/80 to-slate-800/70 z-0"></div>
@@ -25,12 +22,16 @@ export const AuthLeftSidePanel = (authProps) => {
   );
 };
 
-
 // 2. Right Side Panel
 export const AuthRightSidePanel = (authProps) => {
   const { children } = authProps;
   return (
     <main className="flex flex-1 flex-col w-full lg:w-1/2 xl:w-2/3 bg-slate-100 justify-center items-center overflow-y-auto p-2 sm:p-4">
+      {/* adding a back button to go back to landing page */}
+      <Link to="/" className="self-start mb-4 text-slate-600 hover:text-slate-800">
+        &larr; Back to Landing Page
+      </Link>
+
       {children}
     </main>
   );

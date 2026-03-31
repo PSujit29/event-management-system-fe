@@ -62,7 +62,59 @@ const AttendeesPage = () => {
           <p className="text-gray-500">No attendees have registered for this event yet.</p>
         </div>
       ) : (
-        <div className="overflow-x-auto shadow-md sm:rounded-lg">
+        <>
+          <div className="space-y-3 md:hidden">
+            {attendees.map((person) => (
+              <div key={person.registrationId} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-semibold text-gray-900">{person.name || "N/A"}</p>
+                  <span className="text-xs font-medium text-gray-500">ID: {person.studentId}</span>
+                </div>
+
+                <div className="mt-2 space-y-1 text-sm text-gray-600">
+                  <p>Email: {person.email || "N/A"}</p>
+                  <p>Roll Number: {person.rollNumber || person.roll || "N/A"}</p>
+                  <p>Reg. Date: {person.registrationDate ? formatDate(person.registrationDate) : "N/A"}</p>
+                </div>
+
+                <div className="mt-3">
+                  {eventStatus === "Ongoing" ? (
+                    <div className="flex flex-wrap items-center gap-2">
+                      {(() => {
+                        const isRowPending = actionStudentId === person.studentId;
+                        return (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => handleAttendanceAction(person.studentId, "Present")}
+                              disabled={isRowPending}
+                              className="rounded bg-green-600 px-2 py-1 text-xs font-semibold text-white disabled:opacity-50"
+                            >
+                              {isRowPending ? "Saving..." : "Mark Present"}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleAttendanceAction(person.studentId, "Absent")}
+                              disabled={isRowPending}
+                              className="rounded bg-red-600 px-2 py-1 text-xs font-semibold text-white disabled:opacity-50"
+                            >
+                              {isRowPending ? "Saving..." : "Mark Absent"}
+                            </button>
+                          </>
+                        );
+                      })()}
+                    </div>
+                  ) : eventStatus === "Completed" ? (
+                    <span className="text-xs font-medium text-slate-500">{person.attendanceStatus}</span>
+                  ) : (
+                    <span className="text-xs font-medium text-amber-600">Pending</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="hidden overflow-x-auto shadow-md sm:rounded-lg md:block">
           <table className="w-full text-sm text-left text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
@@ -119,7 +171,8 @@ const AttendeesPage = () => {
               ))}
             </tbody>
           </table>
-        </div>
+          </div>
+        </>
       )}
     </div>
   );

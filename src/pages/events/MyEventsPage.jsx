@@ -78,7 +78,7 @@ const MyEventsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="w-full bg-gray-50 p-4 sm:p-6">
       <div className="mx-auto max-w-5xl">
         <header className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">My Registered Events</h1>
