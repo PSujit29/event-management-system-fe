@@ -27,12 +27,14 @@ export const AuthRightSidePanel = (authProps) => {
   const { children } = authProps;
   return (
     <main className="flex flex-1 flex-col w-full lg:w-1/2 xl:w-2/3 bg-slate-100 justify-center items-center overflow-y-auto p-2 sm:p-4">
-      {/* adding a back button to go back to landing page */}
-      <Link to="/" className="self-start mb-4 text-slate-600 hover:text-slate-800">
-        &larr; Back to Landing Page
-      </Link>
+      <div className="w-full max-w-sm sm:max-w-md md:max-w-lg">
+        {/* Keep link aligned with the form container width */}
+        <Link to="/" className="mb-4 inline-flex text-slate-600 hover:text-slate-800">
+          &larr; Back to Landing Page
+        </Link>
 
-      {children}
+        {children}
+      </div>
     </main>
   );
 };

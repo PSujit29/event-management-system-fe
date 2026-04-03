@@ -10,6 +10,10 @@ import RoleRoute from "./guards/RoleRoute";
 
 // Misc Pages
 const LandingPage = lazy(() => import("../pages/misc/LandingPage"));
+const ExploreEventsPage = lazy(() => import("../pages/misc/ExploreEventsPage"));
+const HowItWorksPage = lazy(() => import("../pages/misc/HowItWorksPage"));
+const OrganizersPage = lazy(() => import("../pages/misc/OrganizersPage"));
+const ContactPage = lazy(() => import("../pages/misc/ContactPage"));
 const Error404 = lazy(() => import("../pages/misc/Error404"));
 
 // Auth Pages
@@ -48,6 +52,10 @@ function DashboardHomePage() {
 
 const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
+  { path: "/explore", element: <ExploreEventsPage /> },
+  { path: "/how-it-works", element: <HowItWorksPage /> },
+  { path: "/organizers", element: <OrganizersPage /> },
+  { path: "/contact", element: <ContactPage /> },
   {
     path: "/",
     element: <AuthLayout />,
