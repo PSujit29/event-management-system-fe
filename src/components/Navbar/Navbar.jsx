@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getToken } from "../../utils/storage.utils";
+import logo from "../../../public/logo.png";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +19,7 @@ export default function Navbar() {
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <NavLink className="flex items-center gap-2" to="/" onClick={() => setIsOpen(false)}>
-          <img className="h-10 w-auto sm:h-12" src="src/assets/logo.png" alt="Logo" />
+          <img className="h-10 w-auto sm:h-12" src={logo} alt="Logo" />
         </NavLink>
 
         {/* Desktop Navigation */}
