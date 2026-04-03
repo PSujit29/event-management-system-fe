@@ -3,8 +3,8 @@ import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
 import { useAuth } from "../hooks/useAuth";
 
 // Layouts & Guards
-import AuthLayout from "../layouts/AuthLayout";
-import DashboardLayout from "../layouts/DashboardLayout";
+const AuthLayout = lazy(() => import("../layouts/AuthLayout"));
+const DashboardLayout = lazy(() => import("../layouts/DashboardLayout"));
 import ProtectedRoute from "./guards/ProtectedRoute";
 import RoleRoute from "./guards/RoleRoute";
 
