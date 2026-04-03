@@ -135,9 +135,21 @@ const router = createBrowserRouter([
   { path: "*", element: <Error404 /> },
 ]);
 
+function RouteLoader() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+      <div className="flex w-full max-w-sm flex-col items-center rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-slate-200 border-t-orange-500" aria-hidden="true" />
+        <p className="mt-5 text-sm font-semibold uppercase tracking-wider text-orange-500">Loading route</p>
+        <p className="mt-2 text-sm text-slate-600">Preparing your page...</p>
+      </div>
+    </div>
+  );
+}
+
 export default function AppRouter() {
   return (
-    <Suspense fallback={<div className="p-4 text-center">Loading...</div>}>
+    <Suspense fallback={<RouteLoader />}>
       <RouterProvider router={router} />
     </Suspense>
   );
