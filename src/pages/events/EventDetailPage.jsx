@@ -7,10 +7,10 @@ import { useAuth } from "../../hooks/useAuth";
 import deriveEventStatus from "../../utils/status.utils";
 import { parseApiError } from "../../utils/error.utils";
 
-import EventBackButton from "../../components/events/EventBackButton";
 import EventOverview from "../../components/events/EventOverview";
-import EventFlow from "../../components/events/EventFlow";
-import EventRegistrationActionButton from "../../components/events/EventRegistrationActionButton";
+import EventDetailStatePanel from "../../components/events/detail/EventDetailStatePanel";
+import EventDetailTopBar from "../../components/events/detail/EventDetailTopBar";
+import EventDetailSubEventsSection from "../../components/events/detail/EventDetailSubEventsSection";
 
 export default function EventDetailPage() {
   const { eventId } = useParams();
@@ -88,8 +88,8 @@ export default function EventDetailPage() {
   if (loading) {
     return (
       <div className="space-y-4 rounded-2xl bg-slate-100 p-5 md:p-6">
-        <EventBackButton />
-        <div className="rounded-lg border border-slate-200 bg-white p-6 text-slate-600 shadow-sm">Loading event...</div>
+        <EventDetailTopBar isStudent={false} eventId={eventId} eventStatus="Upcoming" isRegistered={false} />
+        <EventDetailStatePanel type="loading" message="Loading event..." />
       </div>
     );
   }
@@ -98,8 +98,8 @@ export default function EventDetailPage() {
   if (error) {
     return (
       <div className="space-y-4 rounded-2xl bg-slate-100 p-5 md:p-6">
-        <EventBackButton />
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600">Error: {error}</div>
+        <EventDetailTopBar isStudent={false} eventId={eventId} eventStatus="Upcoming" isRegistered={false} />
+        <EventDetailStatePanel type="error" message={`Error: ${error}`} />
       </div>
     );
   }
@@ -108,8 +108,8 @@ export default function EventDetailPage() {
   if (!event) {
     return (
       <div className="space-y-4 rounded-2xl bg-slate-100 p-5 md:p-6">
-        <EventBackButton />
-        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-700">Event not found</div>
+        <EventDetailTopBar isStudent={false} eventId={eventId} eventStatus="Upcoming" isRegistered={false} />
+        <EventDetailStatePanel type="empty" message="Event not found" />
       </div>
     );
   }
@@ -119,16 +119,7 @@ export default function EventDetailPage() {
   // 4. Success State
   return (
     <div className="space-y-6 rounded-2xl bg-slate-100 p-5 md:p-6">
-      <div className="flex justify-between">
-        <EventBackButton />
-        {isStudent && (
-          <EventRegistrationActionButton
-            eventId={eventId}
-            initialIsRegistered={Boolean(event?.isRegistered)}
-            eventStatus={eventStatus}
-          />
-        )}
-      </div>
+      <EventDetailTopBar isStudent={isStudent} eventId={eventId} eventStatus={eventStatus} isRegistered={event?.isRegistered} />
       <EventOverview
         event={event}
         allowed={allowedToManage}
@@ -138,11 +129,7 @@ export default function EventDetailPage() {
         onEdit={handleEditEvent}
       />
 
-      {subEventError ? (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600">Error loading sessions: {subEventError}</div>
-      ) : (
-        <EventFlow subEvents={subEvents} />
-      )}
+      <EventDetailSubEventsSection subEventError={subEventError} subEvents={subEvents} />
     </div>
   );
 }
