@@ -1,14 +1,7 @@
 import { useMemo, useState, useEffect, useCallback } from "react";
-import AuthContext from "./auth-context";
+import AuthContext from "./AuthContext";
 import apiClient from "../lib/apiClient";
-import {
-  clearStoredUser,
-  clearToken,
-  getStoredUser,
-  getToken,
-  setStoredUser,
-  setToken as setStoredToken,
-} from "../utils/storage.utils";
+import { clearStoredUser, clearToken, getStoredUser, getToken, setStoredUser, setToken as setStoredToken } from "../utils/storage.utils";
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => getToken());
@@ -40,9 +33,9 @@ export const AuthProvider = ({ children }) => {
     // Handle DummyJSON response format (accessToken) vs backend format (token)
     const token = data.token || data.accessToken;
     const user = data.user || data;
-    
+
     if (!token) return data;
-    
+
     setStoredToken(token);
     setStoredUser(user);
     setToken(token);
@@ -53,11 +46,11 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     const { data } = await apiClient.post("auth/login", credentials);
     applyAuth(data);
-    
+
     // DummyJSON already returns user data, skip fetchMe for now
     // When switching to real backend, uncomment this:
     // await fetchMe();
-    
+
     return data;
   };
 
@@ -86,7 +79,7 @@ export const AuthProvider = ({ children }) => {
   const value = useMemo(
     () => ({ token, user, login, registerUser, fetchMe, logout, isInitialized }),
     //eslint-disable-next-line react-hooks/exhaustive-deps
-    [token, user, isInitialized, fetchMe, logout]
+    [token, user, isInitialized, fetchMe, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
