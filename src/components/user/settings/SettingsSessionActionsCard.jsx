@@ -1,4 +1,4 @@
-import { LogOut, Trash2 } from "lucide-react";
+import { HiArrowRightOnRectangle, HiTrash } from "react-icons/hi2";
 
 export default function SettingsSessionActionsCard({ confirmId, onSignOut, onReset }) {
   return (
@@ -13,7 +13,7 @@ export default function SettingsSessionActionsCard({ confirmId, onSignOut, onRes
               : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300"
           }`}
         >
-          <LogOut className={`w-4 h-4 ${confirmId === "logout" ? "text-amber-600" : "text-slate-500"}`} />
+          <HiArrowRightOnRectangle className={`w-4 h-4 ${confirmId === "logout" ? "text-amber-600" : "text-slate-500"}`} />
           {confirmId === "logout" ? "Confirm Sign Out?" : "Sign Out"}
         </button>
 
@@ -23,7 +23,7 @@ export default function SettingsSessionActionsCard({ confirmId, onSignOut, onRes
             confirmId === "reset" ? "bg-red-800 text-white shadow-inner" : "bg-red-600 text-white hover:bg-red-700 shadow-sm"
           }`}
         >
-          <Trash2 className="w-4 h-4" />
+          <HiTrash className="w-4 h-4" />
           {confirmId === "reset" ? "Click again to wipe all data" : "Reset Local Data"}
         </button>
       </div>

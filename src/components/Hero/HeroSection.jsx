@@ -1,5 +1,5 @@
 import Hero from "@/components/Hero/Hero";
-import { Users, Briefcase, Link as LinkIcon } from "lucide-react";
+import { HiBriefcase, HiLink, HiUsers } from "react-icons/hi2";
 import eventSample1 from "@/assets/images/event-sample-1.avif";
 import eventSample2 from "@/assets/images/event-sample-2.avif";
 import eventSample3 from "@/assets/images/event-sample-3.avif";
@@ -13,9 +13,9 @@ export const HeroSection = () => {
       { text: "Learn more", onClick: () => alert("Learn More clicked!"), variant: "outline" },
     ],
     stats: [
-      { value: "150 +", label: "Successful Events", icon: <Users className="h-5 w-5 text-muted-foreground" /> },
-      { value: "25 +", label: "Organizers", icon: <Briefcase className="h-5 w-5 text-muted-foreground" /> },
-      { value: "Resources", label: "", icon: <LinkIcon className="h-5 w-5 text-muted-foreground" /> },
+      { value: "150 +", label: "Successful Events", icon: <HiUsers className="h-5 w-5 text-muted-foreground" /> },
+      { value: "25 +", label: "Organizers", icon: <HiBriefcase className="h-5 w-5 text-muted-foreground" /> },
+      { value: "Resources", label: "", icon: <HiLink className="h-5 w-5 text-muted-foreground" /> },
     ],
     images: [eventSample3, eventSample1, eventSample2],
   };

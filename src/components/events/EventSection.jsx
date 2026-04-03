@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { HiPlus } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import EventCard from "./EventCard";
@@ -62,7 +62,7 @@ export default function EventsSection({ events = [], onCreateEvent, onRefresh })
               onClick={handleCreate}
               className="inline-flex items-center gap-2 cursor-pointer rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition hover:scale-[98%] hover:bg-gray-50"
             >
-              <Plus className="h-4 w-4" />
+              <HiPlus className="h-4 w-4" />
               <span className="hidden xs:inline">Create New Event</span>
               <span className="xs:hidden">Create</span>
             </Link>

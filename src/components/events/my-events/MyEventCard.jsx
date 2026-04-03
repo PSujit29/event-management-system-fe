@@ -1,4 +1,4 @@
-import { Calendar, ChevronRight, Clock } from "lucide-react";
+import { HiCalendarDays, HiChevronRight, HiClock } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import { formatDate, formatTime } from "../../../utils/date.utils";
 import MyEventStatusBadge from "./MyEventStatusBadge";
@@ -19,16 +19,16 @@ export default function MyEventCard({ reg }) {
 
         <div className="flex flex-wrap gap-4 text-sm text-gray-500">
           <div className="flex items-center gap-1">
-            <Calendar size={16} />
+            <HiCalendarDays size={16} />
             Registered: {reg.registrationDate ? formatDate(reg.registrationDate) : "N/A"}
           </div>
           <div className="flex items-center gap-1">
-            <Clock size={16} />
+            <HiClock size={16} />
             {reg.registrationDate ? formatTime(reg.registrationDate) : "N/A"}
           </div>
           {reg.eventStartDate && (
             <div className="flex items-center gap-1">
-              <Calendar size={16} />
+              <HiCalendarDays size={16} />
               Starts: {formatDate(reg.eventStartDate)}
             </div>
           )}
@@ -38,7 +38,7 @@ export default function MyEventCard({ reg }) {
       <div className="mt-4 flex items-center sm:mt-0">
         <Link to={`/user/events/${reg.eventId}`} className="flex items-center gap-1 text-sm font-semibold text-blue-600 hover:text-blue-800">
           View Details
-          <ChevronRight size={16} className="transition-transform group-hover:translate-x-1" />
+          <HiChevronRight size={16} className="transition-transform group-hover:translate-x-1" />
         </Link>
       </div>
     </div>

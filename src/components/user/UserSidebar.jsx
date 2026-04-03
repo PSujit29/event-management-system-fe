@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { HiChartPie, HiCalendar, HiUserGroup, HiTemplate, HiUserCircle, HiCog } from "react-icons/hi";
+import { HiArrowRightOnRectangle } from "react-icons/hi2";
 import { useAuth } from "../../hooks/useAuth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { LogOut } from "lucide-react";
 
 const NAV_PATHS = {
   USER_HOME: "/user",
@@ -84,7 +84,7 @@ export const UserSidebar = ({ isMobileOpen = false, onMobileClose = () => {} }) 
               : "bg-white border-slate-200 text-red-600 hover:bg-red-50 hover:border-red-100 hover:text-red-600"
           }`}
         >
-          <LogOut className={`w-4 h-4 ${confirmId === "logout" ? "text-red-600" : "text-red-500"}`} />
+          <HiArrowRightOnRectangle className={`w-4 h-4 ${confirmId === "logout" ? "text-red-600" : "text-red-500"}`} />
           {confirmId === "logout" ? "Confirm Sign Out?" : "Sign Out"}
         </button>
       </aside>
@@ -133,7 +133,7 @@ export const UserSidebar = ({ isMobileOpen = false, onMobileClose = () => {} }) 
               : "bg-white border-slate-200 text-red-600 hover:bg-red-50 hover:border-red-100 hover:text-red-600"
           }`}
         >
-          <LogOut className={`w-4 h-4 ${confirmId === "logout" ? "text-red-600" : "text-red-500"}`} />
+          <HiArrowRightOnRectangle className={`w-4 h-4 ${confirmId === "logout" ? "text-red-600" : "text-red-500"}`} />
           {confirmId === "logout" ? "Confirm Sign Out?" : "Sign Out"}
         </button>
       </aside>

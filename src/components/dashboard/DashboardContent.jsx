@@ -1,4 +1,4 @@
-import { Calendar, Clock } from "lucide-react";
+import { HiCalendarDays, HiClock } from "react-icons/hi2";
 import deriveEventStatus from "../../utils/status.utils";
 import { Link } from "react-router-dom";
 import { formatDateTime } from "../../utils/date.utils";
@@ -35,9 +35,9 @@ export default function DashboardContent({ events = [], subEvents = [] }) {
 
       {/* Stat Cards */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <StatCard icon={<Calendar />} label="Total Events" value={totalEvents} />
-        <StatCard icon={<Clock />} label="Active Now" value={activeNow} />
-        <StatCard icon={<Calendar />} label="Upcoming" value={upcomingCount} />
+        <StatCard icon={<HiCalendarDays />} label="Total Events" value={totalEvents} />
+        <StatCard icon={<HiClock />} label="Active Now" value={activeNow} />
+        <StatCard icon={<HiCalendarDays />} label="Upcoming" value={upcomingCount} />
       </div>
 
       {/* Main Grid: Upcoming Table + Spotlight */}

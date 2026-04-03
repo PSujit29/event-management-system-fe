@@ -1,11 +1,11 @@
-import { Calendar, Moon, Settings } from "lucide-react";
+import { HiCalendarDays, HiCog6Tooth, HiMoon } from "react-icons/hi2";
 
 export default function SettingsPreferencesCard({ saveStatus, dateFormat, onDateFormatChange }) {
   return (
     <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
       <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-2 font-semibold text-slate-900">
-          <Settings className="w-4 h-4" /> General Preferences
+          <HiCog6Tooth className="w-4 h-4" /> General Preferences
         </div>
         {saveStatus === "saved" && <span className="text-xs font-medium text-emerald-600 animate-pulse">Changes saved!</span>}
       </div>
@@ -14,7 +14,7 @@ export default function SettingsPreferencesCard({ saveStatus, dateFormat, onDate
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
-              <Moon className="w-4 h-4" /> Dark Mode
+              <HiMoon className="w-4 h-4" /> Dark Mode
             </div>
             <p className="text-xs text-slate-500">Coming soon to this interface.</p>
           </div>
@@ -25,7 +25,7 @@ export default function SettingsPreferencesCard({ saveStatus, dateFormat, onDate
 
         <div className="space-y-2">
           <label htmlFor="dateFormat" className="flex items-center gap-2 text-sm font-medium text-slate-700">
-            <Calendar className="w-4 h-4" /> Date Format
+            <HiCalendarDays className="w-4 h-4" /> Date Format
           </label>
           <select
             id="dateFormat"

@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Calendar, CheckCircle, Clock, MapPin } from "lucide-react";
+import { HiCalendarDays, HiCheckCircle, HiClock } from "react-icons/hi2";
 import { formatDate } from "../../utils/date.utils";
 
 export default function StudentDashboardContent({ registrations = [], allEvents = [] }) {
@@ -36,7 +36,7 @@ export default function StudentDashboardContent({ registrations = [], allEvents 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="p-6 bg-amber-500 rounded-2xl text-white shadow-lg shadow-blue-100">
           <div className="flex items-center gap-3 opacity-80 mb-2">
-            <Calendar className="w-5 h-5" />
+            <HiCalendarDays className="w-5 h-5" />
             <span className="text-sm font-medium uppercase tracking-wider">Upcoming Registrations</span>
           </div>
           <p className="text-4xl font-black">{processed.upcomingCount}</p>
@@ -44,7 +44,7 @@ export default function StudentDashboardContent({ registrations = [], allEvents 
 
         <div className="p-6 bg-white border border-gray-100 rounded-2xl shadow-sm">
           <div className="flex items-center gap-3 text-gray-400 mb-2">
-            <CheckCircle className="w-5 h-5" />
+            <HiCheckCircle className="w-5 h-5" />
             <span className="text-sm font-medium uppercase tracking-wider">Total Registrations</span>
           </div>
           <p className="text-4xl font-black text-gray-900">{processed.total}</p>
@@ -55,14 +55,14 @@ export default function StudentDashboardContent({ registrations = [], allEvents 
       {processed.nearestEvent && (
         <div className="p-6 bg-linear-to-r from-gray-900 to-gray-800 rounded-2xl text-white">
           <div className="flex items-center gap-2 text-amber-400 mb-4">
-            <Clock className="w-4 h-4" />
+            <HiClock className="w-4 h-4" />
             <span className="text-xs font-bold uppercase">Up Next</span>
           </div>
           <h3 className="text-xl font-bold mb-1">{processed.nearestEvent.name}</h3>
           <p className="text-gray-400 text-sm mb-4 line-clamp-1">{processed.nearestEvent.description}</p>
           <div className="flex items-center gap-4 text-sm text-gray-300">
             <span className="flex items-center gap-1">
-              <Calendar className="w-4 h-4" />
+              <HiCalendarDays className="w-4 h-4" />
               {formatDate(processed.nearestEvent.startDate)}
             </span>
           </div>
