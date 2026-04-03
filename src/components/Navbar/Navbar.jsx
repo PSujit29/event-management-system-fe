@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getToken } from "../../utils/storage.utils";
-import logo from "./logo.png"; 
+import logo from "./logo.avif"; 
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);

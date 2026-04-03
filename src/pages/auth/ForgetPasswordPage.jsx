@@ -2,7 +2,7 @@ import { Heading1 } from "../../components/typography/heading";
 import ForgetPasswordForm from "../../components/auth/ForgetPasswordForm";
 import { useOutletContext } from "react-router-dom";
 import { useEffect } from "react";
-import forgetPasswordImage from "../../assets/images/forgetPassword.png";
+import forgetPasswordImage from "../../assets/images/forgetPassword.avif";
 
 export default function ForgetPasswordPage() {
   const outletContext = useOutletContext();

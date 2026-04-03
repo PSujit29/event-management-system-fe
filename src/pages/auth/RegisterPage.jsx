@@ -3,7 +3,7 @@ import RegisterForm from "../../components/auth/RegisterForm";
 import { RedirectLink } from "../../components/ui/AuthLink";
 import { useOutletContext } from "react-router-dom";
 import { useEffect } from "react";
-import registerPageImage from "../../assets/images/registerPage.png";
+import registerPageImage from "../../assets/images/registerPage.avif";
 
 export default function RegisterPage() {
   const outletContext = useOutletContext();

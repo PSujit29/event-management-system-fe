@@ -3,7 +3,7 @@ import { Heading1 } from "../../components/typography/heading";
 import { RedirectLink } from "../../components/ui/AuthLink";
 import { useOutletContext } from "react-router-dom";
 import { useEffect } from "react";
-import loginPageImage from "../../assets/images/loginPage.png";
+import loginPageImage from "../../assets/images/loginPage.avif";
 
 export default function LoginPage() {
   //Read outlet context:
