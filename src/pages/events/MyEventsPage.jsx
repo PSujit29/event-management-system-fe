@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getMyEvents } from "../../services/registration.service";
 import { getEventById } from "../../services/event.service";
 import deriveEventStatus from "../../utils/status.utils";

@@ -1,7 +1,7 @@
 import { LabeledInput, LabeledDateInput, LabeledTextArea } from "../form/input";
 import { FormButton } from "../form/FormButton";
 import { useForm, useFieldArray } from "react-hook-form";
-import * as z from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";

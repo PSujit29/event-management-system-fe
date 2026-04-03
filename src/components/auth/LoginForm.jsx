@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { toast } from "sonner";
 import { parseApiError } from "../../utils/error.utils";
-import * as z from "zod";
+import { z } from "zod";
 
 const loginDTO = z.object({
   email: z.string().email("Invalid email address"),

@@ -1,7 +1,7 @@
 import { LabeledInput, SelectInput } from "../form/input";
 import { FormButton } from "../form/FormButton";
 import { useForm, useWatch } from "react-hook-form"; // Added useWatch
-import * as z from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";

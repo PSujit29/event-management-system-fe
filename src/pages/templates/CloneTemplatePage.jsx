@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { z } from "zod";
 import { cloneTemplateToEvent, getTemplateById } from "../../services/template.service";
 import { LabeledDateInput, LabeledInput, LabeledTextArea } from "../../components/form/input";
 import { parseApiError } from "../../utils/error.utils";
