@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getToken } from "../../utils/storage.utils";
-import logo from "./logo.avif"; 
+import logo from "./logo.avif";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const token = getToken();
 
   const navLinks = [
+    { name: "Home", href: "/", end: true },
     { name: "Explore Events", href: "/explore" },
     { name: "How it Works", href: "/how-it-works" },
     { name: "Organizers", href: "/organizers" },
@@ -26,11 +27,25 @@ export default function Navbar() {
         <nav aria-label="Global" className="hidden md:block">
           <ul className="flex items-center gap-8 text-[15px] font-medium text-slate-600">
             {navLinks.map((link) => (
-              <li key={link.name} className="relative group">
-                <NavLink className="transition hover:text-[#1A325E]" to={link.href}>
-                  {link.name}
+              <li key={link.name}>
+                <NavLink
+                  to={link.href}
+                  end={link.end}
+                  className={({ isActive }) =>
+                    `group relative inline-flex pb-1 transition ${isActive ? "text-[#1A325E]" : "text-slate-600 hover:text-[#1A325E]"}`
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+                      {link.name}
+                      <span
+                        className={`absolute -bottom-1 left-0 h-0.5 bg-[#F49425] transition-all duration-200 ${
+                          isActive ? "w-full opacity-100" : "w-0 opacity-0 group-hover:w-full group-hover:opacity-100"
+                        }`}
+                      ></span>
+                    </>
+                  )}
                 </NavLink>
-                <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-[#F49425] transition-all group-hover:w-full"></span>
               </li>
             ))}
           </ul>
@@ -86,8 +101,15 @@ export default function Navbar() {
           <NavLink
             key={link.name}
             to={link.href}
+            end={link.end}
             onClick={() => setIsOpen(false)}
-            className="block rounded-lg px-4 py-3 text-base font-medium text-slate-600 hover:bg-slate-50 hover:text-[#1A325E]"
+            className={({ isActive }) =>
+              `block rounded-lg px-4 py-3 text-base font-medium transition ${
+                isActive
+                  ? "bg-slate-50 text-[#1A325E] underline decoration-2 underline-offset-8 decoration-[#F49425]"
+                  : "text-slate-600 hover:bg-slate-50 hover:text-[#1A325E]"
+              }`
+            }
           >
             {link.name}
           </NavLink>
