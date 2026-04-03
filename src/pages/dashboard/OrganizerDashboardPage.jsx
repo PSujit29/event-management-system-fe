@@ -1,8 +1,29 @@
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { getEvents } from '../../services/event.service';
-import DashboardContent from '../../components/dashboard/DashboardContent';
 import { toast } from 'sonner';
 import { parseApiError } from '../../utils/error.utils';
+
+const DashboardContent = lazy(() => import('../../components/dashboard/DashboardContent'));
+
+function DashboardContentLoader() {
+  return (
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <div className="h-4 w-32 animate-pulse rounded-full bg-gray-200" />
+        <div className="h-8 w-56 animate-pulse rounded-2xl bg-gray-200" />
+      </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="h-28 animate-pulse rounded-xl bg-white shadow-sm" />
+        <div className="h-28 animate-pulse rounded-xl bg-white shadow-sm" />
+        <div className="h-28 animate-pulse rounded-xl bg-white shadow-sm" />
+      </div>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="h-80 animate-pulse rounded-xl bg-white shadow-sm lg:col-span-2" />
+        <div className="h-80 animate-pulse rounded-xl bg-white shadow-sm" />
+      </div>
+    </div>
+  );
+}
 
 export default function OrganizerDashboardPage() {
   const [events, setEvents] = useState([]);
@@ -52,5 +73,9 @@ export default function OrganizerDashboardPage() {
   // Extract all sub-events from the event objects for the Spotlight section
   const allSubEvents = events.flatMap(e => e.subEvents || []);
 
-  return <DashboardContent events={events} subEvents={allSubEvents} />;
+  return (
+    <Suspense fallback={<DashboardContentLoader />}>
+      <DashboardContent events={events} subEvents={allSubEvents} />
+    </Suspense>
+  );
 }

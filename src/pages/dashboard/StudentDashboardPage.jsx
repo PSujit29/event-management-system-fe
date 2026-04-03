@@ -1,9 +1,27 @@
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { getMyEvents } from '../../services/registration.service';
 import { getEvents } from '../../services/event.service';
-import StudentDashboardContent from '../../components/dashboard/StudentDashboardContent';
 import { toast } from 'sonner';
 import { parseApiError } from '../../utils/error.utils';
+
+const StudentDashboardContent = lazy(() => import('../../components/dashboard/StudentDashboardContent'));
+
+function StudentDashboardContentLoader() {
+  return (
+    <div className="space-y-8">
+      <div className="space-y-2">
+        <div className="h-8 w-48 animate-pulse rounded-2xl bg-gray-200" />
+        <div className="h-4 w-72 animate-pulse rounded-full bg-gray-200" />
+      </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="h-32 animate-pulse rounded-2xl bg-white shadow-sm" />
+        <div className="h-32 animate-pulse rounded-2xl bg-white shadow-sm" />
+      </div>
+      <div className="h-40 animate-pulse rounded-2xl bg-gray-900" />
+      <div className="h-96 animate-pulse rounded-2xl bg-white shadow-sm" />
+    </div>
+  );
+}
 
 export default function StudentDashboardPage() {
   const [data, setData] = useState({ registrations: [], allEvents: [] });
@@ -49,5 +67,9 @@ export default function StudentDashboardPage() {
     );
   }
 
-  return <StudentDashboardContent registrations={data.registrations} allEvents={data.allEvents} />;
+  return (
+    <Suspense fallback={<StudentDashboardContentLoader />}>
+      <StudentDashboardContent registrations={data.registrations} allEvents={data.allEvents} />
+    </Suspense>
+  );
 }

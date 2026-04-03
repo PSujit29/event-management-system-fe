@@ -240,6 +240,10 @@ Deliver a role-based frontend where:
 - [x] Use storage utility wrappers where practical.
 - [x] Keep token and user keys consistent across app.
 
+### 6.4 Bundle splitting cleanup
+
+- [x] Lazy-load below-the-fold landing content and dashboard content blocks.
+
 ---
 
 ## Phase 7: MVP Quality Pass
