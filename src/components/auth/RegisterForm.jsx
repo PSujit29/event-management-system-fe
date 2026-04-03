@@ -49,7 +49,7 @@ export default function RegisterForm() {
     const { confirmPassword: _, ...payload } = data;
 
     try {
-      await registerUser(payload);
+      await registerUser(payload); //TODO: Adjust this function to match backend API. It should handle the role-specific fields appropriately.
       toast.success("Registration successful! Please login.");
       navigate("/login");
     } catch (err) {

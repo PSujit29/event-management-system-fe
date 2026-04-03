@@ -7,8 +7,8 @@ export default function UserLayout() {
   const location = useLocation();
 
   useEffect(() => {
-    setIsMobileSidebarOpen(false);
-  }, [location.pathname]);
+    setTimeout(() => setIsMobileSidebarOpen(false), 0);
+  }, [location]);
 
   return (
     <div className="flex h-screen bg-gray-100 overflow-hidden">

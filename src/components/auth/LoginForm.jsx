@@ -28,7 +28,7 @@ export default function LoginForm() {
   const handleLoginSubmit = async (data) => {
     try {
       // Transform for DummyJSON: email → username (strip domain)
-      const username = data.email.replace("@gmail.com", "");
+      const username = data.email.replace("@gmail.com", ""); //TODO: This is a hack for DummyJSON. In real apps, use email as is or adjust backend accordingly.
       const payload = {
         username,
         password: data.password,
