@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
@@ -8,32 +9,32 @@ import ProtectedRoute from "./guards/ProtectedRoute";
 import RoleRoute from "./guards/RoleRoute";
 
 // Misc Pages
-import LandingPage from "../pages/misc/LandingPage";
-import Error404 from "../pages/misc/Error404";
+const LandingPage = lazy(() => import("../pages/misc/LandingPage"));
+const Error404 = lazy(() => import("../pages/misc/Error404"));
 
 // Auth Pages
-import LoginPage from "../pages/auth/LoginPage";
-import RegisterPage from "../pages/auth/RegisterPage";
-import ForgetPasswordPage from "../pages/auth/ForgetPasswordPage";
+const LoginPage = lazy(() => import("../pages/auth/LoginPage"));
+const RegisterPage = lazy(() => import("../pages/auth/RegisterPage"));
+const ForgetPasswordPage = lazy(() => import("../pages/auth/ForgetPasswordPage"));
 
 // Dashboard Pages
-import OrganizerDashboardPage from "../pages/dashboard/OrganizerDashboardPage";
-import StudentDashboardPage from "../pages/dashboard/StudentDashboardPage";
+const OrganizerDashboardPage = lazy(() => import("../pages/dashboard/OrganizerDashboardPage"));
+const StudentDashboardPage = lazy(() => import("../pages/dashboard/StudentDashboardPage"));
 
 // Event Pages
-import EventListPage from "../pages/events/EventListPage";
-import EventDetailPage from "../pages/events/EventDetailPage";
-import CreateEventPage from "../pages/events/CreateEventPage";
-import EditEventPage from "../pages/events/EditEventPage";
-import EventAttendeesPage from "../pages/events/EventAttendeesPage";
-import MyEventsPage from "../pages/events/MyEventsPage";
-import ProfilePage from "../pages/user/ProfilePage";
-import SettingsPage from "../pages/user/SettingsPage";
+const EventListPage = lazy(() => import("../pages/events/EventListPage"));
+const EventDetailPage = lazy(() => import("../pages/events/EventDetailPage"));
+const CreateEventPage = lazy(() => import("../pages/events/CreateEventPage"));
+const EditEventPage = lazy(() => import("../pages/events/EditEventPage"));
+const EventAttendeesPage = lazy(() => import("../pages/events/EventAttendeesPage"));
+const MyEventsPage = lazy(() => import("../pages/events/MyEventsPage"));
+const ProfilePage = lazy(() => import("../pages/user/ProfilePage"));
+const SettingsPage = lazy(() => import("../pages/user/SettingsPage"));
 
 // Template Pages
-import TemplateListPage from "../pages/templates/TemplateListPage";
-import TemplateDetailPage from "../pages/templates/TemplateDetailPage";
-import CloneTemplatePage from "../pages/templates/CloneTemplatePage";
+const TemplateListPage = lazy(() => import("../pages/templates/TemplateListPage"));
+const TemplateDetailPage = lazy(() => import("../pages/templates/TemplateDetailPage"));
+const CloneTemplatePage = lazy(() => import("../pages/templates/CloneTemplatePage"));
 
 function DashboardHomePage() {
   const { user } = useAuth();
@@ -64,10 +65,7 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-      {
-        index: true,
-        element: <DashboardHomePage />,
-      },
+      { index: true, element: <DashboardHomePage /> },
       {
         path: "dashboard",
         element: (
@@ -138,5 +136,9 @@ const router = createBrowserRouter([
 ]);
 
 export default function AppRouter() {
-  return <RouterProvider router={router} />;
+  return (
+    <Suspense fallback={<div className="p-4 text-center">Loading...</div>}>
+      <RouterProvider router={router} />
+    </Suspense>
+  );
 }
