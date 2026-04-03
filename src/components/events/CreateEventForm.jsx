@@ -1,5 +1,5 @@
 import { LabeledInput, LabeledDateInput, LabeledTextArea } from "../form/input";
-import { Button } from "../form/button";
+import { FormButton } from "../form/FormButton";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -188,8 +188,8 @@ export default function CreateEventForm() {
       </fieldset>
 
       <div className="flex w-full gap-3 mt-4">
-        <Button type="reset" variant="danger" txt="Clear" disabled={isSubmitting} />
-        <Button type="submit" txt={isSubmitting ? "Creating Event..." : "Create Event"} disabled={isSubmitting} />
+        <FormButton type="reset" variant="danger" txt="Clear" disabled={isSubmitting} />
+        <FormButton type="submit" txt={isSubmitting ? "Creating Event..." : "Create Event"} disabled={isSubmitting} />
       </div>
     </form>
   );

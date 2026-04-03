@@ -1,5 +1,5 @@
 import { LabeledInput } from "../form/input";
-import { Button } from "../form/button";
+import { FormButton } from "../form/FormButton";
 import { RedirectLink } from "../ui/AuthLink";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -55,8 +55,8 @@ export default function LoginForm() {
           </div>
 
           <div className="flex w-full gap-3 mt-4">
-            <Button type="reset" variant="danger" txt="Cancel" disabled={isSubmitting} />
-            <Button type="submit" txt={isSubmitting ? "Logging in..." : "Login"} disabled={isSubmitting} />
+            <FormButton type="reset" variant="danger" txt="Cancel" disabled={isSubmitting} />
+            <FormButton type="submit" txt={isSubmitting ? "Logging in..." : "Login"} disabled={isSubmitting} />
           </div>
         </div>
       </form>

@@ -1,6 +1,5 @@
 import { motion as Motion } from "framer-motion";
-import { Button } from "../ui/Button";
-
+import { Button } from "../ui/AppButton";
 
 const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.2 } } };
 

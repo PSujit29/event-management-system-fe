@@ -1,5 +1,5 @@
 import { LabeledInput, SelectInput } from "../form/input";
-import { Button } from "../form/button";
+import { FormButton } from "../form/FormButton";
 import { useForm, useWatch } from "react-hook-form"; // Added useWatch
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,16 +28,13 @@ const registerDTO = z
 export default function RegisterForm() {
   const navigate = useNavigate();
   const { registerUser } = useAuth();
-  
-  const { 
-    control, 
-    handleSubmit, 
-    formState: { errors, isSubmitting } 
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: { 
-      name: "", email: "", password: "", confirmPassword: "", 
-      role: "Student", rollNumber: "", designation: "" 
-    },
+    defaultValues: { name: "", email: "", password: "", confirmPassword: "", role: "Student", rollNumber: "", designation: "" },
     resolver: zodResolver(registerDTO),
   });
 
@@ -64,7 +61,13 @@ export default function RegisterForm() {
         <LabeledInput type="text" label="Name" name="name" handler={control} errMsg={errors?.name?.message} />
         <LabeledInput type="email" label="Email" name="email" handler={control} errMsg={errors?.email?.message} />
         <LabeledInput type="password" label="Password" name="password" handler={control} errMsg={errors?.password?.message} />
-        <LabeledInput type="password" label="Confirm Password" name="confirmPassword" handler={control} errMsg={errors?.confirmPassword?.message} />
+        <LabeledInput
+          type="password"
+          label="Confirm Password"
+          name="confirmPassword"
+          handler={control}
+          errMsg={errors?.confirmPassword?.message}
+        />
 
         <SelectInput
           label="Role"
@@ -79,23 +82,32 @@ export default function RegisterForm() {
         />
 
         {selectedRole === "Student" ? (
-          <LabeledInput key="roll" type="text" label="Roll Number" name="rollNumber" handler={control} errMsg={errors?.rollNumber?.message} />
+          <LabeledInput
+            key="roll"
+            type="text"
+            label="Roll Number"
+            name="rollNumber"
+            handler={control}
+            errMsg={errors?.rollNumber?.message}
+          />
         ) : (
-          <LabeledInput key="desig" type="text" label="Designation" name="designation" handler={control} errMsg={errors?.designation?.message} />
+          <LabeledInput
+            key="desig"
+            type="text"
+            label="Designation"
+            name="designation"
+            handler={control}
+            errMsg={errors?.designation?.message}
+          />
         )}
       </fieldset>
 
       <div className="flex w-full gap-3 mt-4">
-        <Button type="reset" variant="danger" txt="Cancel" disabled={isSubmitting} />
-        
+        <FormButton type="reset" variant="danger" txt="Cancel" disabled={isSubmitting} />
+
         {/* 4. Update Button label and disabled state */}
-        <Button 
-          type="submit" 
-          txt={isSubmitting ? "Registering..." : "Register"} 
-          disabled={isSubmitting} 
-        />
+        <FormButton type="submit" txt={isSubmitting ? "Registering..." : "Register"} disabled={isSubmitting} />
       </div>
     </form>
   );
 }
-

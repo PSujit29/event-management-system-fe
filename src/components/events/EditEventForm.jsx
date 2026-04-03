@@ -1,5 +1,5 @@
 import { LabeledInput, LabeledDateInput, LabeledTextArea } from "../form/input";
-import { Button } from "../form/button";
+import { FormButton } from "../form/FormButton";
 import { useForm, useFieldArray } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -157,8 +157,8 @@ export default function EditEventForm({ eventData }) {
       </fieldset>
 
       <div className="flex w-full gap-3 mt-4">
-        <Button type="button" variant="danger" txt="Cancel" onClick={() => navigate(-1)} />
-        <Button type="submit" txt={isSubmitting ? "Saving..." : "Save Changes"} disabled={isSubmitting} />
+        <FormButton type="button" variant="danger" txt="Cancel" onClick={() => navigate(-1)} />
+        <FormButton type="submit" txt={isSubmitting ? "Saving..." : "Save Changes"} disabled={isSubmitting} />
       </div>
     </form>
   );
